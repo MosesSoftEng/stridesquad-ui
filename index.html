@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>StrideSquad — Interactive Prototype v3</title>
+<title>StrideSquad — Interactive Prototype v4</title>
 <style>
   /* ─── tokens: the only place raw hex appears ─────────────────────── */
   :root {
     --bg:          #F1F5F9;   /* app background (brief: surfaces tint) */
     --surface:     #FFFFFF;   /* cards, sheets, tab bar */
-    --ink:         #0F172A;   /* primary text (brief) */
+    --ink:         #0F172A;   /* primary text (brief) — also the bezel */
     --muted:       #475569;   /* secondary text — 7.4:1 on white */
     --faint:       #64748B;   /* meta text, large-ish only */
     --border:      #E2E8F0;   /* hairlines */
@@ -23,14 +23,19 @@
     --danger-soft: color-mix(in srgb, var(--danger) 10%, var(--surface));
     --on-primary:  #FFFFFF;
     --scrim:       color-mix(in srgb, var(--ink) 48%, transparent);
+    --canvas:      #EEF2F1;   /* soft studio backdrop behind the device */
     --shadow-card: 0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
                    0 8px 24px color-mix(in srgb, var(--ink) 7%, transparent);
     --shadow-sheet:0 -8px 32px color-mix(in srgb, var(--ink) 18%, transparent);
+    --shadow-device: 0 2px 6px color-mix(in srgb, var(--ink) 12%, transparent),
+                     0 26px 70px color-mix(in srgb, var(--ink) 20%, transparent);
     --radius-card: 24px;      /* brief: 24px rounded cards */
     --radius-ctl:  14px;
-    --font:        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius-glass: 48px;     /* screen corners inside the 58px bezel */
+    --font:        -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --mono:        ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --tab-h:       64px;
+    --sb-h:        54px;      /* in-app iOS status bar (desktop only) */
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -39,7 +44,11 @@
     margin: 0;
     font-family: var(--font);
     color: var(--ink);
-    background: color-mix(in srgb, var(--ink) 86%, var(--primary)); /* desktop stage behind bezel */
+    background: var(--canvas);
+    background-image: radial-gradient(120% 85% at 50% 0%,
+      color-mix(in srgb, var(--canvas) 55%, white) 0%,
+      var(--canvas) 58%,
+      color-mix(in srgb, var(--canvas) 90%, var(--ink)) 100%);
     min-height: 100vh;
     min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
@@ -52,28 +61,85 @@
   h1, h2, h3, p { margin: 0; }
   :focus-visible { outline: 3px solid var(--primary-ink); outline-offset: 2px; border-radius: 8px; }
 
-  /* ─── phone shell ─────────────────────────────────────────────────── */
+  /* ─── device presentation ─────────────────────────────────────────
+     Desktop (>500px): the whole app lives inside an iPhone frame —
+     black bezel, 58px radius, dynamic island, in-app status bar —
+     centred on a soft canvas with a subtle drop shadow and a caption.
+     Mobile (≤500px): the frame dissolves and the app fills the
+     viewport with safe-area insets; the status bar row disappears. */
+  .device {
+    margin: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .fit { position: relative; width: 413px; height: 872px; } /* JS scales to fit short viewports */
+  .device-frame {
+    position: absolute; top: 0; left: 0;
+    width: 413px; height: 872px;
+    padding: 10px;
+    background: var(--ink);
+    border-radius: 58px;
+    box-shadow:
+      var(--shadow-device),
+      inset 0 0 0 1px color-mix(in srgb, white 9%, transparent);
+    transform-origin: top left;
+  }
+  .dev-btn {
+    position: absolute; width: 3px; border-radius: 3px;
+    background: color-mix(in srgb, var(--ink) 70%, black);
+  }
+  .dev-btn--mute    { left: -3px; top: 132px; height: 26px; }
+  .dev-btn--volup   { left: -3px; top: 190px; height: 56px; }
+  .dev-btn--voldown { left: -3px; top: 258px; height: 56px; }
+  .dev-btn--power   { right: -3px; top: 220px; height: 88px; }
+
+  .device-caption {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.01em;
+    color: color-mix(in srgb, var(--ink) 52%, var(--canvas));
+    text-align: center;
+  }
+  .device-caption b { font-weight: 800; color: color-mix(in srgb, var(--ink) 76%, var(--canvas)); }
+
+  /* ─── app stage: the 393 × 852 screen ───────────────────────────── */
   .phone {
     position: relative;
-    width: 100%;
-    max-width: 430px;                 /* brief: 430px centered */
-    height: 100vh; height: 100dvh;    /* brief: fills viewport */
+    width: 393px; height: 852px;
+    border-radius: var(--radius-glass);
     background: var(--bg);
     display: flex; flex-direction: column;
     overflow: hidden;
   }
-  @media (min-width: 760px) and (min-height: 720px) {
-    body { padding: 28px; }           /* desktop: wrap in phone bezel */
-    .phone {
-      height: min(calc(100dvh - 56px), 900px);
-      border: 10px solid var(--ink);
-      border-radius: 48px;
-      box-shadow: 0 32px 80px color-mix(in srgb, var(--ink) 70%, transparent);
+
+  /* in-app iOS status bar — pinned inside the frame, above app content */
+  .ios-sb {
+    flex: none; height: var(--sb-h);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 30px 8px;
+    font-size: 14px; font-weight: 700; color: var(--ink);
+    position: relative; z-index: 36;
+  }
+  .ios-sb__time { font-variant-numeric: tabular-nums; }
+  .ios-sb__island {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 112px; height: 30px; border-radius: 16px; background: #000;
+  }
+  .ios-sb__icons { display: flex; gap: 6px; align-items: center; }
+  .ios-sb__icons svg { display: block; }
+
+  @media (max-width: 500px) {
+    /* frame dissolves — the prototype is the app, full bleed */
+    .device { width: 100%; }
+    .fit { width: 100%; height: 100dvh; }
+    .device-frame {
+      position: static; width: 100%; height: 100dvh;
+      padding: 0; background: transparent;
+      border-radius: 0; box-shadow: none;
+      transform: none !important;
     }
-    .phone::before {                  /* notch pill */
-      content: ""; position: absolute; z-index: 60;
-      top: 10px; left: 50%; transform: translateX(-50%);
-      width: 118px; height: 26px; border-radius: 999px; background: var(--ink);
+    .dev-btn, .ios-sb, .device-caption { display: none; }
+    .phone {
+      width: 100%; height: 100dvh;
+      border-radius: 0;
+      padding-top: env(safe-area-inset-top);
     }
   }
 
@@ -84,7 +150,7 @@
     overflow-y: auto; overscroll-behavior: contain;
     display: none;
     flex-direction: column;
-    padding: 20px 18px calc(var(--tab-h) + 24px);
+    padding: 20px 18px calc(var(--tab-h) + 24px + env(safe-area-inset-bottom));
     -webkit-tap-highlight-color: transparent;
   }
   .screen.is-visible { display: flex; }
@@ -240,7 +306,7 @@
   .msg__menu:hover { background: var(--surface); color: var(--ink); }
   .msg__menu svg { width: 18px; height: 18px; }
   .msg.is-hidden { display: none; }
-  .composer { display: flex; gap: 10px; padding: 12px 18px calc(var(--tab-h) + 12px); background: var(--surface); border-top: 1px solid var(--border); }
+  .composer { display: flex; gap: 10px; padding: 12px 18px calc(var(--tab-h) + 12px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--border); }
   .composer input { flex: 1; min-width: 0; height: 50px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--bg); color: var(--ink); font-size: 15px; }
   .composer input:focus { outline: none; border-color: var(--primary); background: var(--surface); }
   .composer .btn { min-height: 50px; width: 64px; padding: 0; border-radius: 999px; }
@@ -281,7 +347,7 @@
   /* ─── tab bar ─────────────────────────────────────────────────────── */
   .tabbar {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 30;
-    height: var(--tab-h); padding-bottom: env(safe-area-inset-bottom);
+    height: calc(var(--tab-h) + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);
     background: var(--surface); border-top: 1px solid var(--border);
     display: flex;
   }
@@ -294,7 +360,7 @@
   .scrim { position: absolute; inset: 0; z-index: 40; background: var(--scrim); opacity: 0; pointer-events: none; transition: opacity .22s ease; }
   .scrim.open { opacity: 1; pointer-events: auto; }
   .sheet {
-    position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 50;
+    position: absolute; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 50;
     background: var(--surface); border-radius: var(--radius-card);
     box-shadow: var(--shadow-sheet);
     padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
@@ -313,7 +379,7 @@
   .sheet .btn--danger:hover { background: color-mix(in srgb, var(--danger) 16%, var(--surface)); }
 
   .toast {
-    position: absolute; left: 50%; bottom: calc(var(--tab-h) + 20px); transform: translate(-50%, 14px);
+    position: absolute; left: 50%; bottom: calc(var(--tab-h) + 20px + env(safe-area-inset-bottom)); transform: translate(-50%, 14px);
     z-index: 70; background: var(--ink); color: var(--surface);
     font-size: 14px; font-weight: 700; padding: 12px 20px; border-radius: 999px;
     box-shadow: var(--shadow-sheet); opacity: 0; pointer-events: none;
@@ -326,9 +392,41 @@
 </style>
 </head>
 <body>
-<div class="phone no-tabbar" data-od-id="phone">
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
 
-  <div class="stage" data-od-id="stage">
+      <div class="phone no-tabbar" data-od-id="phone">
+
+        <!-- ══ in-app iOS status bar (desktop only — hidden ≤500px) ══ -->
+        <div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+
+        <div class="stage" data-od-id="stage">
 
     <!-- ══ 1 · ONBOARDING ═══════════════════════════════════════════ -->
     <section id="scr-onboarding" class="screen is-visible" data-screen data-od-id="onboarding" aria-label="Onboarding">
@@ -605,52 +703,56 @@
         <span class="chip" style="background:var(--primary-soft);color:var(--primary-ink);">Apple Health</span>
       </div>
     </section>
-  </div>
+        </div><!-- /.stage -->
 
-  <!-- ══ tab bar — real navigation ═══════════════════════════════════ -->
-  <nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
-    <button class="tab" data-tab="scr-today" data-od-id="tab-today">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>Today
-    </button>
-    <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
-    </button>
-    <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V10M12 20V4M19 20v-6"/></svg>Board
-    </button>
-    <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
-    </button>
-    <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
-    </button>
-  </nav>
+    <!-- ══ tab bar — real navigation ═══════════════════════════════════ -->
+    <nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V10M12 20V4M19 20v-6"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
 
-  <!-- ══ overlays ═══════════════════════════════════════════════════ -->
-  <div class="scrim" id="scrim"></div>
+    <!-- ══ overlays ═══════════════════════════════════════════════════ -->
+    <div class="scrim" id="scrim"></div>
 
-  <div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite your squad" data-od-id="invite-sheet">
-    <div class="sheet__grab" aria-hidden="true"></div>
-    <h3>Invite your squad</h3>
-    <p>Share this link — they land straight in Morning Striders.</p>
-    <div class="link-row">
-      <code id="invite-link">https://stridesquad.app/join/SQUAD10</code>
-      <span class="chip" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
+    <div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite your squad" data-od-id="invite-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3>Invite your squad</h3>
+      <p>Share this link — they land straight in Morning Striders.</p>
+      <div class="link-row">
+        <code id="invite-link">https://stridesquad.app/join/SQUAD10</code>
+        <span class="chip" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
+      <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
     </div>
-    <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
-    <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
-  </div>
 
-  <div class="sheet" id="report-sheet" role="dialog" aria-modal="true" aria-label="Message options" data-od-id="report-sheet">
-    <div class="sheet__grab" aria-hidden="true"></div>
-    <h3 id="report-sheet-title" style="margin-bottom:6px;">Message options</h3>
-    <button class="btn btn--danger btn--block" id="btn-report" data-od-id="report-confirm">Report</button>
-    <button class="btn btn--danger btn--block" id="btn-block" data-od-id="block-confirm">Block sender</button>
-    <button class="btn btn--cancel btn--block" id="btn-report-cancel">Cancel</button>
-  </div>
+    <div class="sheet" id="report-sheet" role="dialog" aria-modal="true" aria-label="Message options" data-od-id="report-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="report-sheet-title" style="margin-bottom:6px;">Message options</h3>
+      <button class="btn btn--danger btn--block" id="btn-report" data-od-id="report-confirm">Report</button>
+      <button class="btn btn--danger btn--block" id="btn-block" data-od-id="block-confirm">Block sender</button>
+      <button class="btn btn--cancel btn--block" id="btn-report-cancel">Cancel</button>
+    </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-</div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
 
 <script>
 (function () {
@@ -1064,6 +1166,30 @@
     toast(on ? 'Animations reduced' : 'Animations on');
   });
   bindSwitch('sw-visible', function (on) { toast(on ? 'Goal visible to squad' : 'Goal hidden from squad'); });
+
+  /* ── device presentation: scale the frame to fit the viewport ─────
+     Desktop only. ≤500px the CSS media query dissolves the frame and
+     the app fills 100dvh, so we hand the sizing back to CSS. */
+  var fitBox  = document.querySelector('.fit');
+  var frameEl = document.querySelector('.device-frame');
+  var mqMobile = window.matchMedia('(max-width: 500px)');
+  var DW = 413, DH = 872;                 // bezel outer size (393×852 screen + 2×10px)
+  function fitDevice() {
+    if (mqMobile.matches) {
+      frameEl.style.transform = '';
+      fitBox.style.width = '';
+      fitBox.style.height = '';
+      return;
+    }
+    var s = Math.min(1, (window.innerWidth - 48) / DW, (window.innerHeight - 130) / DH);
+    if (!isFinite(s) || s <= 0) s = 1;
+    frameEl.style.transform = 'scale(' + s + ')';
+    fitBox.style.width  = Math.round(DW * s) + 'px';
+    fitBox.style.height = Math.round(DH * s) + 'px';
+  }
+  window.addEventListener('resize', fitDevice);
+  if (mqMobile.addEventListener) mqMobile.addEventListener('change', fitDevice);
+  fitDevice();
 
   /* boot: Today animates on first show if user lands there later */
 })();
