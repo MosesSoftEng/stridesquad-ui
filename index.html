@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>StrideSquad — Interactive Prototype v6</title>
+<title>StrideSquad — Interactive Prototype v7</title>
 <style>
   /* ─── tokens: the only place raw hex appears ─────────────────────── */
   :root {
@@ -567,6 +567,158 @@
   .qr-row svg { width:78px; height:78px; flex:none; fill:var(--ink); background:var(--surface); border-radius:10px; padding:5px; box-shadow:var(--shadow-card); }
   .qr-row p { font-size:11.5px; color:var(--muted); line-height:1.45; }
   .qr-row b { display:block; font-size:13px; color:var(--ink); margin-bottom:2px; }
+
+  [hidden] { display: none !important; }
+
+  /* ═════ v7 · auth + settings + psychology ═════ */
+  :root {
+    --warn:       #B45307;   /* amber ink on --warn-bg ≈ 7:1 */
+    --warn-bg:    color-mix(in srgb, #F59E0B 16%, var(--surface));
+    --warn-line:  color-mix(in srgb, #F59E0B 45%, var(--border));
+    --g-blue: #4285F4; --g-red: #EA4335; --g-yellow: #FBBC05; --g-green: #34A853;
+  }
+  /* splash */
+  .splash { align-items: center; justify-content: center; text-align: center; gap: 6px; }
+  .splash__mark { width: 92px; height: 92px; border-radius: 28px; background: var(--primary-deep); display: grid; place-items: center; box-shadow: var(--shadow-card); }
+  .splash__mark svg { width: 52px; height: 52px; color: var(--highlight); }
+  .splash__word { font-family: var(--mono); font-size: 15px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--primary-ink); margin-top: 16px; }
+  .splash__tag { font-size: 12.5px; color: var(--muted); }
+  .splash__bar { width: 150px; height: 3px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 24px; }
+  .splash__bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--primary); animation: splashload 1.15s cubic-bezier(.3,.7,.4,1) forwards; }
+  @keyframes splashload { 0% { width: 0 } 100% { width: 100% } }
+  .reduce .splash__bar i { animation-duration: .01s; }
+
+  /* progress rail (never zero) */
+  .rail { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+  .rail__label { font-size: 12.5px; font-weight: 800; color: var(--muted); }
+  .rail__label b { color: var(--primary-ink); }
+  .rail__track { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
+  .rail__fill { display: block; height: 100%; border-radius: 999px; background: var(--primary-deep); transition: width .3s ease; }
+  .rail__steps { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9.5px; font-weight: 700; color: var(--faint); letter-spacing: .02em; }
+  .rail__steps .done { color: var(--primary-ink); }
+
+  /* auth */
+  .auth { width: 100%; max-width: 348px; margin: 0 auto; }
+  .social { display: flex; flex-direction: column; gap: 10px; }
+  .social .btn { border: 1.5px solid var(--border); background: var(--surface); color: var(--ink); box-shadow: var(--shadow-card); }
+  .social .btn:hover { border-color: var(--faint); background: var(--bg); }
+  .social svg { width: 20px; height: 20px; flex: none; }
+  .or { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--faint); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; font-family: var(--mono); }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .pw-row { position: relative; }
+  .pw-row input { width: 100%; padding-right: 58px; }
+  .pw-eye { position: absolute; right: 4px; top: 4px; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: var(--faint); }
+  .pw-eye:hover { color: var(--primary-ink); background: var(--primary-soft); }
+  .pw-eye svg { width: 20px; height: 20px; }
+  .strength { display: flex; gap: 5px; margin-top: 8px; }
+  .strength i { flex: 1; height: 5px; border-radius: 999px; background: var(--border); transition: background .2s; }
+  .strength i.on-weak { background: var(--danger); }
+  .strength i.on-fair { background: var(--warn); }
+  .strength i.on-strong { background: var(--primary); }
+  .strength-label { font-size: 12px; font-weight: 800; min-height: 16px; margin-top: 5px; color: var(--muted); }
+  .code-wrap { display: flex; gap: 9px; justify-content: space-between; margin: 8px 0 4px; }
+  .codebox { width: 46px; height: 58px; text-align: center; border-radius: var(--radius-ctl); border: 1.5px solid var(--border); background: var(--surface); color: var(--ink); font-size: 22px; font-weight: 800; font-family: var(--mono); }
+  .codebox:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+
+  /* settings rows / submenus */
+  .srow { display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; min-height: 60px; padding: 9px 2px; }
+  .srow + .srow { border-top: 1px solid var(--border); }
+  .srow__ic { width: 38px; height: 38px; border-radius: 12px; background: var(--primary-soft); color: var(--primary-ink); display: grid; place-items: center; flex: none; }
+  .srow__ic svg { width: 19px; height: 19px; }
+  .srow__ic--danger { background: var(--danger-soft); color: var(--danger); }
+  .srow__t { flex: 1; min-width: 0; }
+  .srow__t b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+  .srow__t span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+  .srow__end { flex: none; color: var(--faint); display: flex; align-items: center; gap: 8px; }
+  .srow__end svg { width: 19px; height: 19px; }
+  button.srow { border-radius: 14px; transition: background .15s; }
+  button.srow:hover { background: var(--primary-soft); }
+  .danger-row .srow__t b { color: var(--danger); }
+  .danger-row:hover { background: var(--danger-soft) !important; }
+  .link-quiet { color: var(--primary-ink); font-weight: 800; font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; padding: 0 4px; }
+  .link-quiet:hover { color: color-mix(in srgb, var(--primary-ink) 80%, var(--ink)); }
+  .status-chip { flex: none; font-family: var(--mono); font-size: 10.5px; font-weight: 800; letter-spacing: .04em; border-radius: 999px; padding: 6px 11px; background: color-mix(in srgb, var(--muted) 13%, var(--surface)); color: var(--muted); }
+  .status-chip--done { background: var(--primary-soft); color: var(--primary-ink); }
+  .la-btn { flex: none; min-height: 40px; padding: 8px 15px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--surface); font-weight: 800; font-size: 13px; color: var(--primary-ink); }
+  .la-btn:hover { border-color: var(--primary); background: var(--primary-soft); }
+  .la-btn--off { color: var(--muted); }
+  .swatch { width: 46px; height: 46px; border-radius: 50%; border: 2.5px solid transparent; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: var(--ink); background: var(--primary-soft); transition: transform .06s, border-color .15s; }
+  .swatch:hover { transform: scale(1.07); }
+  .swatch.active { border-color: var(--ink); }
+  .swatch--lime { background: color-mix(in srgb, var(--highlight) 45%, var(--surface)); }
+  .swatch--slate { background: color-mix(in srgb, var(--muted) 18%, var(--surface)); color: var(--muted); }
+  .swatch--amber { background: var(--warn-bg); color: var(--warn); }
+  .avatar--amber { background: var(--warn-bg); color: var(--warn); }
+
+  /* policy / terms docs */
+  .doc { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+  .doc h3 { font-size: 14.5px; font-weight: 800; color: var(--ink); letter-spacing: -.01em; margin: 20px 0 5px; }
+  .doc h3:first-child { margin-top: 0; }
+  .doc p + p { margin-top: 8px; }
+  .doc ul, .doc ol { margin: 6px 0 0; padding-left: 18px; }
+  .doc li { margin-top: 5px; }
+  .doc .panel { margin: 18px 0; padding: 16px 18px; border-radius: var(--radius-ctl); background: var(--primary-soft); border: 1.5px solid color-mix(in srgb, var(--primary) 32%, var(--border)); }
+  .doc .panel h3 { margin: 0 0 6px; }
+  .doc .panel p { color: var(--ink); }
+  .doc .panel b { color: var(--primary-ink); }
+
+  /* today v7 — loss framing + reciprocity */
+  .shield { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-card); background: var(--warn-bg); border: 1.5px solid var(--warn-line); box-shadow: var(--shadow-card); margin-bottom: 14px; }
+  .shield__ic { width: 40px; height: 40px; border-radius: 14px; background: var(--surface); display: grid; place-items: center; flex: none; color: var(--warn); box-shadow: var(--shadow-card); }
+  .shield__ic svg { width: 22px; height: 22px; }
+  .shield b { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
+  .shield span { display: block; font-size: 12.5px; color: var(--warn); font-weight: 700; margin-top: 1px; }
+  .shield.met { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 32%, var(--border)); }
+  .shield.met .shield__ic { color: var(--primary-ink); }
+  .shield.met span { color: var(--primary-ink); }
+  .savecard { border: 1.5px solid var(--warn-line); }
+  .savecard .btn { margin-top: 12px; }
+  .nudge { display: flex; align-items: center; gap: 10px; background: var(--warn-bg); border: 1.5px solid var(--warn-line); border-radius: var(--radius-ctl); padding: 9px 8px 9px 14px; margin: -4px 0 16px; }
+  .nudge svg.nudge__ic { width: 20px; height: 20px; color: var(--warn); flex: none; }
+  .nudge b { font-size: 13.5px; font-weight: 800; }
+  .nudge__go { margin-left: auto; flex: none; color: var(--warn); font-weight: 800; font-size: 13px; min-height: 44px; padding: 0 10px; border-radius: 10px; }
+  .nudge__go:hover { background: color-mix(in srgb, var(--warn) 12%, var(--surface)); }
+
+  /* leaderboard delta */
+  .lb-delta { flex: none; text-align: right; }
+  .lb-delta b { display: block; font-size: 13.5px; font-weight: 800; color: var(--primary-ink); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .lb-delta--neg b { color: var(--muted); }
+  .lb-delta small { display: block; font-family: var(--mono); font-size: 9.5px; font-weight: 700; color: var(--faint); letter-spacing: .04em; margin-top: 1px; }
+
+  /* discover sort · recommended chip · goal hint */
+  .seg--3 { grid-template-columns: 1fr 1fr 1fr; margin-bottom: 12px; }
+  .chip--rec { min-height: 0; padding: 2px 8px; font-size: 10px; letter-spacing: .03em; }
+  .goal-hint { font-size: 12.5px; color: var(--faint); margin-top: 9px; }
+  .goal-hint b { color: var(--muted); font-weight: 700; }
+
+  /* sheet textarea + delete confirm */
+  .field textarea { min-height: 96px; padding: 12px 14px; border-radius: var(--radius-ctl); border: 1.5px solid var(--border); background: var(--surface); color: var(--ink); font-size: 15px; font-family: inherit; line-height: 1.45; resize: none; }
+  .field textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+  .del-box { margin-top: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-ctl); padding: 12px 14px 12px 16px; }
+  .del-box ul { padding-left: 16px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .del-box li { margin-top: 4px; }
+  .fineprint { font-size: 12px; color: var(--faint); margin-top: 10px; line-height: 1.5; text-align: center; }
+
+  /* empty states · deleted */
+  .empty { text-align: center; padding: 34px 16px; color: var(--muted); }
+  .empty svg { width: 46px; height: 46px; color: var(--faint); margin: 0 auto 12px; }
+  .empty b { display: block; font-size: 15px; font-weight: 800; color: var(--ink); }
+  .empty p { font-size: 13px; margin-top: 4px; line-height: 1.5; }
+  .deleted { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; text-align: center; padding: 0 12px; }
+  .deleted__ic { width: 86px; height: 86px; border-radius: 30px; background: var(--danger-soft); color: var(--danger); display: grid; place-items: center; }
+  .deleted__ic svg { width: 44px; height: 44px; }
+  .deleted h2 { font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+  .deleted p { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 32ch; }
+
+  /* FAQ */
+  .faq { border-bottom: 1px solid var(--border); }
+  .faq:last-child { border-bottom: 0; }
+  .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; min-height: 54px; font-size: 14.5px; font-weight: 800; }
+  .faq__q svg { width: 18px; height: 18px; color: var(--faint); flex: none; transition: transform .2s ease; }
+  .faq__q[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .faq__q:hover { color: var(--primary-ink); }
+  .faq__a { font-size: 13.5px; color: var(--muted); line-height: 1.55; padding: 0 2px 14px; }
+
 </style>
 </head>
 <body>
@@ -606,8 +758,18 @@
 
         <div class="stage" data-od-id="stage">
 
+    <!-- ══ 0 · v7 SPLASH ══ -->
+    <section id="scr-splash" class="screen is-visible splash" data-screen data-od-id="splash" aria-label="Splash">
+      <div class="splash__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg>
+      </div>
+      <p class="splash__word">StrideSquad</p>
+      <p class="splash__tag">Count steps. Squad up.</p>
+      <span class="splash__bar" aria-hidden="true"><i></i></span>
+    </section>
+
     <!-- ══ 1 · ONBOARDING ═══════════════════════════════════════════ -->
-    <section id="scr-onboarding" class="screen is-visible" data-screen data-od-id="onboarding" aria-label="Onboarding">
+    <section id="scr-onboarding" class="screen" data-screen data-od-id="onboarding" aria-label="Onboarding">
       <div class="onb" id="onb-intro">
         <div class="onb__mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg>
@@ -647,6 +809,11 @@
         <p class="onb__brand">Almost there</p>
         <h1 class="onb__title" style="font-size:31px;">What brings you here?</h1>
         <p class="onb__lead">Pick a starting point — you can change your mind later from Groups or your profile.</p>
+      <div class="rail" role="status" aria-label="Setup progress" data-od-id="rail-rail-choose">
+        <p class="rail__label" id="rail-choose-label">Step 3 of 5</p>
+        <span class="rail__track"><span class="rail__fill" id="rail-choose-fill" style="width:60%"></span></span>
+        <span class="rail__steps" aria-hidden="true"><span class="done">Account</span><span>Health</span><span>Path</span><span>Goal</span><span>Start</span></span>
+      </div>
         <button class="fork-card" id="btn-fork-squad" data-od-id="fork-squad">
           <span class="fork-card__glyph" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>
@@ -677,16 +844,25 @@
         </button>
       </div>
 
+      <div class="rail" role="status" aria-label="Setup progress" data-od-id="rail-rail-goal">
+        <p class="rail__label" id="rail-goal-label">Step 4 of 5</p>
+        <span class="rail__track"><span class="rail__fill" id="rail-goal-fill" style="width:80%"></span></span>
+        <span class="rail__steps" aria-hidden="true"><span class="done">Account</span><span>Health</span><span>Path</span><span>Goal</span><span>Start</span></span>
+      </div>
       <div class="card" data-od-id="goal-target-card">
         <p class="card-label">Daily step target</p>
         <div class="goal-chips" id="solo-goal-chips" role="group" aria-label="Quick targets" style="margin-bottom:16px;">
           <button type="button" data-sgoal="6000">6,000</button>
-          <button type="button" class="active" data-sgoal="8000">8,000</button>
+          <button type="button" data-sgoal="7000">7,000</button>
+          <button type="button" data-sgoal="8000">8,000</button>
+          <button type="button" class="active" data-sgoal="9000">9,000</button>
           <button type="button" data-sgoal="10000">10,000</button>
+          <button type="button" data-sgoal="11000">11,000</button>
           <button type="button" data-sgoal="12000">12,000</button>
         </div>
-        <div class="goal-out"><b id="goal-readout" class="num">8,000</b><span>steps per day</span></div>
-        <input class="slider" type="range" id="goal-slider" min="2000" max="20000" step="500" value="8000" aria-label="Custom daily step target">
+        <p class="goal-hint" style="margin-top:-8px;margin-bottom:6px;"><b>9,000</b> — most squads pick this</p>
+        <div class="goal-out"><b id="goal-readout" class="num">9,000</b><span>steps per day</span></div>
+        <input class="slider" type="range" id="goal-slider" min="2000" max="20000" step="500" value="9000" aria-label="Custom daily step target">
         <div class="slider-scale"><span>2k</span><span>11k</span><span>20k</span></div>
       </div>
 
@@ -720,6 +896,15 @@
         </div>
       </div>
 
+      <div class="shield" id="streak-shield" data-od-id="today-streak-shield" role="status">
+        <span class="shield__ic" aria-hidden="true" id="shield-ic">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg>
+        </span>
+        <div>
+          <b id="shield-b">🔥 12-day streak — 1,158 steps to keep it</b>
+          <span id="shield-sub">Steps count until midnight — fall short and the streak is gone</span>
+        </div>
+      </div>
       <div class="card ring-card" data-od-id="today-goal-card">
         <div class="ring-wrap">
           <svg class="ring" id="ring-svg" viewBox="0 0 200 200" role="img" aria-label="Goal ring: 7,842 of 9,000 steps">
@@ -751,14 +936,20 @@
         <div class="spark" aria-hidden="true" id="week-spark"></div>
       </div>
 
-      <div class="card" style="margin-top:14px;" id="pulse-card" data-od-id="today-squad-pulse">
+      <div class="card" style="margin-top:14px;" id="pulse-card" data-od-id="today-squad-challenge">
         <div class="pulse-row">
           <div>
-            <b style="font-size:15px;">Squad pulse</b>
-            <p style="font-size:13px;color:var(--muted);margin-top:2px;">Maya and Priya are still climbing</p>
+            <b style="font-size:15px;" id="pulse-title">Squad challenge</b>
+            <p style="font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4;" id="pulse-text">2 of 10 members still short — your squad needs 4,300 steps</p>
           </div>
           <button class="btn btn--text" data-goto="scr-groups" data-od-id="today-pulse-open-groups">Open →</button>
         </div>
+      </div>
+
+      <div class="card savecard" style="margin-top:14px;" id="save-streak-card" data-od-id="today-save-streak" hidden>
+        <b style="font-size:15px;">Save your streak</b>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px;line-height:1.45;">You&rsquo;re 12 days in. Without an account, this streak and your squad spots can&rsquo;t be recovered.</p>
+        <button class="btn btn--primary btn--block" id="btn-save-streak" data-od-id="today-save-streak-cta">Create account — 30 seconds</button>
       </div>
     </section>
 
@@ -800,6 +991,11 @@
       </div><!-- /#grp-mine -->
 
       <div id="grp-discover" hidden style="margin-top:14px;">
+        <div class="seg seg--3" role="group" aria-label="Sort squads" data-od-id="discover-sort">
+          <button type="button" class="active" data-sort="active">Most active</button>
+          <button type="button" data-sort="largest">Largest</button>
+          <button type="button" data-sort="newest">Newest</button>
+        </div>
         <p class="disc-lead">Public squads looking for walkers. Open groups accept join requests; private groups reply with an invite.</p>
         <div id="discover-list" data-od-id="discover-list"></div>
       </div>
@@ -956,15 +1152,20 @@
         <div class="field">
           <label id="goal-label">Daily step goal</label>
           <div class="goal-chips" role="group" aria-labelledby="goal-label">
-            <button type="button" class="active" data-goal="8000">8,000</button>
-            <button type="button" data-goal="9000">9,000</button>
+            <button type="button" data-goal="6000">6,000</button>
+            <button type="button" data-goal="7000">7,000</button>
+            <button type="button" data-goal="8000">8,000</button>
+            <button type="button" class="active" data-goal="9000">9,000</button>
+            <button type="button" data-goal="10000">10,000</button>
+            <button type="button" data-goal="11000">11,000</button>
             <button type="button" data-goal="12000">12,000</button>
           </div>
+          <p class="goal-hint" data-od-id="create-goal-hint"><b>9,000</b> — most squads pick this</p>
         </div>
         <div class="field">
           <label id="priv-label">Privacy</label>
           <div class="seg seg--stack" role="group" aria-labelledby="priv-label" data-od-id="create-privacy">
-            <button type="button" class="active" data-priv="open"><span>Open</span><small>Discoverable — join by request</small></button>
+            <button type="button" class="active" data-priv="open"><span>Open <span class="chip chip--rec" data-od-id="create-open-recommended">Recommended</span></span><small>Discoverable — join by request</small></button>
             <button type="button" data-priv="private"><span>Private</span><small>Invite link only</small></button>
           </div>
         </div>
@@ -986,12 +1187,21 @@
     <section id="scr-profile" class="screen" data-screen data-od-id="profile" aria-label="Profile">
       <div class="screen-head">
         <div class="row" style="display:flex;align-items:center;gap:14px;">
-          <div class="avatar avatar--lg" aria-hidden="true">YO</div>
+          <div class="avatar avatar--lg" id="pf-avatar" aria-hidden="true">YO</div>
           <div>
-            <h2 class="screen-title" style="font-size:22px;">You</h2>
+            <h2 class="screen-title" style="font-size:22px;" id="pf-name">You</h2>
             <p class="screen-sub">12-day streak · 6th in Sunrise Steppers</p>
           </div>
         </div>
+        <button class="icon-btn" data-goto="scr-settings" aria-label="Settings" data-od-id="profile-settings-gear">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.56-2-3.46-2.35.95a7 7 0 0 0-2.42-1.4L13.7 3h-3.4l-.4 2.53a7 7 0 0 0-2.41 1.4l-2.36-.95-2 3.46 2 1.56A7.1 7.1 0 0 0 5 12c0 .48.05.95.14 1.4l-2 1.57 2 3.46 2.35-.95a7 7 0 0 0 2.42 1.4l.39 2.52h3.4l.4-2.52a7 7 0 0 0 2.41-1.4l2.36.95 2-3.46-2-1.57c.09-.45.13-.92.13-1.4Z"/></svg>
+        </button>
+      </div>
+
+      <div class="nudge" id="profile-nudge" data-od-id="profile-complete-nudge" role="status">
+        <svg class="nudge__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.3" r=".9" fill="currentColor" stroke="none"/></svg>
+        <b id="nudge-b">Profile 4/5 complete</b>
+        <button class="nudge__go" type="button" id="btn-nudge-photo" data-goto="scr-edit-profile" data-od-id="profile-nudge-photo">Add photo →</button>
       </div>
 
       <div data-od-id="profile-achievements">
@@ -1037,6 +1247,383 @@
         <span class="chip" style="background:var(--primary-soft);color:var(--primary-ink);">Apple Health</span>
       </div>
     </section>
+    <!-- ══ v7 · AUTH ══════════════════════════════════════════════ -->
+    <section id="scr-signup" class="screen" data-screen data-od-id="signup" aria-label="Sign up">
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">Create account</h2>
+            <p class="screen-sub">First things first — so your streak has a home</p>
+          </div>
+          <button class="icon-btn" id="btn-signup-skip-x" aria-label="Continue without an account" data-od-id="signup-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        </div>
+        <div class="field"><label for="su-name">Name</label><input id="su-name" type="text" placeholder="Your name" autocomplete="off" autocomplete="name" maxlength="24"></div>
+        <div class="field"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com" autocomplete="off" autocomplete="email"></div>
+        <div class="field"><label for="su-pass">Password</label><div class="pw-row"><input id="su-pass" type="password" autocomplete="off" placeholder="8+ characters"></div><button class="pw-eye" type="button" id="eye-su-pass" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        <p class="field__err" id="su-err" role="alert"></p>
+        <button class="btn btn--primary btn--block" id="btn-signup-submit" data-od-id="signup-submit">Create account</button>
+        <p class="or">or continue with</p>
+        <div class="social" data-od-id="signup-social">
+          <button class="btn btn--block" type="button" id="btn-signup-apple" data-od-id="signup-apple"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 123.6 107.2 121.6 25.2-.6 43.2-17.9 78-17.9 34.8 0 51.6 17.9 78 17.9 48.2 2 93.2-83.2 105.6-119.9-66.6-31.3-64.9-92.3-64.9-94.6Zm-59.1-172.9c30.3-35.8 27.6-68.3 26.7-79.9-32.2 4.7-69.5 22.7-89 48.3-21.7 26.1-33.9 58.6-31.3 95.1 34 2.5 64.9-14.6 93.6-63.5Z"/></svg> Continue with Apple</button>
+          <button class="btn btn--block" type="button" id="btn-signup-google" data-od-id="signup-google"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="var(--g-red)" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.9c-.5 2.7-2.1 5.1-4.4 6.6v5.5h7.1c4.2-3.8 6.5-9.5 6.5-16.1z"/><path fill="var(--g-green)" d="M24 46c5.9 0 10.9-2 14.6-5.4l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.7 0-10.6-3.9-12.3-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="var(--g-yellow)" d="M11.7 28.1c-.7-1.6-1-3.4-1-5.2s.4-3.7 1-5.3v-5.7H4.3C2.9 14.3 2 18.5 2 22.9s.9 8.6 2.3 11l7.4-5.8z"/><path fill="var(--g-blue)" d="M24 10.8c3.2 0 6.1 1.1 8.4 3.3l6.3-6.3C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.2l7.4 5.8c1.7-5.2 6.6-9.2 12.3-9.2z"/></svg> Continue with Google</button>
+        </div>
+        <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--muted);">Already have an account? <button class="btn btn--text" style="min-height:40px;padding:2px 6px;" data-goto="scr-login" data-od-id="signup-to-login">Log in</button></p>
+        <p style="text-align:center;margin-top:2px;"><button class="link-quiet" id="btn-signup-skip" data-od-id="signup-skip" style="font-size:13px;">Continue without an account</button></p>
+      </div>
+    </section>
+
+    <section id="scr-login" class="screen" data-screen data-od-id="login" aria-label="Log in">
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">Log in</h2>
+            <p class="screen-sub">Welcome back — the squad's been walking</p>
+          </div>
+          <button class="icon-btn" id="btn-login-close" aria-label="Close" data-od-id="login-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+        </div>
+        <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" placeholder="you@example.com" autocomplete="off" autocomplete="email"></div>
+        <div class="field">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <label for="li-pass">Password</label>
+            <button class="link-quiet" style="font-size:13px;min-height:32px;" data-goto="scr-forgot" data-od-id="login-forgot">Forgot?</button>
+          </div>
+          <div class="pw-row"><input id="li-pass" type="password" autocomplete="off" placeholder="Your password"></div><button class="pw-eye" type="button" id="eye-li-pass" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+        <p class="field__err" id="li-err" role="alert"></p>
+        <button class="btn btn--primary btn--block" id="btn-login-submit" data-od-id="login-submit">Log in</button>
+        <p style="text-align:center;margin-top:16px;font-size:14px;color:var(--muted);">New to StrideSquad? <button class="btn btn--text" style="min-height:40px;padding:2px 6px;" data-goto="scr-signup" data-od-id="login-to-signup">Sign up</button></p>
+      </div>
+    </section>
+
+    <section id="scr-forgot" class="screen" data-screen data-od-id="forgot" aria-label="Forgot password">
+      <div class="auth">
+        <div id="forgot-form">
+          <div class="screen-head">
+            <div>
+              <h2 class="screen-title" style="font-size:25px;">Reset password</h2>
+              <p class="screen-sub">We'll email you a reset link</p>
+            </div>
+            <button class="icon-btn" data-goto="scr-login" aria-label="Back to log in" data-od-id="forgot-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+          </div>
+          <div class="field"><label for="fg-email">Email</label><input id="fg-email" type="email" placeholder="you@example.com" autocomplete="off"></div>
+          <p class="field__err" id="fg-err" role="alert"></p>
+          <button class="btn btn--primary btn--block" id="btn-forgot-send" data-od-id="forgot-send">Send reset link</button>
+        </div>
+        <div id="forgot-sent" hidden class="onb" style="gap:16px;">
+          <div class="onb__mark" aria-hidden="true" style="width:60px;height:60px;border-radius:18px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg></div>
+          <h2 class="screen-title" style="font-size:23px;text-align:center;">Check your email</h2>
+          <p class="onb__lead" style="max-width:none;text-align:center;">We sent a reset link to <b id="forgot-mail" style="color:var(--ink);">your inbox</b>. The link expires in 30 minutes — that's a real deadline, not a trick.</p>
+          <button class="btn btn--primary btn--block" id="btn-forgot-open" data-od-id="forgot-open-link">Open reset link (demo)</button>
+          <button class="btn btn--ghost btn--block" id="btn-forgot-resend" data-od-id="forgot-resend">Resend email</button>
+          <button class="btn btn--text" data-goto="scr-login">Back to log in</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="scr-reset" class="screen" data-screen data-od-id="reset-password" aria-label="Reset password">
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">New password</h2>
+            <p class="screen-sub">Make it one you'll still remember at 6am</p>
+          </div>
+          <button class="icon-btn" data-goto="scr-login" aria-label="Back to log in" data-od-id="reset-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+        </div>
+        <div class="field"><label for="rs-pass">New password</label><div class="pw-row"><input id="rs-pass" type="password" autocomplete="off" placeholder="8+ characters"></div><button class="pw-eye" type="button" id="eye-rs-pass" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <div class="strength" id="str-rs-pass" aria-hidden="true"><i></i><i></i><i></i><i></i></div><p class="strength-label" id="strlab-rs-pass"></p>
+        </div>
+        <div class="field"><label for="rs-pass2">Confirm password</label><div class="pw-row"><input id="rs-pass2" type="password" autocomplete="off" placeholder="Type it again"></div><button class="pw-eye" type="button" id="eye-rs-pass2" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        <p class="field__err" id="rs-err" role="alert"></p>
+        <button class="btn btn--primary btn--block" id="btn-reset-save" data-od-id="reset-save">Save new password</button>
+      </div>
+    </section>
+
+    <section id="scr-verify" class="screen" data-screen data-od-id="email-verify" aria-label="Email verification">
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">Verify your email</h2>
+            <p class="screen-sub">Enter the 6-digit code sent to <b id="verify-mail" style="color:var(--ink);">your inbox</b></p>
+          </div>
+          <button class="icon-btn" data-goto="scr-signup" aria-label="Back to sign up" data-od-id="verify-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+        </div>
+        <div class="code-wrap" role="group" aria-label="6-digit code"><input class="codebox" id="code-0" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1"><input class="codebox" id="code-1" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 2"><input class="codebox" id="code-2" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 3"><input class="codebox" id="code-3" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 4"><input class="codebox" id="code-4" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 5"><input class="codebox" id="code-5" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 6"></div>
+        <p class="field__err" id="vf-err" role="alert"></p>
+        <button class="btn btn--primary btn--block" id="btn-verify-submit" data-od-id="verify-submit" disabled>Verify</button>
+        <p style="text-align:center;margin-top:14px;font-size:13.5px;color:var(--muted);">Didn't get it? <button class="link-quiet" id="btn-resend-code" style="font-size:13.5px;" data-od-id="verify-resend">Resend code</button></p>
+        <p class="fineprint">In the shipped app this checks against your real inbox. In this prototype, any 6 digits work.</p>
+      </div>
+    </section>
+
+    <!-- v7 · SETTINGS SUITE -->
+    <section id="scr-settings" class="screen" data-screen data-od-id="settings-hub" aria-label="Settings">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Settings</h2><p class="screen-sub">Everything you might need to change</p></div><button class="icon-btn" data-goto="scr-profile" aria-label="Back" data-od-id="settings-hub-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="settings-sections">
+<button class="srow" type="button" data-goto="scr-settings-account" data-od-id="settings-sec-account"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="srow__t"><b>Account</b><span>Profile, linked logins, export, delete</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-settings-notifications" data-od-id="settings-sec-notif"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13.5 6 9.5Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg></span><span class="srow__t"><b>Notifications</b><span>Streak reminders, group activity, quiet hours</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-settings-privacy" data-od-id="settings-sec-privacy"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.8-3.2 7.7-7.5 9.5-4.3-1.8-7.5-4.7-7.5-9.5V6Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg></span><span class="srow__t"><b>Privacy</b><span>Policy, terms, blocklist</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-settings-help" data-od-id="settings-sec-help"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.5.8c0 1.9-2.7 2.2-2.7 3.9"/><circle cx="12" cy="17.3" r=".9" fill="currentColor" stroke="none"/></svg></span><span class="srow__t"><b>Help</b><span>FAQ and contact support</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-settings-about" data-od-id="settings-sec-about"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.6" r=".9" fill="currentColor" stroke="none"/></svg></span><span class="srow__t"><b>About</b><span>Version and acknowledgements</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+      </div>
+    </section>
+
+    <section id="scr-settings-account" class="screen" data-screen data-od-id="settings-account" aria-label="Account settings">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Account</h2><p class="screen-sub">Your identity, connections and data</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-account-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" id="acct-auth-card" data-od-id="acct-auth-card">
+        <div class="srow" id="acct-auth-row">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg></span>
+          <span class="srow__t"><b id="acct-auth-title">No account yet</b><span id="acct-auth-sub">Sign up to save your 12-day streak</span></span>
+          <button class="la-btn" type="button" id="btn-acct-auth" data-od-id="acct-auth-cta">Sign up</button>
+        </div>
+      </div>
+      <div class="card" data-od-id="account-manage">
+<button class="srow" type="button" data-goto="scr-edit-profile" data-od-id="acct-edit"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19Z"/><path d="m14.5 6.5 3 3"/></svg></span><span class="srow__t"><b>Edit profile</b><span>Name and photo</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-linked-accounts" data-od-id="acct-linked"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></span><span class="srow__t"><b>Linked accounts</b><span>Apple, Google, Health Connect</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-change-password" data-od-id="acct-passwd"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4.2"/><path d="m11 12 8-8M17 4l3 3M15 6l3 3"/></svg></span><span class="srow__t"><b>Change password</b><span>Last changed 3 months ago</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+        <div class="srow">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4"/><path d="M5 19h14"/></svg></span>
+          <span class="srow__t"><b>Export my data</b><span>Steps, squads, chats — .zip</span></span>
+          <span class="srow__end"><span class="status-chip" id="export-chip" data-od-id="export-chip">Ready</span>
+          <button class="la-btn" type="button" id="btn-export" data-od-id="acct-export">Request</button></span>
+        </div>
+        <div class="srow">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/><path d="M15 8l4 4-4 4M19 12H9"/></svg></span>
+          <span class="srow__t"><b>Sign out</b><span id="signout-sub">You&rsquo;re signed in as you@stridesquad.app</span></span>
+          <button class="la-btn" type="button" id="btn-signout" data-od-id="acct-signout">Sign out</button>
+        </div>
+      </div>
+      <div class="card" data-od-id="account-danger">
+        <button class="srow danger-row" type="button" id="btn-open-delete" data-od-id="acct-delete">
+          <span class="srow__ic srow__ic--danger" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V5h5v2M6.5 7l1 12.5h9L18 7M10 11v5m4-5v5"/></svg></span>
+          <span class="srow__t"><b>Delete account</b><span>Permanent — takes 30 days to fully erase</span></span>
+          <span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <section id="scr-edit-profile" class="screen" data-screen data-od-id="edit-profile" aria-label="Edit profile">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Edit profile</h2><p class="screen-sub">Name and photo — takes a minute</p></div><button class="icon-btn" data-goto="scr-settings-account" aria-label="Back" data-od-id="edit-profile-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="edit-photo-card">
+        <p class="card-label">Photo</p>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="avatar avatar--lg" id="ep-preview" aria-hidden="true">YO</div>
+          <div class="field" style="margin:0;flex:1;">
+            <label for="ep-initials">Initials</label>
+            <input id="ep-initials" type="text" maxlength="2" value="YO" autocomplete="off" spellcheck="false" style="text-transform:uppercase;font-family:var(--mono);letter-spacing:.2em;text-align:center;">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px;" role="group" aria-label="Photo color" data-od-id="edit-swatches">
+          <button class="swatch active" type="button" data-av="" aria-label="Green">YO</button>
+          <button class="swatch swatch--lime" type="button" data-av="lime" aria-label="Lime">YO</button>
+          <button class="swatch swatch--slate" type="button" data-av="slate" aria-label="Slate">YO</button>
+          <button class="swatch swatch--amber" type="button" data-av="amber" aria-label="Amber">YO</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;" data-od-id="edit-name-card">
+        <div class="field" style="margin:0;">
+          <label for="ep-name">Display name</label>
+          <input id="ep-name" type="text" value="You" maxlength="24" autocomplete="name">
+        </div>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-save-profile" style="margin-top:18px;" data-od-id="edit-profile-save">Save profile</button>
+    </section>
+
+    <section id="scr-linked-accounts" class="screen" data-screen data-od-id="linked-accounts" aria-label="Linked accounts">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Linked accounts</h2><p class="screen-sub">Faster sign-in, health sync</p></div><button class="icon-btn" data-goto="scr-settings-account" aria-label="Back" data-od-id="linked-accounts-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="linked-list">
+        <div class="srow">
+          <span class="srow__ic" style="background:var(--ink);color:var(--surface);" aria-hidden="true"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 123.6 107.2 121.6 25.2-.6 43.2-17.9 78-17.9 34.8 0 51.6 17.9 78 17.9 48.2 2 93.2-83.2 105.6-119.9-66.6-31.3-64.9-92.3-64.9-94.6Zm-59.1-172.9c30.3-35.8 27.6-68.3 26.7-79.9-32.2 4.7-69.5 22.7-89 48.3-21.7 26.1-33.9 58.6-31.3 95.1 34 2.5 64.9-14.6 93.6-63.5Z"/></svg></span>
+          <span class="srow__t"><b>Apple</b><span id="la-apple-sub">Linked — sign in with Apple enabled</span></span>
+          <span class="srow__end"><span class="status-chip status-chip--done" id="la-apple-chip">Linked</span><button class="la-btn" type="button" id="la-apple" data-od-id="link-apple">Disconnect</button></span>
+        </div>
+        <div class="srow">
+          <span class="srow__ic" aria-hidden="true" style="background:var(--surface);border:1px solid var(--border);"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="var(--g-red)" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.9c-.5 2.7-2.1 5.1-4.4 6.6v5.5h7.1c4.2-3.8 6.5-9.5 6.5-16.1z"/><path fill="var(--g-green)" d="M24 46c5.9 0 10.9-2 14.6-5.4l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.7 0-10.6-3.9-12.3-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="var(--g-yellow)" d="M11.7 28.1c-.7-1.6-1-3.4-1-5.2s.4-3.7 1-5.3v-5.7H4.3C2.9 14.3 2 18.5 2 22.9s.9 8.6 2.3 11l7.4-5.8z"/><path fill="var(--g-blue)" d="M24 10.8c3.2 0 6.1 1.1 8.4 3.3l6.3-6.3C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.2l7.4 5.8c1.7-5.2 6.6-9.2 12.3-9.2z"/></svg></span>
+          <span class="srow__t"><b>Google</b><span id="la-google-sub">Not linked — link to sign in faster</span></span>
+          <span class="srow__end"><span class="status-chip" id="la-google-chip">Not linked</span><button class="la-btn la-btn--off" type="button" id="la-google" data-od-id="link-google">Connect</button></span>
+        </div>
+        <div class="srow">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4l2-6 3.5 12 2-6h5.5"/></svg></span>
+          <span class="srow__t"><b>Health Connect / Apple Health</b><span id="la-health-sub">Connected — steps read every 5 min</span></span>
+          <span class="srow__end"><span class="status-chip status-chip--done" id="la-health-chip">Linked</span><button class="la-btn" type="button" id="la-health" data-od-id="link-health">Disconnect</button></span>
+        </div>
+      </div>
+      <p class="fineprint" style="text-align:left;padding:0 4px;">Disconnecting health pauses step sync — your streak freezes until it&rsquo;s reconnected.</p>
+    </section>
+
+    <section id="scr-change-password" class="screen" data-screen data-od-id="change-password" aria-label="Change password">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Change password</h2><p class="screen-sub">Confirm the current one, then a new one</p></div><button class="icon-btn" data-goto="scr-settings-account" aria-label="Back" data-od-id="change-password-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="change-password-card">
+<div class="field"><label for="cp-cur">Current password</label><div class="pw-row"><input id="cp-cur" type="password" autocomplete="off" placeholder="Existing password"></div><button class="pw-eye" type="button" id="eye-cp-cur" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<div class="field"><label for="cp-new">New password</label><div class="pw-row"><input id="cp-new" type="password" autocomplete="off" placeholder="8+ characters"></div><button class="pw-eye" type="button" id="eye-cp-new" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button><div class="strength" aria-hidden="true"><i></i><i></i><i></i><i></i></div><p class="strength-label"></p></div>
+        <p class="field__err" id="cp-err" role="alert"></p>
+        <button class="btn btn--primary btn--block" id="btn-change-pass" data-od-id="change-password-save">Update password</button>
+      </div>
+    </section>
+
+    <section id="scr-settings-notifications" class="screen" data-screen data-od-id="settings-notifications" aria-label="Notification settings">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Notifications</h2><p class="screen-sub">Only ping when it matters</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-notifications-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="notif-toggles">
+        <div class="set-row">
+          <div class="set-row__t"><b>Streak reminders</b><span>Nudge if you&rsquo;re under goal</span></div>
+          <button class="switch" role="switch" aria-checked="true" id="sw-streak" aria-label="Streak reminders" data-od-id="notif-sw-streak"></button>
+        </div>
+        <div class="set-row" id="nr-time-row" style="min-height:52px;">
+          <div class="set-row__t"><b>Reminder time</b><span>Tap to cycle presets</span></div>
+          <button class="chip" id="nr-time" type="button" style="background:var(--surface);border:1.5px solid var(--border);color:var(--ink);min-height:44px;" data-od-id="notif-time-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            7:00 PM</button>
+        </div>
+        <div class="set-row">
+          <div class="set-row__t"><b>Group activity</b><span>Squadmates pass your rank, new messages</span></div>
+          <button class="switch" role="switch" aria-checked="true" id="sw-gact" aria-label="Group activity" data-od-id="notif-sw-gact"></button>
+        </div>
+        <div class="set-row">
+          <div class="set-row__t"><b>Challenges</b><span>Challenge start, end and short-of-goal calls</span></div>
+          <button class="switch" role="switch" aria-checked="true" id="sw-chal" aria-label="Challenges" data-od-id="notif-sw-chal"></button>
+        </div>
+        <div class="set-row">
+          <div class="set-row__t"><b>Quiet hours</b><span>10:00 PM – 7:00 AM — nothing pings</span></div>
+          <button class="switch" role="switch" aria-checked="true" id="sw-quiet" aria-label="Quiet hours" data-od-id="notif-sw-quiet"></button>
+        </div>
+      </div>
+      <p class="fineprint" style="text-align:left;padding:0 4px;">Loss-framing nudges like &ldquo;steps to keep your streak&rdquo; only fire while Streak reminders is on — never more than once a day.</p>
+    </section>
+
+    <section id="scr-settings-privacy" class="screen" data-screen data-od-id="settings-privacy" aria-label="Privacy settings">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Privacy</h2><p class="screen-sub">The documents, and who can reach you</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-privacy-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="privacy-rows">
+<button class="srow" type="button" data-goto="scr-privacy-policy" data-od-id="priv-policy"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3.5h7L18.5 8v12.5h-11Z"/><path d="M14 3.5V8h4.5M9.5 12h5m-5 3.5h5"/></svg></span><span class="srow__t"><b>Privacy policy</b><span>What we collect — and what we never touch</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+<button class="srow" type="button" data-goto="scr-terms" data-od-id="priv-terms"><span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 8h12"/><path d="m6 8-2.5 6a3 3 0 0 0 5 0Zm12.5 0L16 14a3 3 0 0 0 5 0Z"/></svg></span><span class="srow__t"><b>Terms of service</b><span>The rules of the road</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+        <button class="srow" type="button" data-goto="scr-blocklist" data-od-id="priv-blocklist">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="m6 18 12-12"/></svg></span>
+          <span class="srow__t"><b>Blocklist</b><span>People you&rsquo;ve blocked from messaging you</span></span>
+          <span class="srow__end"><span class="status-chip" id="block-count-chip">1</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+      </div>
+      <div class="card" style="margin-top:14px;" data-od-id="privacy-visibility">
+        <div class="set-row">
+          <div class="set-row__t"><b>Show my step goal on boards</b><span>Visible to your squads only</span></div>
+          <button class="switch" role="switch" aria-checked="false" id="sw-goalsoon" aria-label="Show step goal on boards"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="scr-privacy-policy" class="screen" data-screen data-od-id="privacy-policy" aria-label="Privacy policy">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Privacy policy</h2><p class="screen-sub">Plain words. Last updated 3 Nov 2026.</p></div><button class="icon-btn" data-goto="scr-settings-privacy" aria-label="Back" data-od-id="privacy-policy-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card doc" data-od-id="policy-body">
+        <h3>Who we are</h3>
+        <p>StrideSquad is a small step-counting app for walking squads. This policy covers the StrideSquad app and its companion services.</p>
+        <h3>What we collect</h3>
+        <ul>
+          <li><b>Account data</b> — your name, email and (hashed) password.</li>
+          <li><b>Health data</b> — daily step counts and walking distance, read with your permission. See the panel below.</li>
+          <li><b>Activity data</b> — squads you join, messages you send, challenges you enter.</li>
+          <li><b>Device data</b> — app version and crash diagnostics, kept minimal.</li>
+        </ul>
+        <div class="panel" data-od-id="policy-health-panel">
+          <h3>Health data</h3>
+          <p><b>Steps are read from Health Connect / Apple Health, never used for advertising, never sold.</b> We store daily totals for your leaderboard and streak — not raw health records, not heart rate, not location. You can disconnect the health source any time from Settings &rsaquo; Linked accounts, and the sync stops immediately.</p>
+        </div>
+        <h3>How we use it</h3>
+        <p>Only to run the features you asked for: your goal ring, streaks, squad leaderboards, and the reminders you turned on. No ad SDKs ship in the app — there is nothing to target you with.</p>
+        <h3>What your squad sees</h3>
+        <p>Members of a squad see your display name, initials, steps and rank. Nothing else. Global boards show a pseudonymous walker card — name, steps, streak — and you can leave the global board from Settings anytime.</p>
+        <h3>Sharing</h3>
+        <p>We don&rsquo;t sell or rent your data. We share it only if we must, to comply with law or protect safety, and we tell you when we do (unless legally silenced).</p>
+        <h3>Retention and deletion</h3>
+        <p>Delete your account from Settings &rsaquo; Account and your data is scheduled for erasure within 30 days. Signing back in within that window cancels the erasure. Export what&rsquo;s yours first — Settings &rsaquo; Account &rsaquo; Export my data.</p>
+        <h3>Your rights</h3>
+        <p>Access, correct, export, object, delete. Do all five from inside the app, or write to support@stridesquad.app and we&rsquo;ll do it for you.</p>
+      </div>
+    </section>
+
+    <section id="scr-terms" class="screen" data-screen data-od-id="terms" aria-label="Terms of service">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Terms of service</h2><p class="screen-sub">Short enough to actually read</p></div><button class="icon-btn" data-goto="scr-settings-privacy" aria-label="Back" data-od-id="terms-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card doc" data-od-id="terms-body">
+        <h3>1 · Acceptance</h3>
+        <p>By creating an account you agree to these terms. If you don&rsquo;t agree, don&rsquo;t use the app — no hard feelings.</p>
+        <h3>2 · Your account</h3>
+        <p>One real account per person. Keep your password to yourself. You can export or delete your account from Settings at any time.</p>
+        <h3>3 · Fair walking</h3>
+        <p>Steps must come from your own movement via a connected health source. Shaking a phone at a dog or buying fake steps gets your rank hidden from squads and, on repeat, ends the account.</p>
+        <h3>4 · Conduct in chats</h3>
+        <p>Squad and global rooms are community spaces. Harassment or spam gets you reported, blocked and moderated. Block anyone instantly from a message&rsquo;s options — they vanish from your feeds and land on your blocklist.</p>
+        <h3>5 · Not medical advice</h3>
+        <p>StrideSquad counts steps. It is not a medical device, and its numbers are not health advice. Check with a professional before changing your training because a leaderboard told you to.</p>
+        <h3>6 · Changes and ending</h3>
+        <p>If we change these terms we&rsquo;ll tell you in-app first. You can stop anytime; we may stop service with 30 days notice. Sections on data and conduct survive cancellation.</p>
+      </div>
+    </section>
+
+    <section id="scr-blocklist" class="screen" data-screen data-od-id="blocklist" aria-label="Blocklist">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Blocklist</h2><p class="screen-sub">Blocked people cannot reach you</p></div><button class="icon-btn" data-goto="scr-settings-privacy" aria-label="Back" data-od-id="blocklist-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="blocklist-card">
+        <div id="blocklist"></div>
+        <div class="empty u-hide" id="blocklist-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.8-3.2 7.7-7.5 9.5-4.3-1.8-7.5-4.7-7.5-9.5V6Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
+          <b>No one is blocked</b>
+          <p>When you block someone from a chat or DM, they show up here — and you can undo it.</p>
+        </div>
+      </div>
+      <p class="fineprint" style="text-align:left;padding:0 4px;">Blocking is local to your account. The blocked person is not notified.</p>
+    </section>
+
+    <section id="scr-settings-help" class="screen" data-screen data-od-id="settings-help" aria-label="Help">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Help</h2><p class="screen-sub">Three questions we actually get</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-help-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" id="faq" data-od-id="faq-accordion">
+        <div class="faq">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-a1" data-od-id="faq-q1">Where do my step counts come from?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+          <p class="faq__a" id="faq-a1" hidden>Only from the health source you connected — Health Connect on Android, Apple Health on iPhone. StrideSquad reads daily step totals with your permission and never invents numbers. If the source pauses, the ring pauses too.</p>
+        </div>
+        <div class="faq">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-a2" data-od-id="faq-q2">Can my squad see my exact steps?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+          <p class="faq__a" id="faq-a2" hidden>Yes — squad leaderboards show today&rsquo;s and this week&rsquo;s totals next to your name. That&rsquo;s the whole game. Your route, heart rate and everything else stay on your device; only step totals leave it.</p>
+        </div>
+        <div class="faq">
+          <button class="faq__q" type="button" aria-expanded="false" aria-controls="faq-a3" data-od-id="faq-q3">How do I delete my account and data?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+          <p class="faq__a" id="faq-a3" hidden>Settings &rsaquo; Account &rsaquo; Delete account. Type DELETE to confirm, and everything — steps, squads, chats — is scheduled for erasure within 30 days. Logging back in inside that window cancels it, and you can request your .zip export first.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;" data-od-id="contact-support">
+        <div class="srow" style="min-height:56px;">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg></span>
+          <span class="srow__t"><b>Contact support</b><span>support@stridesquad.app · replies within 2 days</span></span>
+          <button class="la-btn" type="button" id="btn-support-mail" data-od-id="contact-support-btn">Email</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="scr-settings-about" class="screen" data-screen data-od-id="settings-about" aria-label="About">
+<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">About</h2><p class="screen-sub">What you&rsquo;re tapping on</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-about-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
+      <div class="card" data-od-id="about-card">
+        <div class="set-row" style="min-height:52px;">
+          <div class="set-row__t"><b>StrideSquad</b><span>Version 7.0.0 · build 8167</span></div>
+          <span class="status-chip status-chip--done">v7</span>
+        </div>
+        <div class="set-row" style="min-height:52px;">
+          <div class="set-row__t"><b>Acknowledgements</b><span>Step data courtesy of Health Connect &amp; Apple Health. Icons drawn in SVG. Fonts: your device&rsquo;s system stack. No ad SDKs shipped — ever.</span></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;" data-od-id="about-demo">
+        <div class="srow" style="min-height:56px;">
+          <span class="srow__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16m0 0-3.5-4M8 20l3.5-4M16 20V4m0 0-3.5 4M16 4l3.5 4"/></svg></span>
+          <span class="srow__t"><b>Reset prototype state</b><span>Back to first launch: splash &rsaquo; sign up</span></span>
+          <button class="la-btn" type="button" id="btn-reset-demo" data-od-id="about-reset">Reset</button>
+        </div>
+      </div>
+      <p class="fineprint">&copy; 2026 StrideSquad · Prototype with mock data. The policy and terms above are real text, not lorem.</p>
+    </section>
+
+    <section id="scr-account-deleted" class="screen" data-screen data-od-id="account-deleted" aria-label="Account deleted">
+      <div class="deleted">
+        <div class="deleted__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V5h5v2M6.5 7l1 12.5h9L18 7M10 11v5m4-5v5"/></svg></div>
+        <h2>Account deleted</h2>
+        <p>Your steps, squads and chats are scheduled for erasure and will be <b style="color:var(--ink);">fully deleted within 30 days</b>. Sign in again before then and the erasure is cancelled.</p>
+        <button class="btn btn--primary btn--block" id="btn-start-fresh" style="max-width:280px;" data-od-id="deleted-start-fresh">Start fresh</button>
+        <button class="btn btn--text" data-goto="scr-privacy-policy" data-od-id="deleted-read-policy">Read the data policy</button>
+      </div>
+    </section>
+
         </div><!-- /.stage -->
 
     <!-- ══ tab bar — real navigation ═══════════════════════════════════ -->
@@ -1111,6 +1698,39 @@
       <button class="btn btn--cancel btn--block" id="btn-dm-cancel">Cancel</button>
     </div>
 
+    <div class="sheet" id="delete-sheet" role="dialog" aria-modal="true" aria-label="Delete account confirmation" data-od-id="delete-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 style="color:var(--danger);">Delete your account?</h3>
+      <p>Everything below goes with it:</p>
+      <div class="del-box" data-od-id="delete-what-you-lose">
+        <ul>
+          <li>Your <b>12-day streak</b> and goal history</li>
+          <li>Membership + rank in <b>3 squads</b> (you&rsquo;ll leave silently)</li>
+          <li>All <b>chats and DMs</b> you&rsquo;ve sent</li>
+          <li>Achievements and export requests</li>
+        </ul>
+      </div>
+      <div class="field" style="margin-top:14px;">
+        <label for="del-input">Type <b style="font-family:var(--mono);">DELETE</b> to confirm</label>
+        <input id="del-input" type="text" autocomplete="off" spellcheck="false" placeholder="DELETE">
+      </div>
+      <p class="fineprint" style="text-align:left;">Erasure isn&rsquo;t instant on purpose: your data is deleted within 30 days. Signing back in inside that window cancels everything.</p>
+      <button class="btn btn--danger btn--block" id="btn-delete-acct" disabled data-od-id="delete-confirm">Delete account</button>
+      <button class="btn btn--cancel btn--block" id="btn-delete-cancel" data-od-id="delete-cancel">Cancel</button>
+    </div>
+
+    <div class="sheet" id="join-req-sheet" role="dialog" aria-modal="true" aria-label="Join request message" data-od-id="join-request-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="jr-title">Request to join</h3>
+      <p>A short hello gets approved about twice as often. Edit it if you like — admins see it with your request.</p>
+      <div class="field" style="margin-top:14px;">
+        <label for="jr-msg">Intro message</label>
+        <textarea id="jr-msg" maxlength="280">Hi! I&rsquo;m a daily walker — around 9,000 steps, most of it before 8am. I&rsquo;d love to join your squad and keep the streak going.</textarea>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-send-request" data-od-id="join-request-send">Send request</button>
+      <button class="btn btn--cancel btn--block" id="btn-jr-cancel">Cancel</button>
+    </div>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
       </div><!-- /.phone -->
     </div><!-- /.device-frame -->
@@ -1141,9 +1761,16 @@
     'scr-group':       'scr-groups',
     'scr-create':      'scr-groups',
     'scr-chat-thread': 'scr-chat',
-    'scr-dm-thread':   'scr-chat'
+    'scr-dm-thread':   'scr-chat',
+    'scr-settings': 'scr-profile', 'scr-settings-account': 'scr-profile',
+    'scr-edit-profile': 'scr-profile', 'scr-linked-accounts': 'scr-profile',
+    'scr-change-password': 'scr-profile', 'scr-settings-notifications': 'scr-profile',
+    'scr-settings-privacy': 'scr-profile', 'scr-privacy-policy': 'scr-profile',
+    'scr-terms': 'scr-profile', 'scr-blocklist': 'scr-profile',
+    'scr-settings-help': 'scr-profile', 'scr-settings-about': 'scr-profile'
   };
-  var NO_TABBAR = ['scr-onboarding', 'scr-choose', 'scr-goal'];
+  var NO_TABBAR = ['scr-splash', 'scr-onboarding', 'scr-choose', 'scr-goal',
+    'scr-signup', 'scr-login', 'scr-forgot', 'scr-reset', 'scr-verify', 'scr-account-deleted'];
 
   function showScreen(id) {
     if (!SCREENS[id]) return;
@@ -1186,10 +1813,12 @@
 
   /* ── 1 · onboarding flow ──────────────────────────────────────────── */
   document.getElementById('btn-get-started').addEventListener('click', function () {
+    if (!S.signedUp) { showScreen('scr-signup'); return; }   // v7 · auth before health connect
     document.getElementById('onb-intro').hidden = true;
     document.getElementById('onb-connect').hidden = false;
   });
   document.getElementById('btn-allow-health').addEventListener('click', function () {
+    S.healthDone = true;                                    // v7 · feeds the progress rail
     toast('Health connected');
     showScreen('scr-choose');   // v6 · goal fork replaces the jump straight to Today
   });
@@ -1509,6 +2138,7 @@
       (lbScope === 'global' ? ' · tap a walker' : '');
     lbChipsEl.classList.toggle('u-hide', lbScope !== 'mygroup');
 
+    var lbAvg = data.length ? Math.round(data.reduce(function (s, r) { return s + r.s; }, 0) / data.length) : 0;
     lbListEl.innerHTML = '';
     data.forEach(function (row, idx) {
       var el = document.createElement('div');
@@ -1520,7 +2150,7 @@
         '<span class="member__body"><span class="member__name">' + escapeHtml(row.n) +
         (row.you ? ' <span style="font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--highlight);color:var(--ink);border-radius:5px;padding:2px 5px;vertical-align:2px;">YOU</span>' : '') +
         '</span><span class="meter"><span class="meter__fill" style="width:' + Math.round(row.s / max * 100) + '%"></span></span></span>' +
-        '<span class="member__steps num" style="font-weight:700;color:var(--ink);">' + row.s.toLocaleString('en-US') + '</span>';
+        '<span class="lb-delta' + (row.s >= lbAvg ? '' : ' lb-delta--neg') + '"><b>' + (row.s >= lbAvg ? '+' : '\u2212') + Math.abs(row.s - lbAvg).toLocaleString('en-US') + '</b><small>vs avg</small></span>';
       if (lbScope === 'global' && !row.you) {
         el.classList.add('lb-row--tap');
         el.setAttribute('role', 'button');
@@ -1778,13 +2408,14 @@
         if (msgs[i].who === sheetTarget.sender && msgs[i].s === 'in') msgs.splice(i, 1);
       }
       toast('Blocked ' + sheetTarget.sender);
+      addBlock(sheetTarget.sender);
       renderThread();
     }
     closeSheets();
   });
 
   /* ── 6 · Create / Join — both land back in My Groups ──────────────── */
-  var chosenGoal = 8000;
+  var chosenGoal = 9000;   // v7 · smart default: most squads pick 9,000
   document.querySelectorAll('.goal-chips [data-goal]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       chosenGoal = parseInt(btn.dataset.goal, 10);
@@ -1876,7 +2507,7 @@
      user sheets · DM threads — same registry, same patterns. */
 
   /* ── 8 · goal fork + solo mode ───────────────────────────────────── */
-  var soloMode = false, soloGoal = 8000, gView = 'mine';
+  var soloMode = false, soloGoal = 9000, gView = 'mine';
 
   function refreshTodayGoal() {
     document.getElementById('goal-text').textContent = 'of ' + GOAL.toLocaleString('en-US') + ' steps';
@@ -1892,10 +2523,10 @@
     var avg = Math.round(sparkData.reduce(function (s, d) { return s + d.s; }, 0) / 7);
     document.getElementById('stat-rank-val').textContent = soloMode ? avg.toLocaleString('en-US') : '6th';
     document.getElementById('stat-rank-lbl').textContent = soloMode ? 'avg steps/day' : 'in squad';
-  }
+    updateShield(); renderPulse(); renderSaveStreak();  }
 
-  document.getElementById('btn-fork-squad').addEventListener('click', function () { openGroupsView('discover'); });
-  document.getElementById('btn-fork-solo').addEventListener('click', function () { showScreen('scr-goal'); });
+  document.getElementById('btn-fork-squad').addEventListener('click', function () { S.chosen = true; openGroupsView('discover'); });
+  document.getElementById('btn-fork-solo').addEventListener('click', function () { S.chosen = true; showScreen('scr-goal'); });
   document.getElementById('btn-fork-back').addEventListener('click', function () {
     document.getElementById('onb-intro').hidden = true;
     document.getElementById('onb-connect').hidden = false;
@@ -1921,6 +2552,7 @@
   document.getElementById('btn-save-goal').addEventListener('click', function () {
     soloMode = true;
     GOAL = soloGoal;
+    S.onboarded = true;
     refreshTodayGoal();
     showScreen('scr-today');   // enter hook replays the count-up + ring against the new goal
     toast('Goal saved — you\'re in Solo mode');
@@ -1939,6 +2571,7 @@
   var discoverListEl = document.getElementById('discover-list');
 
   function renderDiscover() {
+    if (typeof sortPublic === 'function') sortPublic();
     discoverListEl.innerHTML = '';
     PUBLIC_GROUPS.forEach(function (p) {
       var el = document.createElement('div');
@@ -1960,15 +2593,31 @@
     });
   }
 
+  var pendingReq = null;
   discoverListEl.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-req]');
     if (!btn || btn.disabled) return;
+    var p = null;
     for (var i = 0; i < PUBLIC_GROUPS.length; i++) {
-      if (PUBLIC_GROUPS[i].id === btn.dataset.req) { PUBLIC_GROUPS[i].requested = true; break; }
+      if (PUBLIC_GROUPS[i].id === btn.dataset.req) { p = PUBLIC_GROUPS[i]; break; }
     }
+    if (!p) return;
+    // v7 · reciprocity: a pre-written, editable intro before the ask
+    pendingReq = p.id;
+    document.getElementById('jr-title').textContent = 'Request to join ' + p.name;
+    document.getElementById('jr-msg').value = JR_DEFAULT.replace('{squad}', p.name);
+    openSheet(document.getElementById('join-req-sheet'));
+  });
+  document.getElementById('btn-jr-cancel').addEventListener('click', closeSheets);
+  document.getElementById('btn-send-request').addEventListener('click', function () {
+    for (var i = 0; i < PUBLIC_GROUPS.length; i++) {
+      if (PUBLIC_GROUPS[i].id === pendingReq) { PUBLIC_GROUPS[i].requested = true; break; }
+    }
+    pendingReq = null;
     renderDiscover();
     setGroupsView('discover');
-    toast('Join request sent to group admins');
+    closeSheets();
+    toast('Join request sent with your intro');
   });
 
   function setGroupsView(view) {
@@ -2217,11 +2866,506 @@
     if (dmPeer) {
       for (var i = 0; i < DM_META.length; i++) if (DM_META[i].peer === dmPeer.name) DM_META[i].blocked = true;
       toast('Blocked ' + dmPeer.name);
+      addBlock(dmPeer.name, dmPeer.i);
       renderDm();
       renderHub();
     }
     closeSheets();
   });
+
+
+  /* ═══ v7 · auth suite, settings, psychology refinements ═════════
+     Demo state + every new screen wired through the same registry,
+     the same [data-goto] delegation and the same sheet/toast helpers. */
+
+  var S = { signedUp: false, email: '', healthDone: false, chosen: false, onboarded: false,
+            photoDone: false, exporting: false, avV: '', avI: 'YO' };
+  var fmt = function (n) { return n.toLocaleString('en-US'); };
+  var JR_DEFAULT = 'Hi! I\u2019m a daily walker \u2014 around 9,000 steps, most of it before 8am. I\u2019d love to join {squad} and keep the streak going.';
+  var GO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
+
+  function gotoConnect() {
+    document.getElementById('onb-intro').hidden = true;
+    document.getElementById('onb-connect').hidden = false;
+    showScreen('scr-onboarding');
+  }
+
+  /* ── splash · auto-advance to Auth-or-Choose ─────────────────────── */
+  var splashTimer = null;
+  function bootSplash() {
+    showScreen('scr-splash');
+    clearTimeout(splashTimer);
+    splashTimer = setTimeout(function () {
+      showScreen(S.signedUp ? 'scr-choose' : 'scr-signup');
+    }, 1200);
+  }
+
+  /* ── progress rails (never zero — sign-up is counted) ────────────── */
+  function setRail(base, step) {
+    var lbl = document.getElementById(base + '-label');
+    var fill = document.getElementById(base + '-fill');
+    if (!lbl || !fill) return;
+    var parts = ['Step ' + step + ' of 5'];
+    if (S.signedUp) parts.push('Sign-up \u2713');
+    if (S.healthDone) parts.push('Health \u2713');
+    lbl.textContent = parts.join(' \u00b7 ');
+    fill.style.width = (step / 5 * 100) + '%';
+    var steps = lbl.parentNode.querySelector('.rail__steps');
+    if (steps) {
+      steps.children[0].className = S.signedUp ? 'done' : '';
+      steps.children[1].className = S.healthDone ? 'done' : '';
+      steps.children[2].className = 'done';
+      steps.children[3].className = (base === 'rail-goal') ? 'done' : '';
+    }
+  }
+  enterHooks['scr-choose'] = function () { setRail('rail-choose', 3); };
+  enterHooks['scr-goal']   = function () { setRail('rail-goal', 4); };
+
+  /* ── loss framing · streak shield + squad challenge (Today) ──────── */
+  function updateShield() {
+    var met = STEPS >= GOAL;
+    var sh = document.getElementById('streak-shield');
+    sh.classList.toggle('met', met);
+    if (met) {
+      document.getElementById('shield-b').textContent = 'Streak secured \u2713';
+      document.getElementById('shield-sub').textContent = 'Today\u2019s goal is met — your 12-day streak rolls over tonight';
+    } else {
+      document.getElementById('shield-b').textContent = '\ud83d\udd25 12-day streak — ' + fmt(GOAL - STEPS) + ' steps to keep it';
+      document.getElementById('shield-sub').textContent = 'Steps count until midnight — fall short and the streak is gone';
+    }
+  }
+  function renderPulse() {
+    if (soloMode) return;
+    var g = GROUPS[0], goal = 9000, short = 0, need = 0;
+    g.members.forEach(function (m) { if (m.d < goal) { short++; need += goal - m.d; } });
+    var ti = document.getElementById('pulse-title');
+    var tx = document.getElementById('pulse-text');
+    ti.textContent = 'Squad challenge';
+    tx.textContent = short === 0
+      ? 'All ' + g.members.length + ' members cleared 9,000 today \u2713'
+      : short + ' of ' + g.members.length + ' members still short — your squad needs ' + fmt(need) + ' steps';
+  }
+  /* ── reciprocity · numbers first, account ask as a bottom card ───── */
+  function renderSaveStreak() {
+    document.getElementById('save-streak-card').hidden = S.signedUp;
+  }
+  var _todayHook = enterHooks['scr-today'];
+  enterHooks['scr-today'] = function () { if (_todayHook) _todayHook(); renderSaveStreak(); };
+  document.getElementById('btn-save-streak').addEventListener('click', function () { showScreen('scr-signup'); });
+
+  /* ── password show/hide + strength meter (shared) ────────────────── */
+  document.querySelectorAll('.pw-eye').forEach(function (eye) {
+    var inp = document.getElementById(eye.id.replace('eye-', ''));
+    if (!inp) return;
+    eye.addEventListener('click', function () {
+      var reveal = inp.type === 'password';
+      inp.type = reveal ? 'text' : 'password';
+      eye.setAttribute('aria-pressed', String(reveal));
+      eye.querySelector('.pw-off').classList.toggle('u-hide', reveal);
+      eye.querySelector('.pw-on').classList.toggle('u-hide', !reveal);
+    });
+  });
+  function pwScore(v) {
+    var s = 0;
+    if (v.length >= 8) s++;
+    if (v.length >= 12) s++;
+    if (/[A-Z]/.test(v) && /[a-z]/.test(v)) s++;
+    if (/\d/.test(v)) s++;
+    if (/[^A-Za-z0-9]/.test(v)) s++;
+    return Math.min(4, Math.max(1, s));
+  }
+  function bindStrength(inputId) {
+    var inp = document.getElementById(inputId);
+    var fieldEl = inp.closest('.field');
+    var bars = fieldEl.querySelectorAll('.strength i');
+    var lab = fieldEl.querySelector('.strength-label');
+    if (!bars.length || !lab) return;
+    var words = ['Weak password', 'Fair password', 'Strong password', 'Very strong password'];
+    var cols  = ['var(--danger)', 'var(--warn)', 'var(--primary-ink)', 'var(--primary-ink)'];
+    var kls   = ['on-weak', 'on-fair', 'on-strong', 'on-strong'];
+    inp.addEventListener('input', function () {
+      var n = inp.value ? pwScore(inp.value) : 0;
+      for (var i = 0; i < 4; i++) bars[i].className = i < n ? kls[n - 1] : '';
+      lab.textContent = n ? words[n - 1] : '';
+      lab.style.color = n ? cols[n - 1] : 'var(--muted)';
+    });
+  }
+  bindStrength('rs-pass'); bindStrength('cp-new');
+
+  /* ── sign up ─────────────────────────────────────────────────────── */
+  var emailOk = function (v) { return /.+@.+\..+/.test(v); };
+  function goVerify(email) {
+    S.email = email;
+    document.getElementById('verify-mail').textContent = email;
+    codeBoxes.forEach(function (b) { b.value = ''; });
+    document.getElementById('btn-verify-submit').disabled = true;
+    document.getElementById('vf-err').textContent = '';
+    showScreen('scr-verify');
+    codeBoxes[0].focus({ preventScroll: true });
+  }
+  document.getElementById('btn-signup-submit').addEventListener('click', function () {
+    var name = document.getElementById('su-name').value.trim();
+    var email = document.getElementById('su-email').value.trim();
+    var pass = document.getElementById('su-pass').value;
+    var err = document.getElementById('su-err');
+    if (!name)  { err.textContent = 'Add your name so the squad knows who you are'; document.getElementById('su-name').focus(); return; }
+    if (!emailOk(email)) { err.textContent = 'That email looks off — check it?'; document.getElementById('su-email').focus(); return; }
+    if (pass.length < 8) { err.textContent = 'Passwords need 8+ characters'; document.getElementById('su-pass').focus(); return; }
+    err.textContent = '';
+    goVerify(email);
+    toast('Code sent to ' + email);
+  });
+  [['btn-signup-apple', 'you@icloud.com'], ['btn-signup-google', 'you@gmail.com']].forEach(function (pair) {
+    document.getElementById(pair[0]).addEventListener('click', function () {
+      goVerify(pair[1]);
+      toast(pair[0].indexOf('apple') > -1 ? 'Apple account linked — verify to finish' : 'Google account linked — verify to finish');
+    });
+  });
+  document.getElementById('btn-signup-skip').addEventListener('click', function () {
+    gotoConnect();
+    toast('Browsing as a guest — your streak isn\u2019t saved yet');
+  });
+  document.getElementById('btn-signup-skip-x').addEventListener('click', function () {
+    gotoConnect();
+    toast('Browsing as a guest — your streak isn\u2019t saved yet');
+  });
+
+  /* ── email verification · 6 boxes ────────────────────────────────── */
+  var codeBoxes = Array.prototype.slice.call(document.querySelectorAll('.codebox'));
+  function codeValue() { return codeBoxes.map(function (b) { return b.value; }).join(''); }
+  function verifyComplete() {
+    S.signedUp = true;
+    toast('Email verified — welcome to StrideSquad');
+    renderSaveStreak();
+    gotoConnect();
+  }
+  function checkCode() {
+    var full = codeValue().length === 6;
+    document.getElementById('btn-verify-submit').disabled = !full;
+    if (full) verifyComplete();
+  }
+  codeBoxes.forEach(function (b, i) {
+    b.addEventListener('input', function () {
+      b.value = b.value.replace(/\D/g, '').slice(-1);
+      document.getElementById('vf-err').textContent = '';
+      if (b.value && i < 5) codeBoxes[i + 1].focus({ preventScroll: true });
+      checkCode();
+    });
+    b.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !b.value && i > 0) {
+        e.preventDefault();
+        codeBoxes[i - 1].value = '';
+        codeBoxes[i - 1].focus({ preventScroll: true });
+        checkCode();
+      }
+    });
+    b.addEventListener('paste', function (e) {
+      e.preventDefault();
+      var d = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/\D/g, '').slice(0, 6);
+      for (var k = 0; k < 6; k++) codeBoxes[k].value = d.charAt(k);
+      codeBoxes[Math.min(d.length || 1, 5)].focus({ preventScroll: true });
+      checkCode();
+    });
+  });
+  document.getElementById('btn-verify-submit').addEventListener('click', function () {
+    if (codeValue().length < 6) { document.getElementById('vf-err').textContent = 'Enter all 6 digits'; return; }
+    verifyComplete();
+  });
+  document.getElementById('btn-resend-code').addEventListener('click', function () {
+    toast('New code sent to ' + (S.email || 'your email'));
+  });
+
+  /* ── log in / forgot / reset / change ────────────────────────────── */
+  document.getElementById('btn-login-submit').addEventListener('click', function () {
+    var email = document.getElementById('li-email').value.trim();
+    var err = document.getElementById('li-err');
+    if (!emailOk(email)) { err.textContent = 'Enter the email you signed up with'; document.getElementById('li-email').focus(); return; }
+    S.signedUp = true; S.email = email;
+    err.textContent = '';
+    toast('Welcome back');
+    renderSaveStreak();
+    if (!S.healthDone) gotoConnect();
+    else showScreen(S.onboarded ? 'scr-today' : 'scr-choose');
+  });
+  document.getElementById('btn-login-close').addEventListener('click', function () { showScreen('scr-signup'); });
+
+  document.getElementById('btn-forgot-send').addEventListener('click', function () {
+    var email = document.getElementById('fg-email').value.trim();
+    var err = document.getElementById('fg-err');
+    if (!emailOk(email)) { err.textContent = 'We need a real email to send the link'; document.getElementById('fg-email').focus(); return; }
+    S.email = email; err.textContent = '';
+    document.getElementById('forgot-mail').textContent = email;
+    document.getElementById('forgot-form').hidden = true;
+    document.getElementById('forgot-sent').hidden = false;
+  });
+  document.getElementById('btn-forgot-resend').addEventListener('click', function () {
+    toast('Reset link re-sent to ' + S.email);
+  });
+  document.getElementById('btn-forgot-open').addEventListener('click', function () {
+    document.getElementById('forgot-form').hidden = false;
+    document.getElementById('forgot-sent').hidden = true;
+    showScreen('scr-reset');
+  });
+  document.getElementById('btn-reset-save').addEventListener('click', function () {
+    var p1 = document.getElementById('rs-pass').value, p2 = document.getElementById('rs-pass2').value;
+    var err = document.getElementById('rs-err');
+    if (p1.length < 8) { err.textContent = '8+ characters — the meter is honest'; return; }
+    if (p1 !== p2) { err.textContent = 'The two passwords don\u2019t match'; return; }
+    err.textContent = '';
+    toast('Password updated — log in');
+    showScreen('scr-login');
+  });
+  document.getElementById('btn-change-pass').addEventListener('click', function () {
+    var cur = document.getElementById('cp-cur').value, nw = document.getElementById('cp-new').value;
+    var err = document.getElementById('cp-err');
+    if (!cur) { err.textContent = 'Confirm your current password first'; return; }
+    if (nw.length < 8) { err.textContent = 'The new password needs 8+ characters'; return; }
+    err.textContent = '';
+    toast('Password updated');
+    showScreen('scr-settings-account');
+  });
+
+  /* ── settings · account submenu ──────────────────────────────────── */
+  function refreshAcctRow() {
+    var t = document.getElementById('acct-auth-title');
+    var s = document.getElementById('acct-auth-sub');
+    var c = document.getElementById('btn-acct-auth');
+    if (S.signedUp) {
+      t.textContent = 'Signed in';
+      s.textContent = S.email || 'you@stridesquad.app';
+      c.textContent = 'Switch account';
+    } else {
+      t.textContent = 'No account yet';
+      s.textContent = 'Sign up to save your 12-day streak';
+      c.textContent = 'Sign up';
+    }
+    document.getElementById('signout-sub').textContent =
+      S.signedUp ? 'You\u2019re signed in as ' + (S.email || 'you@stridesquad.app') : 'Guest session — nothing is saved yet';
+    var chip = document.getElementById('export-chip');
+    chip.textContent = S.exporting ? 'Requested' : 'Ready';
+    chip.classList.toggle('status-chip--done', S.exporting);
+  }
+  enterHooks['scr-settings-account'] = refreshAcctRow;
+  document.getElementById('btn-acct-auth').addEventListener('click', function () {
+    showScreen(S.signedUp ? 'scr-login' : 'scr-signup');
+  });
+  document.getElementById('btn-export').addEventListener('click', function () {
+    S.exporting = true;
+    refreshAcctRow();
+    toast('Export requested — .zip emailed within 24h');
+  });
+  document.getElementById('btn-signout').addEventListener('click', function () {
+    toast('Signed out');
+    showScreen('scr-login');
+  });
+
+  /* ── delete account · confirm sheet + final state ────────────────── */
+  var deleteSheet = document.getElementById('delete-sheet');
+  var delInput = document.getElementById('del-input');
+  var delBtn = document.getElementById('btn-delete-acct');
+  document.getElementById('btn-open-delete').addEventListener('click', function () {
+    delInput.value = '';
+    delBtn.disabled = true;
+    openSheet(deleteSheet);
+  });
+  delInput.addEventListener('input', function () {
+    delBtn.disabled = delInput.value !== 'DELETE';
+  });
+  document.getElementById('btn-delete-cancel').addEventListener('click', closeSheets);
+  document.getElementById('btn-delete-acct').addEventListener('click', function () {
+    if (delInput.value !== 'DELETE') return;
+    S.signedUp = false; S.email = '';
+    closeSheets();
+    renderSaveStreak();
+    toast('Account deleted');
+    showScreen('scr-account-deleted');
+  });
+  document.getElementById('btn-start-fresh').addEventListener('click', function () { resetDemo(); });
+
+  /* ── edit profile · initials + colored photo picker ──────────────── */
+  var epPrev = document.getElementById('ep-preview');
+  function epSync() {
+    epPrev.className = 'avatar avatar--lg' + (S.avV ? ' avatar--' + S.avV : '');
+    epPrev.textContent = S.avI;
+    document.getElementById('ep-initials').value = S.avI;
+    document.querySelectorAll('[data-av]').forEach(function (sw) {
+      sw.classList.toggle('active', sw.dataset.av === S.avV);
+      sw.textContent = S.avI;
+    });
+  }
+  enterHooks['scr-edit-profile'] = epSync;
+  document.querySelectorAll('[data-av]').forEach(function (sw) {
+    sw.addEventListener('click', function () { S.avV = sw.dataset.av; epSync(); });
+  });
+  document.getElementById('ep-initials').addEventListener('input', function () {
+    S.avI = (this.value.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase()) || 'YO';
+    epSync();
+  });
+  document.getElementById('btn-save-profile').addEventListener('click', function () {
+    var name = document.getElementById('ep-name').value.trim() || 'You';
+    S.photoDone = true;
+    var av = document.getElementById('pf-avatar');
+    av.className = 'avatar avatar--lg' + (S.avV ? ' avatar--' + S.avV : '');
+    av.textContent = S.avI;
+    document.getElementById('pf-name').textContent = name;
+    updateNudge();
+    toast('Profile saved — 5/5 complete \u2713');
+    showScreen('scr-profile');
+  });
+  function updateNudge() {
+    var n = document.getElementById('profile-nudge');
+    n.classList.toggle('u-hide', S.photoDone);
+    if (!S.photoDone) document.getElementById('nudge-b').textContent = 'Profile 4/5 complete';
+  }
+  enterHooks['scr-profile'] = updateNudge;
+
+  /* ── linked accounts · connect/disconnect states ─────────────────── */
+  var LA = {
+    apple:  { on: true,  sub: ['Linked — sign in with Apple enabled', 'Not linked — link to sign in faster'] },
+    google: { on: false, sub: ['Linked — sign in with Google enabled', 'Not linked — link to sign in faster'] },
+    health: { on: true,  sub: ['Connected — steps read every 5 min', 'Paused — step sync is off, streak frozen'] }
+  };
+  Object.keys(LA).forEach(function (key) {
+    var btn = document.getElementById('la-' + key);
+    btn.addEventListener('click', function () {
+      var st = LA[key];
+      st.on = !st.on;
+      var chip = document.getElementById('la-' + key + '-chip');
+      chip.textContent = st.on ? (key === 'health' ? 'Linked' : 'Linked') : 'Not linked';
+      chip.classList.toggle('status-chip--done', st.on);
+      btn.textContent = st.on ? 'Disconnect' : 'Connect';
+      btn.classList.toggle('la-btn--off', !st.on);
+      document.getElementById('la-' + key + '-sub').textContent = st.sub[st.on ? 0 : 1];
+      if (key === 'health') {
+        S.healthDone = st.on;
+        toast(st.on ? 'Health sync resumed' : 'Health sync paused — streak frozen');
+      } else {
+        toast((st.on ? 'Linked ' : 'Unlinked ') + (key === 'apple' ? 'Apple' : 'Google'));
+      }
+    });
+  });
+
+  /* ── notifications submenu ───────────────────────────────────────── */
+  bindSwitch('sw-streak', function (on) {
+    document.getElementById('nr-time-row').style.display = on ? '' : 'none';
+    toast(on ? 'Streak reminders on' : 'Streak reminders off');
+  });
+  bindSwitch('sw-gact', function (on) { toast(on ? 'Group activity on' : 'Group activity off'); });
+  bindSwitch('sw-chal', function (on) { toast(on ? 'Challenge alerts on' : 'Challenge alerts off'); });
+  bindSwitch('sw-quiet', function (on) { toast(on ? 'Quiet hours on — 10pm to 7am' : 'Quiet hours off'); });
+  bindSwitch('sw-goalsoon', function (on) { toast(on ? 'Goal visible to squad' : 'Goal hidden from squad'); });
+  var TIMES = ['6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '9:00 PM'], tIdx = 1;
+  document.getElementById('nr-time').addEventListener('click', function () {
+    tIdx = (tIdx + 1) % TIMES.length;
+    this.innerHTML = GO_SVG + ' ' + TIMES[tIdx];
+    toast('Streak reminder set for ' + TIMES[tIdx]);
+  });
+
+  /* ── blocklist (+ count chip) ────────────────────────────────────── */
+  var BLOCK_SEED = [{ name: 'SpamWalks99', i: 'SW', v: 'slate', reason: 'Spam links in the Global room', since: 'Nov 1' }];
+  var BLOCKLIST = BLOCK_SEED.slice();
+  var blocklistEl = document.getElementById('blocklist');
+  var blocklistEmpty = document.getElementById('blocklist-empty');
+  function updateBlockChip() {
+    var chip = document.getElementById('block-count-chip');
+    if (chip) chip.textContent = String(BLOCKLIST.length);
+  }
+  function addBlock(name, i) {
+    for (var k = 0; k < BLOCKLIST.length; k++) if (BLOCKLIST[k].name === name) { updateBlockChip(); return; }
+    var ini = i || name.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() || '??';
+    BLOCKLIST.push({ name: name, i: ini, v: '', reason: 'Blocked by you', since: 'Today' });
+    renderBlocklist();
+  }
+  function renderBlocklist() {
+    blocklistEl.innerHTML = '';
+    BLOCKLIST.forEach(function (b, bi) {
+      var row = document.createElement('div');
+      row.className = 'set-row';
+      row.setAttribute('data-od-id', 'blocklist-row-' + bi);
+      var who = document.createElement('div');
+      who.className = 'set-row__t';
+      who.style.display = 'flex'; who.style.alignItems = 'center'; who.style.gap = '12px';
+      who.innerHTML = '<span class="avatar' + (b.v ? ' avatar--' + b.v : '') + '" aria-hidden="true">' + escapeHtml(b.i) + '</span>' +
+        '<span style="min-width:0;"><b>' + escapeHtml(b.name) + '</b><span>Blocked ' + escapeHtml(b.since) + ' · ' + escapeHtml(b.reason) + '</span></span>';
+      row.appendChild(who);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'la-btn';
+      btn.textContent = 'Unblock';
+      btn.setAttribute('data-od-id', 'blocklist-unblock-' + bi);
+      btn.addEventListener('click', function () {
+        BLOCKLIST.splice(bi, 1);
+        renderBlocklist();
+        toast(b.name + ' unblocked');
+      });
+      row.appendChild(btn);
+      blocklistEl.appendChild(row);
+    });
+    blocklistEmpty.classList.toggle('u-hide', BLOCKLIST.length > 0);
+    updateBlockChip();
+  }
+  enterHooks['scr-blocklist'] = renderBlocklist;
+  enterHooks['scr-settings-privacy'] = updateBlockChip;
+
+  /* ── help · FAQ accordion + support ──────────────────────────────── */
+  document.querySelectorAll('.faq__q').forEach(function (q) {
+    q.addEventListener('click', function () {
+      var ans = document.getElementById(q.getAttribute('aria-controls'));
+      var open = q.getAttribute('aria-expanded') !== 'true';
+      q.setAttribute('aria-expanded', String(open));
+      ans.hidden = !open;
+    });
+  });
+  document.getElementById('btn-support-mail').addEventListener('click', function () {
+    toast('Opening your mail app — support@stridesquad.app');
+  });
+
+  /* ── about · reset demo ──────────────────────────────────────────── */
+  function resetDemo() {
+    S.signedUp = false; S.email = ''; S.healthDone = false; S.chosen = false; S.onboarded = false;
+    S.photoDone = false; S.exporting = false; S.avV = ''; S.avI = 'YO';
+    soloMode = false; GOAL = 9000; soloGoal = 9000;
+    BLOCKLIST = BLOCK_SEED.slice();
+    LA.apple.on = true; LA.google.on = false; LA.health.on = true;
+    var paintLa = function (key) {
+      var st = LA[key];
+      var chip = document.getElementById('la-' + key + '-chip');
+      chip.textContent = st.on ? 'Linked' : 'Not linked';
+      chip.classList.toggle('status-chip--done', st.on);
+      var btn = document.getElementById('la-' + key);
+      btn.textContent = st.on ? 'Disconnect' : 'Connect';
+      btn.classList.toggle('la-btn--off', !st.on);
+      document.getElementById('la-' + key + '-sub').textContent = st.sub[st.on ? 0 : 1];
+    };
+    Object.keys(LA).forEach(paintLa);
+    document.getElementById('verify-mail').textContent = 'your inbox';
+    renderBlocklist(); updateNudge(); renderSaveStreak();
+    refreshTodayGoal();
+    toast('Prototype reset — back to first launch');
+    bootSplash();
+  }
+  document.getElementById('btn-reset-demo').addEventListener('click', resetDemo);
+
+  /* ── discover · sort chips (default Most active) ─────────────────── */
+  var SEED_ORDER = PUBLIC_GROUPS.map(function (p) { return p.id; });
+  var discoverSort = 'active';
+  function sortPublic() {
+    PUBLIC_GROUPS.sort(function (a, b) {
+      if (discoverSort === 'active') return b.avg - a.avg;
+      if (discoverSort === 'largest') return b.size - a.size;
+      return SEED_ORDER.indexOf(a.id) - SEED_ORDER.indexOf(b.id);
+    });
+  }
+  document.querySelectorAll('[data-sort]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      discoverSort = b.dataset.sort;
+      document.querySelectorAll('[data-sort]').forEach(function (x) { x.classList.toggle('active', x === b); });
+      renderDiscover();
+    });
+  });
+
+  /* ── wire the existing Create flow to the 9k smart default ───────── */
+  syncSoloGoal(9000);
 
   /* ── device presentation: scale the frame to fit the viewport ─────
      Desktop only. ≤500px the CSS media query dissolves the frame and
@@ -2253,6 +3397,7 @@
   renderDiscover();
   refreshTodayGoal();
   drawQr(document.getElementById('invite-link').textContent.trim());
+  bootSplash();
 })();
 </script>
 </body>
