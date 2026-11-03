@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>StrideSquad — Interactive Prototype v4</title>
+<title>StrideSquad — Interactive Prototype v5</title>
 <style>
   /* ─── tokens: the only place raw hex appears ─────────────────────── */
   :root {
@@ -261,14 +261,14 @@
   .member + .member { border-top: 1px solid var(--border); }
   .member__rank { width: 26px; font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--faint); text-align: center; flex: none; }
   .member__body { flex: 1; min-width: 0; }
-  .member__name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .member__steps { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .member__name { display: block; font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member__steps { display: block; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .member--you .member__name::after {
     content: "YOU"; font-family: var(--mono); font-size: 9px; font-weight: 800; letter-spacing: 0.06em;
     background: var(--highlight); color: var(--ink); border-radius: 5px; padding: 2px 5px; margin-left: 8px; vertical-align: 2px;
   }
-  .meter { height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 5px; }
-  .meter__fill { height: 100%; border-radius: 999px; background: var(--primary); }
+  .meter { display: block; height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 5px; }
+  .meter__fill { display: block; height: 100%; border-radius: 999px; background: var(--primary); }
 
   /* podium */
   .podium { display: grid; grid-template-columns: 1fr 1.12fr 1fr; gap: 10px; align-items: end; padding: 8px 2px 2px; }
@@ -321,6 +321,103 @@
   .goal-chips button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--surface); font-weight: 700; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .goal-chips button.active { background: var(--highlight); border-color: var(--highlight); color: var(--ink); }
   .join-card input.code { text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--mono); font-weight: 700; }
+
+  /* ─── v5 · my groups ──────────────────────────────────────────────── */
+  .gcard {
+    display: block; width: 100%; text-align: left;
+    background: var(--surface); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card); padding: 16px 18px; position: relative;
+    transition: transform .06s ease, box-shadow .15s ease;
+  }
+  .gcard + .gcard { margin-top: 12px; }
+  .gcard:active { transform: scale(0.99); }
+  .gcard__row1 { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .gcard__name { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rank-chip {
+    flex: none; font-family: var(--mono); font-size: 11px; font-weight: 800;
+    background: var(--primary-soft); color: var(--primary-ink);
+    border-radius: 999px; padding: 5px 11px; letter-spacing: 0.02em;
+  }
+  .gcard__row2 { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 10px; }
+  .gcard__big { display: block; font-size: 29px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .gcard__bigsub { display: block; font-size: 12px; color: var(--faint); font-weight: 700; margin-top: 2px; }
+  .spark-mini { flex: none; }
+  .gcard__row3 { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+  .gcard__occ { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .gcard__chev { color: var(--faint); flex: none; }
+  .gcard__chev svg { width: 20px; height: 20px; }
+  .av-stack { display: flex; }
+  .av-stack .avatar { width: 28px; height: 28px; font-size: 10px; border: 2px solid var(--surface); }
+  .av-stack .avatar + .avatar { margin-left: -9px; }
+  .av-stack .av-more {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--surface);
+    background: var(--bg); color: var(--muted); font-family: var(--mono);
+    font-size: 10px; font-weight: 800; display: grid; place-items: center; margin-left: -9px;
+  }
+  .gcta {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; text-align: left;
+    background: var(--surface); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card); padding: 16px 18px;
+    transition: transform .06s ease;
+  }
+  .gcta:active { transform: scale(0.99); }
+  .gcta + .gcta { margin-top: 12px; }
+  .gcta__t { display: flex; align-items: center; gap: 13px; min-width: 0; }
+  .gcta__glyph {
+    width: 42px; height: 42px; border-radius: 14px; flex: none;
+    background: var(--primary-soft); color: var(--primary-ink);
+    display: grid; place-items: center; font-size: 22px; font-weight: 800;
+  }
+  .gcta__glyph svg { width: 22px; height: 22px; }
+  .gcta b { font-size: 15px; font-weight: 800; display: block; }
+  .gcta span.s { font-size: 12.5px; color: var(--muted); }
+  .gcta > svg { width: 20px; height: 20px; color: var(--faint); flex: none; }
+
+  /* ─── v5 · chat hub ───────────────────────────────────────────────── */
+  .chan {
+    display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+    background: var(--surface); border-radius: 20px;
+    box-shadow: var(--shadow-card); padding: 13px 16px;
+    transition: transform .06s ease;
+  }
+  .chan:active { transform: scale(0.99); }
+  .chan + .chan { margin-top: 10px; }
+  .chan__mid { flex: 1; min-width: 0; }
+  .chan__name { display: block; font-weight: 800; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chan__prev { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chan__prev b { color: var(--ink); font-weight: 700; }
+  .chan__end { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .chan__time { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+  .badge {
+    min-width: 22px; height: 22px; padding: 0 7px; border-radius: 999px;
+    background: var(--primary-deep); color: var(--on-primary);
+    font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums;
+    display: grid; place-items: center;
+  }
+  .syscard {
+    align-self: center; max-width: 86%; text-align: center;
+    background: var(--primary-soft);
+    border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
+    border-radius: var(--radius-card); padding: 14px 16px;
+  }
+  .syscard b { display: block; font-size: 14px; font-weight: 800; }
+  .syscard p { font-size: 13px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .syscard .btn { margin-top: 10px; min-height: 44px; padding: 8px 18px; font-size: 14px; }
+  .avatar--globe { background: color-mix(in srgb, var(--muted) 14%, var(--surface)); color: var(--muted); }
+  .avatar--globe svg { width: 22px; height: 22px; }
+
+  /* ─── v5 · leaderboard group chips ────────────────────────────────── */
+  .gchips { display: flex; flex: none; gap: 8px; overflow-x: auto; padding: 14px 2px 6px; scrollbar-width: none; }
+  .gchips::-webkit-scrollbar { display: none; }
+  .gchips button {
+    flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    font-weight: 700; font-size: 14px; color: var(--muted);
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .gchips button:hover { color: var(--ink); border-color: var(--primary); }
+  .gchips button.active { background: var(--highlight); border-color: var(--highlight); color: var(--ink); }
 
   /* ─── profile ─────────────────────────────────────────────────────── */
   .ach-scroll { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
@@ -468,7 +565,7 @@
       <div class="screen-head">
         <div>
           <h2 class="screen-title">Today</h2>
-          <p class="screen-sub">Tuesday · Morning Striders squad</p>
+          <p class="screen-sub">Tuesday · Sunrise Steppers squad</p>
         </div>
         <span class="chip" data-od-id="today-streak-chip" title="Current streak">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg>
@@ -518,38 +615,60 @@
       </div>
     </section>
 
-    <!-- ══ 3 · GROUPS ═══════════════════════════════════════════════ -->
-    <section id="scr-groups" class="screen" data-screen data-od-id="groups" aria-label="Groups">
+    <!-- ══ 3 · MY GROUPS ════════════════════════════════════════════ -->
+    <section id="scr-groups" class="screen" data-screen data-od-id="my-groups" aria-label="My Groups">
       <div class="screen-head">
         <div>
-          <h2 class="screen-title">Groups</h2>
-          <p class="screen-sub">Morning Striders · week of Nov 2</p>
-        </div>
-        <button class="btn btn--primary" id="btn-invite" data-od-id="groups-invite" style="min-height:46px;padding:10px 18px;">Invite</button>
-      </div>
-
-      <div id="created-slot"></div>
-
-      <div class="card" data-od-id="groups-podium">
-        <div class="podium">
-          <div class="pod pod--2"><span class="pod__badge">2</span>
-            <div class="pod__plinth"><div class="avatar" aria-hidden="true">PT</div><span class="pod__name">Priya T.</span><span class="pod__steps num">8,902</span></div>
-          </div>
-          <div class="pod pod--1"><span class="pod__badge">1</span>
-            <div class="pod__plinth"><div class="avatar avatar--lime" aria-hidden="true">MK</div><span class="pod__name">Maya K.</span><span class="pod__steps num">9,120</span></div>
-          </div>
-          <div class="pod pod--3"><span class="pod__badge">3</span>
-            <div class="pod__plinth"><div class="avatar avatar--slate" aria-hidden="true">JO</div><span class="pod__name">Jonas O.</span><span class="pod__steps num">8,744</span></div>
-          </div>
+          <h2 class="screen-title">My Groups</h2>
+          <p class="screen-sub" id="mg-sub">3 groups · week of Nov 2</p>
         </div>
       </div>
 
-      <div class="card" data-od-id="groups-members" style="margin-top:14px;">
-        <p class="card-label">Full ranking</p>
-        <div id="member-list"></div>
+      <div id="groups-list" data-od-id="groups-list"></div>
+
+      <div style="margin-top:14px;" data-od-id="groups-actions">
+        <button class="gcta" id="btn-open-create" data-od-id="groups-create-card">
+          <span class="gcta__t">
+            <span class="gcta__glyph" aria-hidden="true">+</span>
+            <span><b>Create group</b><span class="s">Name it, set a goal, invite walkers</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="gcta" id="btn-open-join" data-od-id="groups-join-card">
+          <span class="gcta__t">
+            <span class="gcta__glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
+            </span>
+            <span><b>Join with code</b><span class="s">Ask a squad admin for their invite code</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ══ 3b · GROUP DETAIL ════════════════════════════════════════ -->
+    <section id="scr-group" class="screen" data-screen data-od-id="group-detail" aria-label="Group detail">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-groups" aria-label="Back to My Groups" data-od-id="group-detail-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="gd-name" style="font-size:22px;">Group</h2>
+            <p class="screen-sub" id="gd-sub">Weekly challenge</p>
+          </div>
+        </div>
+        <button class="btn btn--primary" id="btn-invite" data-od-id="group-invite" style="min-height:46px;padding:10px 18px;flex:none;">Invite</button>
       </div>
 
-      <button class="btn btn--text btn--block" data-goto="scr-create" data-od-id="groups-open-create" style="margin-top:14px;">Create or join another squad →</button>
+      <div class="card" data-od-id="group-podium">
+        <div class="podium" id="gd-podium"></div>
+      </div>
+
+      <div class="card" data-od-id="group-members" style="margin-top:14px;">
+        <p class="card-label">Full ranking — today</p>
+        <div id="gd-members"></div>
+      </div>
     </section>
 
     <!-- ══ 4 · LEADERBOARDS ═════════════════════════════════════════ -->
@@ -557,23 +676,25 @@
       <div class="screen-head">
         <div>
           <h2 class="screen-title">Leaderboard</h2>
-          <p class="screen-sub" id="lb-sub">Daily · your squad</p>
+          <p class="screen-sub" id="lb-sub">Daily · your groups</p>
         </div>
-        <button class="icon-btn" id="btn-lb-chat" aria-label="Open squad chat" data-od-id="leaderboard-chat-icon">
+        <button class="icon-btn" id="btn-lb-chat" aria-label="Open leaderboard chat" data-od-id="leaderboard-chat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>
         </button>
       </div>
 
+      <div class="seg" role="group" aria-label="Board scope" data-od-id="leaderboard-seg-scope">
+        <button class="active" id="seg-group" data-scope="mygroup">My Group</button>
+        <button id="seg-global" data-scope="global">Global</button>
+      </div>
       <div class="seg" role="group" aria-label="Time range" data-od-id="leaderboard-seg-range">
         <button class="active" id="seg-daily" data-range="daily">Daily</button>
         <button id="seg-weekly" data-range="weekly">Weekly</button>
       </div>
-      <div class="seg" role="group" aria-label="Scope" data-od-id="leaderboard-seg-scope">
-        <button class="active" id="seg-group" data-scope="group">Group</button>
-        <button id="seg-global" data-scope="global">Global</button>
-      </div>
 
-      <div class="card" style="margin-top:14px;" data-od-id="leaderboard-list">
+      <div class="gchips" id="lb-gchips" role="group" aria-label="Pick a group" data-od-id="leaderboard-group-chips"></div>
+
+      <div class="card" style="margin-top:8px;" data-od-id="leaderboard-list">
         <div id="lb-list"></div>
       </div>
 
@@ -582,38 +703,34 @@
       </div>
     </section>
 
-    <!-- ══ 5 · CHAT ═════════════════════════════════════════════════ -->
-    <section id="scr-chat" class="screen screen--chat" data-screen data-od-id="chat" aria-label="Chat">
-      <div class="screen-head" style="flex:none;">
+    <!-- ══ 5 · CHAT HUB ═════════════════════════════════════════════ -->
+    <section id="scr-chat" class="screen" data-screen data-od-id="chat-hub" aria-label="Chats">
+      <div class="screen-head">
         <div>
-          <h2 class="screen-title">Squad chat</h2>
-          <p class="screen-sub">Morning Striders · 10 members</p>
-        </div>
-        <div class="avatar" aria-hidden="true">MS</div>
-      </div>
-      <div class="chat-scroll" id="chat-scroll">
-        <div class="msg msg--in" data-mid="m1" data-sender="Maya">
-          <div class="avatar" aria-hidden="true">MK</div>
-          <div class="msg__bubble">Morning loop done — 9,120 and walking.<span class="msg__time">07:12</span></div>
-          <button class="msg__menu" data-menu="m1" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-        </div>
-        <div class="msg msg--in" data-mid="m2" data-sender="Priya">
-          <div class="avatar avatar--lime" aria-hidden="true">PT</div>
-          <div class="msg__bubble">Global board moved us to 12th overnight. Evening walk is mandatory.<span class="msg__time">07:31</span></div>
-          <button class="msg__menu" data-menu="m2" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-        </div>
-        <div class="msg msg--out" data-mid="m3" data-sender="You">
-          <div class="msg__bubble">I'm at 7.8k with an hour to go — catch me if you can.<span class="msg__time">08:02</span></div>
-          <button class="msg__menu" data-menu="m3" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-        </div>
-        <div class="msg msg--in" data-mid="m4" data-sender="Jonas">
-          <div class="avatar avatar--slate" aria-hidden="true">JO</div>
-          <div class="msg__bubble">Stadium lap at 6pm. Bring water.<span class="msg__time">08:15</span></div>
-          <button class="msg__menu" data-menu="m4" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+          <h2 class="screen-title">Chats</h2>
+          <p class="screen-sub">Your squads and the global room</p>
         </div>
       </div>
+      <div id="chan-list" data-od-id="chat-channel-list"></div>
+    </section>
+
+    <!-- ══ 5b · CHAT THREAD (one reusable thread) ═══════════════════ -->
+    <section id="scr-chat-thread" class="screen screen--chat" data-screen data-od-id="chat-thread" aria-label="Chat thread">
+      <div class="screen-head" style="flex:none;">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-chat" aria-label="Back to chats" data-od-id="thread-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="th-title" style="font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Chat</h2>
+            <p class="screen-sub" id="th-sub">…</p>
+          </div>
+        </div>
+        <div class="avatar" id="th-avatar" aria-hidden="true">YO</div>
+      </div>
+      <div class="chat-scroll" id="chat-scroll"></div>
       <form class="composer" id="chat-composer">
-        <input id="chat-input" type="text" placeholder="Message the squad…" autocomplete="off" aria-label="Message text">
+        <input id="chat-input" type="text" placeholder="Message this chat…" autocomplete="off" aria-label="Message text">
         <button class="btn btn--primary" type="submit" aria-label="Send message">Send</button>
       </form>
     </section>
@@ -665,7 +782,7 @@
           <div class="avatar avatar--lg" aria-hidden="true">YO</div>
           <div>
             <h2 class="screen-title" style="font-size:22px;">You</h2>
-            <p class="screen-sub">12-day streak · 6th in Morning Striders</p>
+            <p class="screen-sub">12-day streak · 6th in Sunrise Steppers</p>
           </div>
         </div>
       </div>
@@ -727,13 +844,13 @@
     <!-- ══ overlays ═══════════════════════════════════════════════════ -->
     <div class="scrim" id="scrim"></div>
 
-    <div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite your squad" data-od-id="invite-sheet">
+    <div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite to group" data-od-id="invite-sheet">
       <div class="sheet__grab" aria-hidden="true"></div>
-      <h3>Invite your squad</h3>
-      <p>Share this link — they land straight in Morning Striders.</p>
+      <h3 id="invite-title">Invite to group</h3>
+      <p id="invite-desc">Share this link — they land straight in the squad.</p>
       <div class="link-row">
         <code id="invite-link">https://stridesquad.app/join/SQUAD10</code>
-        <span class="chip" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
+        <span class="chip" id="invite-code" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
       </div>
       <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
       <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
@@ -772,13 +889,21 @@
 
   var enterHooks = {};   // id -> fn, runs each time the screen becomes visible
 
+  /* sub-screens keep their parent tab highlighted */
+  var SCREEN_TAB = {
+    'scr-group':       'scr-groups',
+    'scr-create':      'scr-groups',
+    'scr-chat-thread': 'scr-chat'
+  };
+
   function showScreen(id) {
     if (!SCREENS[id]) return;
     // exactly one visible screen
     Object.keys(SCREENS).forEach(function (key) {
       SCREENS[key].classList.toggle('is-visible', key === id);
     });
-    tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.tab === id); });
+    var activeTab = SCREEN_TAB[id] || id;
+    tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.tab === activeTab); });
     phone.classList.toggle('no-tabbar', id === 'scr-onboarding');
     if (enterHooks[id]) enterHooks[id]();
   }
@@ -787,9 +912,15 @@
     btn.addEventListener('click', function () { showScreen(btn.dataset.tab); });
   });
 
-  document.querySelectorAll('[data-goto]').forEach(function (btn) {
-    btn.addEventListener('click', function () { showScreen(btn.dataset.goto); });
+  /* delegated [data-goto] — works for static markup and anything rendered later */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-goto]');
+    if (btn) showScreen(btn.dataset.goto);
   });
+
+  function escapeHtml(s) {
+    var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML;
+  }
 
   /* ── toast ────────────────────────────────────────────────────────── */
   var toastEl = document.getElementById('toast');
@@ -875,34 +1006,163 @@
     sparkEl.appendChild(col);
   });
 
-  /* ── 3 · Groups: 10-member ranking + invite sheet ─────────────────── */
-  var squad = [
-    { i: 'MK', n: 'Maya K.',   s: 9120, v: 'lime'  },
-    { i: 'PT', n: 'Priya T.',  s: 8902, v: ''      },
-    { i: 'JO', n: 'Jonas O.',  s: 8744, v: 'slate' },
-    { i: 'TB', n: 'Tara B.',   s: 8310, v: 'lime'  },
-    { i: 'BW', n: 'Ben W.',    s: 7961, v: ''      },
-    { i: 'YO', n: 'You',       s: 7842, v: 'slate', you: true },
-    { i: 'LN', n: 'Lena N.',   s: 7420, v: 'lime'  },
-    { i: 'CH', n: 'Chris H.',  s: 6890, v: ''      },
-    { i: 'DK', n: 'Dana K.',   s: 6102, v: 'slate' },
-    { i: 'SM', n: 'Sam M.',    s: 5488, v: ''      }
-  ];
-  var maxSteps = squad[0].s;
-  var memberList = document.getElementById('member-list');
-  squad.forEach(function (m, idx) {
-    var row = document.createElement('div');
-    row.className = 'member' + (m.you ? ' member--you' : '');
-    row.innerHTML =
-      '<span class="member__rank num">' + (idx + 1) + '</span>' +
-      '<span class="avatar ' + (m.v ? 'avatar--' + m.v : '') + '" aria-hidden="true">' + m.i + '</span>' +
-      '<span class="member__body"><span class="member__name">' + m.n + '</span>' +
-      '<span class="member__steps num">' + m.s.toLocaleString('en-US') + ' steps</span>' +
-      '<span class="meter"><span class="meter__fill" style="width:' + Math.round(m.s / maxSteps * 100) + '%"></span></span></span>';
-    memberList.appendChild(row);
-  });
+  /* ── v5 data model: the user's groups ─────────────────────────────
+     d = steps today, w = steps this week. You ("YO") sits in all three
+     at a different rank in each. Created groups append to this array. */
+  function you() { return { i: 'YO', n: 'You', d: 7842, w: 51972, v: 'slate', you: true }; }
 
-  /* sheets: scrim + tap-outside dismissal */
+  var GROUPS = [
+    { id: 'sunrise', name: 'Sunrise Steppers', code: 'SQUAD10', cap: 10,
+      trend: [62400, 71800, 68100, 75300, 79200, 58800, 76779],
+      members: [
+        { i: 'MK', n: 'Maya K.',  d: 9120, w: 60934, v: 'lime'  },
+        { i: 'PT', n: 'Priya T.', d: 8902, w: 62118, v: ''      },
+        { i: 'JO', n: 'Jonas O.', d: 8744, w: 56184, v: 'slate' },
+        { i: 'TB', n: 'Tara B.',  d: 8310, w: 58320, v: 'lime'  },
+        { i: 'BW', n: 'Ben W.',   d: 7961, w: 50441, v: ''      },
+        you(),
+        { i: 'LN', n: 'Lena N.',  d: 7420, w: 47600, v: 'lime'  },
+        { i: 'CH', n: 'Chris H.', d: 6890, w: 44218, v: ''      },
+        { i: 'DK', n: 'Dana K.',  d: 6102, w: 41055, v: 'slate' },
+        { i: 'SM', n: 'Sam M.',   d: 5488, w: 38264, v: ''      }
+      ] },
+    { id: 'office', name: 'Office Steps Challenge', code: 'OFFICE8', cap: 10,
+      trend: [41200, 44800, 43100, 47600, 49900, 30400, 49222],
+      members: [
+        { i: 'NP', n: 'Nina P.',  d: 8120, w: 53400, v: 'lime'  },
+        you(),
+        { i: 'OM', n: 'Owen M.',  d: 6850, w: 44930, v: ''      },
+        { i: 'DK', n: 'Dana K.',  d: 6410, w: 41875, v: 'slate' },
+        { i: 'CH', n: 'Chris H.', d: 5980, w: 39204, v: ''      },
+        { i: 'LD', n: 'Leo D.',   d: 5240, w: 36612, v: 'lime'  },
+        { i: 'MS', n: 'Marta S.', d: 4870, w: 33450, v: ''      },
+        { i: 'TO', n: 'Theo B.',  d: 3910, w: 28740, v: 'slate' }
+      ] },
+    { id: 'duo', name: 'Just Us Two', code: 'DUO22', cap: 2,
+      trend: [13900, 15100, 14600, 16200, 15800, 14100, 15147],
+      members: [
+        you(),
+        { i: 'NP', n: 'Nina P.', d: 7305, w: 48210, v: 'lime' }
+      ] }
+  ];
+
+  function groupById(id) {
+    for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].id === id) return GROUPS[i];
+    return null;
+  }
+  function roster(g, key) {
+    return g.members.slice().sort(function (a, b) { return b[key] - a[key]; });
+  }
+  function teamStepsToday(g) {
+    return g.members.reduce(function (sum, m) { return sum + m.d; }, 0);
+  }
+  function yourRank(g, key) {
+    var r = roster(g, key);
+    for (var i = 0; i < r.length; i++) if (r[i].you) return i + 1;
+    return r.length;
+  }
+
+  /* tiny weekly-trend sparkline */
+  function sparkSvg(trend, w, h) {
+    var min = Math.min.apply(null, trend), max = Math.max.apply(null, trend);
+    var span = (max - min) || 1;
+    var pts = trend.map(function (v, i) {
+      var x = (i * w / (trend.length - 1)).toFixed(1);
+      var y = (h - 3 - (v - min) / span * (h - 6)).toFixed(1);
+      return x + ',' + y;
+    });
+    return '<svg class="spark-mini" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h +
+      '" fill="none" aria-hidden="true"><polyline points="' + pts.join(' ') +
+      '" stroke="var(--primary-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  var CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+
+  /* ── 3 · My Groups: card list → group detail ──────────────────────── */
+  var groupsListEl = document.getElementById('groups-list');
+  var mgSubEl = document.getElementById('mg-sub');
+
+  function avatarStack(g) {
+    var shown = Math.min(5, g.members.length);
+    var html = '<span class="av-stack" aria-hidden="true">';
+    roster(g, 'd').slice(0, shown).forEach(function (m) {
+      html += '<span class="avatar' + (m.v ? ' avatar--' + m.v : '') + '">' + escapeHtml(m.i) + '</span>';
+    });
+    if (g.members.length > shown) html += '<span class="av-more">+' + (g.members.length - shown) + '</span>';
+    html += '</span>';
+    return html;
+  }
+
+  function renderGroups() {
+    mgSubEl.textContent = GROUPS.length + ' groups · week of Nov 2';
+    groupsListEl.innerHTML = '';
+    GROUPS.forEach(function (g) {
+      var card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'gcard';
+      card.setAttribute('data-gid', g.id);
+      card.setAttribute('data-od-id', 'group-card-' + g.id);
+      card.setAttribute('aria-label', 'Open ' + g.name);
+      card.innerHTML =
+        '<span class="gcard__row1"><span class="gcard__name">' + escapeHtml(g.name) + '</span>' +
+        '<span class="rank-chip">#' + yourRank(g, 'd') + ' of ' + g.members.length + '</span></span>' +
+        '<span class="gcard__row2"><span><span class="gcard__big num">' + teamStepsToday(g).toLocaleString('en-US') + '</span>' +
+        '<span class="gcard__bigsub">team steps today</span></span>' + sparkSvg(g.trend, 84, 30) + '</span>' +
+        '<span class="gcard__row3">' + avatarStack(g) +
+        '<span class="gcard__occ">' + g.members.length + '/' + g.cap + ' members</span>' +
+        '<span class="gcard__chev" aria-hidden="true">' + CHEV + '</span></span>';
+      card.addEventListener('click', function () { openGroup(g.id); });
+      groupsListEl.appendChild(card);
+    });
+  }
+
+  var currentGroup = GROUPS[0];
+
+  function openGroup(id) {
+    var g = groupById(id);
+    if (!g) return;
+    currentGroup = g;
+    var top = roster(g, 'd');
+    document.getElementById('gd-name').textContent = g.name;
+    document.getElementById('gd-sub').textContent =
+      'Weekly challenge · ' + g.members.length + ' of ' + g.cap + ' members';
+
+    // podium: top 3 by today's steps (#1 centred, blanks keep the grid)
+    var podEl = document.getElementById('gd-podium');
+    podEl.innerHTML = '';
+    var order = [2, 1, 3]; // left→right: silver, gold, bronze
+    order.forEach(function (place) {
+      var m = top[place - 1];
+      if (!m) { podEl.insertAdjacentHTML('beforeend', '<span aria-hidden="true"></span>'); return; }
+      var pod = document.createElement('div');
+      pod.className = 'pod pod--' + place;
+      pod.innerHTML =
+        '<span class="pod__badge">' + place + '</span>' +
+        '<div class="pod__plinth"><div class="avatar' + (m.v ? ' avatar--' + m.v : '') + '" aria-hidden="true">' + escapeHtml(m.i) + '</div>' +
+        '<span class="pod__name">' + escapeHtml(m.n) + '</span>' +
+        '<span class="pod__steps num">' + m.d.toLocaleString('en-US') + '</span></div>';
+      podEl.appendChild(pod);
+    });
+
+    // full ranking rows with progress bars vs the leader
+    var listEl = document.getElementById('gd-members');
+    listEl.innerHTML = '';
+    var maxSteps = top[0] ? top[0].d : 1;
+    top.forEach(function (m, idx) {
+      var row = document.createElement('div');
+      row.className = 'member' + (m.you ? ' member--you' : '');
+      row.innerHTML =
+        '<span class="member__rank num">' + (idx + 1) + '</span>' +
+        '<span class="avatar' + (m.v ? ' avatar--' + m.v : '') + '" aria-hidden="true">' + escapeHtml(m.i) + '</span>' +
+        '<span class="member__body"><span class="member__name">' + escapeHtml(m.n) + '</span>' +
+        '<span class="member__steps num">' + m.d.toLocaleString('en-US') + ' steps</span>' +
+        '<span class="meter"><span class="meter__fill" style="width:' + Math.round(m.d / maxSteps * 100) + '%"></span></span></span>';
+      listEl.appendChild(row);
+    });
+
+    showScreen('scr-group');
+  }
+
+  /* invite share-sheet (per current group) */
   var scrim = document.getElementById('scrim');
   function openSheet(sheet) { scrim.classList.add('open'); sheet.classList.add('open'); }
   function closeSheets() {
@@ -912,6 +1172,12 @@
   scrim.addEventListener('click', closeSheets);          // tap-outside dismisses
 
   document.getElementById('btn-invite').addEventListener('click', function () {
+    var g = currentGroup;
+    document.getElementById('invite-title').textContent = 'Invite to ' + g.name;
+    document.getElementById('invite-desc').textContent =
+      'Share this link — they land straight in ' + g.name + '.';
+    document.getElementById('invite-link').textContent = 'https://stridesquad.app/join/' + g.code;
+    document.getElementById('invite-code').textContent = g.code;
     openSheet(document.getElementById('invite-sheet'));
   });
 
@@ -936,22 +1202,8 @@
     } catch (e) { return false; }
   }
 
-  /* ── 4 · Leaderboards: segmented controls swap mock datasets ──────── */
+  /* ── 4 · Leaderboards: scope (My Group / Global) × range ─────────── */
   var LB = {
-    'daily-group': [
-      { n: 'Maya K.',  s: 9120, i: 'MK', v: 'lime'  }, { n: 'Priya T.', s: 8902, i: 'PT' },
-      { n: 'Jonas O.', s: 8744, i: 'JO', v: 'slate' }, { n: 'Tara B.',  s: 8310, i: 'TB', v: 'lime' },
-      { n: 'Ben W.',   s: 7961, i: 'BW' }, { n: 'You', s: 7842, i: 'YO', v: 'slate', you: true },
-      { n: 'Lena N.',  s: 7420, i: 'LN', v: 'lime' }, { n: 'Chris H.', s: 6890, i: 'CH' },
-      { n: 'Dana K.',  s: 6102, i: 'DK', v: 'slate' }, { n: 'Sam M.', s: 5488, i: 'SM' }
-    ],
-    'weekly-group': [
-      { n: 'Priya T.', s: 62118, i: 'PT' }, { n: 'Maya K.',  s: 60934, i: 'MK', v: 'lime' },
-      { n: 'Tara B.',  s: 58320, i: 'TB', v: 'lime' }, { n: 'Jonas O.', s: 56184, i: 'JO', v: 'slate' },
-      { n: 'You', s: 51972, i: 'YO', v: 'slate', you: true }, { n: 'Ben W.', s: 50441, i: 'BW' },
-      { n: 'Lena N.',  s: 47600, i: 'LN', v: 'lime' }, { n: 'Chris H.', s: 44218, i: 'CH' },
-      { n: 'Dana K.',  s: 41055, i: 'DK', v: 'slate' }, { n: 'Sam M.', s: 38264, i: 'SM' }
-    ],
     'daily-global': [
       { n: 'Aisha R.', s: 21340, i: 'AR', v: 'lime' }, { n: 'Tomás L.', s: 19877, i: 'TL' },
       { n: 'Kenji S.', s: 18264, i: 'KS', v: 'slate' }, { n: 'Nadia F.', s: 17530, i: 'NF' },
@@ -972,27 +1224,58 @@
     LB[k].sort(function (a, b) { return b.s - a.s; });
   });
 
-  var lbRange = 'daily', lbScope = 'group';
-  var lbListEl = document.getElementById('lb-list');
-  var lbSubEl  = document.getElementById('lb-sub');
+  var lbRange = 'daily', lbScope = 'mygroup', lbGroup = 'sunrise';
+  var lbListEl  = document.getElementById('lb-list');
+  var lbSubEl   = document.getElementById('lb-sub');
+  var lbChipsEl = document.getElementById('lb-gchips');
+
+  function renderGroupChips() {
+    lbChipsEl.innerHTML = '';
+    GROUPS.forEach(function (g) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = g.name;
+      b.className = (g.id === lbGroup) ? 'active' : '';
+      b.setAttribute('data-od-id', 'leaderboard-group-chip-' + g.id);
+      b.addEventListener('click', function () {
+        lbGroup = g.id;
+        renderGroupChips();
+        renderLeaderboard();
+      });
+      lbChipsEl.appendChild(b);
+    });
+  }
 
   function renderLeaderboard() {
-    var data = LB[lbRange + '-' + lbScope];
-    var max  = data[0].s;
-    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' + (lbScope === 'group' ? 'your squad' : 'global walkers');
+    var data, max, subName;
+    if (lbScope === 'mygroup') {
+      var g = groupById(lbGroup) || GROUPS[0];
+      var key = (lbRange === 'daily') ? 'd' : 'w';
+      var r = roster(g, key);
+      data = r.map(function (m) { return { n: m.n, s: m[key], i: m.i, v: m.v, you: m.you }; });
+      max = r.length ? r[0][key] : 1;
+      subName = g.name;
+    } else {
+      data = LB[lbRange + '-global'];
+      max = data[0].s;
+      subName = 'global walkers';
+    }
+    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' + subName;
+    lbChipsEl.classList.toggle('u-hide', lbScope !== 'mygroup');
+
     lbListEl.innerHTML = '';
-    data.forEach(function (r, idx) {
-      var row = document.createElement('div');
-      row.className = 'lb-row' + (r.you ? ' lb-row--you' : '');
-      row.setAttribute('data-od-id', 'leaderboard-row-' + lbRange + '-' + lbScope + '-' + (idx + 1));
-      row.innerHTML =
+    data.forEach(function (row, idx) {
+      var el = document.createElement('div');
+      el.className = 'lb-row' + (row.you ? ' lb-row--you' : '');
+      el.setAttribute('data-od-id', 'leaderboard-row-' + lbRange + '-' + lbScope + '-' + (idx + 1));
+      el.innerHTML =
         '<span class="member__rank num">' + (idx + 1) + '</span>' +
-        '<span class="avatar ' + (r.v ? 'avatar--' + r.v : '') + '" aria-hidden="true">' + r.i + '</span>' +
-        '<span class="member__body"><span class="member__name">' + r.n +
-        (r.you ? ' <span style="font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--highlight);color:var(--ink);border-radius:5px;padding:2px 5px;vertical-align:2px;">YOU</span>' : '') +
-        '</span><span class="meter"><span class="meter__fill" style="width:' + Math.round(r.s / max * 100) + '%"></span></span></span>' +
-        '<span class="member__steps num" style="font-weight:700;color:var(--ink);">' + r.s.toLocaleString('en-US') + '</span>';
-      lbListEl.appendChild(row);
+        '<span class="avatar' + (row.v ? ' avatar--' + row.v : '') + '" aria-hidden="true">' + escapeHtml(row.i) + '</span>' +
+        '<span class="member__body"><span class="member__name">' + escapeHtml(row.n) +
+        (row.you ? ' <span style="font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--highlight);color:var(--ink);border-radius:5px;padding:2px 5px;vertical-align:2px;">YOU</span>' : '') +
+        '</span><span class="meter"><span class="meter__fill" style="width:' + Math.round(row.s / max * 100) + '%"></span></span></span>' +
+        '<span class="member__steps num" style="font-weight:700;color:var(--ink);">' + row.s.toLocaleString('en-US') + '</span>';
+      lbListEl.appendChild(el);
     });
     lbListEl.animate && lbListEl.animate(
       [{ opacity: 0.35, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
@@ -1018,46 +1301,174 @@
     });
   });
   document.getElementById('btn-lb-chat').addEventListener('click', function () {
-    showScreen('scr-chat');
+    openChannel('global');
   });
+  renderGroupChips();
   renderLeaderboard();
 
-  /* ── 5 · Chat: send, append, report/block ─────────────────────────── */
+  /* ── 5 · Chat hub + per-channel threads ───────────────────────────── */
+  var CHAT = {
+    sunrise: { msgs: [
+      { mid: 's1', s: 'in',  i: 'MK', v: 'lime',  who: 'Maya',  t: '07:12', text: 'Morning loop done — 9,120 and walking.' },
+      { mid: 's2', s: 'in',  i: 'PT', v: '',      who: 'Priya', t: '07:31', text: "Global board moved us to 12th overnight. Evening walk is mandatory." },
+      { mid: 's3', s: 'out', i: 'YO', v: 'slate', who: 'You',   t: '08:02', text: "I'm at 7.8k with an hour to go — catch me if you can." },
+      { mid: 's4', s: 'in',  i: 'JO', v: 'slate', who: 'Jonas', t: '08:15', text: 'Stadium lap at 6pm. Bring water.' }
+    ] },
+    office: { msgs: [
+      { mid: 'o1', s: 'in',  i: 'NP', v: 'lime',  who: 'Nina', t: '07:40', text: 'Stand-up moved to a walking meeting — lobby at 3.' },
+      { mid: 'o2', s: 'out', i: 'YO', v: 'slate', who: 'You',  t: '07:48', text: 'Taking the stairs to floor 6. Elevator is my enemy today.' },
+      { mid: 'o3', s: 'in',  i: 'OM', v: 'slate', who: 'Owen', t: '07:52', text: 'Elevator challenge lost — 20 floors logged.' }
+    ] },
+    duo: { msgs: [
+      { mid: 'd1', s: 'in',  i: 'NP', v: 'lime',  who: 'Nina', t: 'Mon', text: 'Deal: whoever is under 6k at lunch buys the coffee.' },
+      { mid: 'd2', s: 'out', i: 'YO', v: 'slate', who: 'You',  t: 'Mon', text: "You're buying. 4,100 already by 11am." }
+    ] },
+    global: { msgs: [
+      { sys: true },
+      { mid: 'g1', s: 'in',  i: 'AR', v: 'lime',  who: 'Aisha', t: '06:58', text: "Kenji's 21k is humanly impossible." },
+      { mid: 'g2', s: 'in',  i: 'KS', v: 'slate', who: 'Kenji', t: '07:05', text: 'Coast loop plus stairs. Come join the Global 10k club.' },
+      { mid: 'g3', s: 'out', i: 'YO', v: 'slate', who: 'You',   t: '07:22', text: 'Chasing you all week — the 18k club next.' },
+      { mid: 'g4', s: 'in',  i: 'NF', v: '',      who: 'Nadia', t: '07:40', text: 'Weekly board resets Sunday 00:00 UTC. Set your alarms.' }
+    ] }
+  };
+
+  var CHANNELS_META = [
+    { id: 'sunrise', unread: 3 },
+    { id: 'office',  unread: 1 },
+    { id: 'duo',     unread: 0 },
+    { id: 'global',  unread: 12 }
+  ];
+
+  var GLOBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3.5c4 5 4 12 0 17-4-5-4-12 0-17Z"/></svg>';
+
+  function channelName(id) {
+    if (id === 'global') return 'Global Leaderboard Chat';
+    var g = groupById(id);
+    return g ? g.name : id;
+  }
+  function lastMsg(id) {
+    var msgs = CHAT[id] && CHAT[id].msgs;
+    if (!msgs) return null;
+    for (var i = msgs.length - 1; i >= 0; i--) if (!msgs[i].sys) return msgs[i];
+    return null;
+  }
+
+  var chanListEl = document.getElementById('chan-list');
+
+  function renderHub() {
+    chanListEl.innerHTML = '';
+    CHANNELS_META.forEach(function (c) {
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'chan';
+      row.setAttribute('data-chan', c.id);
+      row.setAttribute('data-od-id', 'chat-channel-' + c.id);
+      var glyph, last = lastMsg(c.id);
+      if (c.id === 'global') {
+        glyph = '<span class="avatar avatar--globe" aria-hidden="true">' + GLOBE_SVG + '</span>';
+      } else {
+        var g = groupById(c.id);
+        glyph = '<span class="avatar' + (g && g.members[0] && g.members[0].v ? ' avatar--' + g.members[0].v : '') + '" aria-hidden="true">' +
+          escapeHtml(g ? g.members[0].i : 'YO') + '</span>';
+      }
+      var preview = last
+        ? '<b>' + escapeHtml(last.who) + '</b> · ' + escapeHtml(last.text)
+        : '<i>No messages yet</i>';
+      row.innerHTML =
+        glyph +
+        '<span class="chan__mid"><span class="chan__name">' + escapeHtml(channelName(c.id)) + '</span>' +
+        '<span class="chan__prev">' + preview + '</span></span>' +
+        '<span class="chan__end"><span class="chan__time">' + (last ? escapeHtml(last.t) : '—') + '</span>' +
+        (c.unread > 0 ? '<span class="badge">' + c.unread + '</span>' : '') + '</span>';
+      row.addEventListener('click', function () { openChannel(c.id); });
+      chanListEl.appendChild(row);
+    });
+  }
+  enterHooks['scr-chat'] = renderHub;
+
+  var curChannel = 'global';
   var chatScroll = document.getElementById('chat-scroll');
   var composer   = document.getElementById('chat-composer');
   var chatInput  = document.getElementById('chat-input');
-  var msgSeq = 5;
+  var msgSeq = 100;
 
   function scrollChat() { chatScroll.scrollTop = chatScroll.scrollHeight; }
+  enterHooks['scr-chat-thread'] = scrollChat;
+
+  function renderThread() {
+    var isGlobal = (curChannel === 'global');
+    chatScroll.innerHTML = '';
+    CHAT[curChannel].msgs.forEach(function (m) {
+      if (m.sys) {
+        var sys = document.createElement('div');
+        sys.className = 'syscard';
+        sys.setAttribute('data-od-id', 'chat-teamup-card');
+        sys.innerHTML =
+          '<b>Team up</b><p>These runners are all within 2k steps of you. Create a group and keep the race going.</p>' +
+          '<button class="btn btn--primary" type="button" data-goto="scr-create">Team up — create a group with these runners</button>';
+        chatScroll.appendChild(sys);
+        return;
+      }
+      var row = document.createElement('div');
+      row.className = 'msg ' + (m.s === 'out' ? 'msg--out' : 'msg--in');
+      row.setAttribute('data-mid', m.mid);
+      row.setAttribute('data-sender', m.who);
+      row.setAttribute('data-od-id', 'chat-message-' + m.mid);
+      var glyph = (m.s === 'out')
+        ? ''
+        : '<div class="avatar' + (m.v ? ' avatar--' + m.v : '') + '" aria-hidden="true">' + escapeHtml(m.i) + '</div>';
+      row.innerHTML = glyph +
+        '<div class="msg__bubble"></div>' +
+        (isGlobal
+          ? '<button class="msg__menu" data-menu="' + m.mid + '" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>'
+          : '');
+      var bubble = row.querySelector('.msg__bubble');
+      bubble.textContent = m.text;           // never trust innerHTML for message text
+      var t = document.createElement('span');
+      t.className = 'msg__time'; t.textContent = m.t;
+      bubble.appendChild(t);
+      chatScroll.appendChild(row);
+    });
+    scrollChat();
+  }
+
+  function openChannel(id) {
+    if (!CHAT[id]) return;
+    curChannel = id;
+    CHAT[id].unreadCleared = true;
+    CHANNELS_META.forEach(function (c) { if (c.id === id) c.unread = 0; });
+    var g = (id === 'global') ? null : groupById(id);
+    document.getElementById('th-title').textContent = channelName(id);
+    document.getElementById('th-sub').textContent =
+      g ? (g.members.length + ' members') : 'Public — leaderboard chat';
+    var av = document.getElementById('th-avatar');
+    if (g) {
+      av.className = 'avatar' + (g.members[0].v ? ' avatar--' + g.members[0].v : '');
+      av.innerHTML = escapeHtml(g.members[0].i);
+    } else {
+      av.className = 'avatar avatar--globe';
+      av.innerHTML = GLOBE_SVG;
+    }
+    chatInput.placeholder = g ? ('Message ' + g.name + '…') : 'Message the global room…';
+    renderThread();
+    showScreen('scr-chat-thread');
+  }
 
   composer.addEventListener('submit', function (e) {
     e.preventDefault();
     var text = chatInput.value.trim();
     if (!text) return;
-    var row = document.createElement('div');
-    row.className = 'msg msg--out';
-    row.setAttribute('data-mid', 'm' + msgSeq);
-    row.setAttribute('data-sender', 'You');
-    row.setAttribute('data-od-id', 'chat-message-' + msgSeq);
-    var time = new Date();
-    var hh = ('0' + time.getHours()).slice(-2) + ':' + ('0' + time.getMinutes()).slice(-2);
-    row.innerHTML =
-      '<div class="msg__bubble"></div>' +
-      '<button class="msg__menu" data-menu="m' + msgSeq + '" aria-label="Message options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>';
-    row.querySelector('.msg__bubble').textContent = text; // never trust innerHTML for user text
-    var t = document.createElement('span');
-    t.className = 'msg__time'; t.textContent = hh;
-    row.querySelector('.msg__bubble').appendChild(t);
-    chatScroll.appendChild(row);
+    var now = new Date();
+    var hh = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
+    CHAT[curChannel].msgs.push({ mid: 'm' + (++msgSeq), s: 'out', i: 'YO', v: 'slate', who: 'You', t: hh, text: text });
     chatInput.value = '';
-    scrollChat();
-    msgSeq++;
+    renderThread();
   });
 
   var reportSheet = document.getElementById('report-sheet');
-  var sheetTarget = null;   // { mid, sender, own }
+  var sheetTarget = null;   // { mid, sender }
 
-  // Delegated: works for seed messages AND messages appended later.
+  // Delegated: works for seeded messages AND anything appended later.
   chatScroll.addEventListener('click', function (e) {
     var btn = e.target.closest('.msg__menu');
     if (!btn) return;
@@ -1073,26 +1484,29 @@
 
   document.getElementById('btn-report').addEventListener('click', function () {
     if (sheetTarget) {
-      var el = chatScroll.querySelector('[data-mid="' + sheetTarget.mid + '"]');
-      if (el) el.classList.add('is-hidden');
+      var msgs = CHAT[curChannel].msgs;
+      for (var i = 0; i < msgs.length; i++) {
+        if (msgs[i].mid === sheetTarget.mid) { msgs.splice(i, 1); break; }
+      }
       toast('Reported');
+      renderThread();
     }
     closeSheets();
   });
 
   document.getElementById('btn-block').addEventListener('click', function () {
     if (sheetTarget) {
-      chatScroll.querySelectorAll('.msg[data-sender="' + sheetTarget.sender + '"]').forEach(function (el) {
-        el.classList.add('is-hidden');
-      });
+      var msgs = CHAT[curChannel].msgs;
+      for (var i = msgs.length - 1; i >= 0; i--) {
+        if (msgs[i].who === sheetTarget.sender && msgs[i].s === 'in') msgs.splice(i, 1);
+      }
       toast('Blocked ' + sheetTarget.sender);
+      renderThread();
     }
     closeSheets();
   });
 
-  enterHooks['scr-chat'] = scrollChat;
-
-  /* ── 6 · Create / Join ────────────────────────────────────────────── */
+  /* ── 6 · Create / Join — both land back in My Groups ──────────────── */
   var chosenGoal = 8000;
   document.querySelectorAll('.goal-chips [data-goal]').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -1103,6 +1517,16 @@
     });
   });
 
+  document.getElementById('btn-open-create').addEventListener('click', function () {
+    showScreen('scr-create');
+  });
+  document.getElementById('btn-open-join').addEventListener('click', function () {
+    showScreen('scr-create');
+    var codeEl = document.getElementById('join-code');
+    codeEl.focus();
+    codeEl.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
   document.getElementById('btn-create-group').addEventListener('click', function () {
     var name = document.getElementById('create-name').value.trim();
     if (!name) {
@@ -1110,36 +1534,36 @@
       toast('Give your squad a name');
       return;
     }
-    var slot = document.getElementById('created-slot');
-    slot.innerHTML = '';
-    var card = document.createElement('div');
-    card.className = 'card';
-    card.setAttribute('data-od-id', 'groups-created-card');
-    card.style.marginBottom = '14px';
-    card.innerHTML =
-      '<div class="pulse-row"><div><b style="font-size:15px;">' + escapeHtml(name) +
-      ' <span style="font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--highlight);color:var(--ink);border-radius:5px;padding:2px 5px;vertical-align:3px;">NEW</span></b>' +
-      '<p style="font-size:13px;color:var(--muted);margin-top:2px;">You created this squad · goal ' +
-      chosenGoal.toLocaleString('en-US') + ' steps/day · 1 member</p></div>' +
-      '<button class="btn btn--text" data-goto="scr-create">Invite</button></div>';
-    card.querySelector('[data-goto]').addEventListener('click', function () {
-      showScreen('scr-create');
-      toast('Share a link to fill this squad');
-    });
-    slot.appendChild(card);
-    toast('Squad created');
+    var code = (name.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4) || 'SQUAD') + '01';
+    var g = {
+      id: 'g' + Date.now(),
+      name: name,
+      code: code,
+      cap: 10,
+      trend: [STEPS, STEPS, STEPS, STEPS, STEPS, STEPS, STEPS],
+      members: [you()]
+    };
+    GROUPS.push(g);
+    CHAT[g.id] = { msgs: [] };
+    CHANNELS_META.splice(CHANNELS_META.length - 1, 0, { id: g.id, unread: 0 }); // before the global room
+    renderGroups();
+    renderGroupChips();
+    renderLeaderboard();
+    renderHub();
+    toast('Group created');
     showScreen('scr-groups');
+    SCREENS['scr-groups'].scrollTop = 0;
   });
-  function escapeHtml(s) {
-    var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML;
-  }
 
   document.getElementById('btn-join').addEventListener('click', function () {
     var err = document.getElementById('join-err');
     var code = document.getElementById('join-code').value.trim().toUpperCase();
-    if (code === 'SQUAD10') {
+    var g = null;
+    for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].code === code) { g = GROUPS[i]; break; }
+    if (g) {
       err.textContent = '';
-      toast('Joined Morning Striders');
+      toast('Joined ' + g.name);
+      document.getElementById('join-code').value = '';
       showScreen('scr-groups');
     } else {
       err.textContent = 'No squad matches "' + (code || '—') + '". Try SQUAD10 in this prototype.';
@@ -1191,7 +1615,9 @@
   if (mqMobile.addEventListener) mqMobile.addEventListener('change', fitDevice);
   fitDevice();
 
-  /* boot: Today animates on first show if user lands there later */
+  /* boot: My Groups + hub render eagerly so screens are never blank */
+  renderGroups();
+  renderHub();
 })();
 </script>
 </body>
