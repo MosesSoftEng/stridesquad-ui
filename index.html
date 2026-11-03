@@ -2,682 +2,526 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StrideSquad — Mobile UI Board</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StrideSquad — Interactive Prototype</title>
+<meta name="description" content="Count steps. Squad up. Climb the leaderboard together.">
 <style>
-  :root{
-    --ink:#0F172A; --green:#16A34A; --lime:#A3E635; --surface:#F1F5F9;
-    --muted:color-mix(in oklab, var(--ink) 55%, white);
-    --faint:color-mix(in oklab, var(--ink) 38%, white);
-    --line:color-mix(in oklab, var(--ink) 9%, white);
-    --card:#ffffff; --white:var(--card);
-    --screen:color-mix(in oklab, var(--surface) 55%, white);
-    --green-hi:color-mix(in oklab, var(--green) 88%, black);
-    --btn-green:color-mix(in oklab, var(--green) 80%, var(--ink));
-    --green-tint:color-mix(in oklab, var(--green) 9%, white);
-    --green-tint2:color-mix(in oklab, var(--green) 18%, white);
-    --green-ink:color-mix(in oklab, var(--green) 78%, var(--ink));
-    --lime-tint:color-mix(in oklab, var(--lime) 32%, white);
-    --iosblue:oklch(58% .19 258);
-    --track:color-mix(in oklab, var(--ink) 7%, white);
-    --scrim:color-mix(in oklab, var(--ink) 46%, transparent);
-    --sh:0 1px 2px color-mix(in oklab, var(--ink) 6%, transparent), 0 10px 26px color-mix(in oklab, var(--ink) 8%, transparent);
-    --sh-ph:0 2px 6px rgba(15,23,42,.10), 0 26px 70px rgba(15,23,42,.16);
-    --av-1:color-mix(in oklab, var(--green) 84%, var(--ink)); --av-2:oklch(52% .14 243); --av-3:oklch(55% .16 300); --av-4:oklch(62% .14 62);
-    --av-5:oklch(56% .17 22); --av-6:oklch(55% .11 185); --av-7:oklch(63% .15 30); --av-8:oklch(48% .10 258);
-    --gold:oklch(72% .15 85); --silver:oklch(74% .02 250); --bronze:oklch(60% .11 52);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
-    background:color-mix(in oklab, var(--surface) 82%, color-mix(in oklab, var(--ink) 3%, white));
-    color:var(--ink); -webkit-font-smoothing:antialiased;}
-  .board{padding:44px 48px 56px}
-  .board-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;max-width:1600px;margin-bottom:34px;flex-wrap:wrap}
-  .wordmark{display:flex;align-items:center;gap:12px}
-  .wm-tile{width:44px;height:44px;border-radius:14px;background:linear-gradient(150deg,var(--green),color-mix(in oklab,var(--green) 70%, var(--lime)));display:grid;place-items:center;color:var(--white);box-shadow:0 6px 16px color-mix(in oklab,var(--green) 35%, transparent)}
-  .wm-tile .ic{width:24px;height:24px;stroke-width:2.2}
-  .wordmark b{font-size:24px;letter-spacing:-.02em}
-  .wordmark span.k{display:block;font-size:12px;color:var(--muted);letter-spacing:.02em;margin-top:1px}
-  .legend{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 18px;box-shadow:var(--sh);font-size:13px;color:var(--muted)}
-  .legend .dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-tint2)}
-  .legend i{font-style:normal;font-weight:700;color:var(--ink)}
-  .meta{font-size:12.5px;color:var(--faint);letter-spacing:.02em}
-  .canvas{display:flex;gap:72px;align-items:flex-start;overflow-x:auto;padding:6px 4px 40px;width:fit-content;margin:0 auto}
-  .artboard{flex:none}
-  .lab{font-size:13.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px 8px}
-  .lab small{display:block;font-weight:600;font-size:11.5px;letter-spacing:.01em;text-transform:none;color:var(--muted);margin-top:2px}
-  .phone{width:393px;height:852px;background:var(--ink);border-radius:58px;padding:10px;box-shadow:var(--sh-ph);position:relative}
-  .phone::after{content:"";position:absolute;left:-3px;top:190px;width:3px;height:30px;border-radius:3px;background:color-mix(in oklab,var(--ink) 70%, black)}
-  .scr{width:373px;height:832px;border-radius:48px;background:var(--screen);overflow:hidden;position:relative;display:flex;flex-direction:column}
-  .sb{height:54px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 8px;font-size:14px;font-weight:700;position:relative}
-  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:112px;height:30px;border-radius:18px;background:var(--ink)}
-  .sb .icons{display:flex;gap:6px;align-items:center}
-  .ct{flex:1;min-height:0;overflow:hidden;padding:8px 18px 14px;display:flex;flex-direction:column;gap:13px}
-  .nav{flex:none;height:78px;background:var(--white);border-top:1px solid var(--line);display:flex;padding:8px 6px 0;position:relative}
-  .nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);text-decoration:none;font-size:10.5px;font-weight:700;letter-spacing:.02em}
-  .nav a .ic{width:24px;height:24px}
-  .nav a.on{color:var(--green-ink)}
-  .hi{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:124px;height:5px;border-radius:3px;background:color-mix(in oklab,var(--ink) 82%, transparent)}
-  .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-  .card{background:var(--card);border-radius:24px;box-shadow:var(--sh);padding:16px}
-  .grow{margin-top:auto}
-  .row{display:flex;align-items:center;gap:10px}
-  .between{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .ttl{font-size:15px;font-weight:800;letter-spacing:-.01em}
-  .sub{font-size:12.5px;color:var(--muted)}
-  .tiny{font-size:11px}
-  .b{font-weight:700}
-  .num{font-variant-numeric:tabular-nums}
-  .av{flex:none;display:grid;place-items:center;border-radius:50%;color:var(--white);font-weight:800;letter-spacing:.01em}
-  .av.a20{width:20px;height:20px;font-size:8px}.av.a28{width:28px;height:28px;font-size:10.5px}.av.a34{width:34px;height:34px;font-size:12px}
-  .av.a40{width:40px;height:40px;font-size:14px}.av.a48{width:48px;height:48px;font-size:16px}.av.a56{width:56px;height:56px;font-size:18px}
-  .c1{background:var(--av-1)}.c2{background:var(--av-2)}.c3{background:var(--av-3)}.c4{background:var(--av-4)}
-  .c5{background:var(--av-5)}.c6{background:var(--av-6)}.c7{background:var(--av-7)}.c8{background:var(--av-8)}
-  .ovl{margin-left:-6px;box-shadow:0 0 0 2.5px var(--white)}
-  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;background:var(--surface);color:var(--ink)}
-  .chip .ic{width:14px;height:14px}
-  .chip.flame{background:var(--lime-tint);color:color-mix(in oklab, var(--green) 60%, var(--ink));}
-  .chip.flame .ic{color:color-mix(in oklab, var(--green) 55%, oklch(58% .16 60))}
-  .chip.green{background:var(--green-tint);color:var(--green-ink)}
-  .btn{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;border-radius:16px;min-height:50px;border:0}
-  .btn.p{background:var(--btn-green);color:var(--white);box-shadow:0 8px 20px color-mix(in oklab,var(--green) 30%, transparent)}
-  .btn.p .ic{width:18px;height:18px}
-  .btn.g{background:var(--green-tint);color:var(--green-ink)}
-  .btn.sm{min-height:36px;font-size:13px;border-radius:999px;padding:0 14px}
-  .btn.ghost{background:color-mix(in oklab,var(--ink) 5%, white);color:var(--muted)}
-  .pbar{height:8px;border-radius:5px;background:var(--track);overflow:hidden}
-  .pbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),color-mix(in oklab,var(--green) 65%, var(--lime)))}
-  .hline{height:1px;background:var(--line);border:0}
-  .medal{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--surface);color:var(--muted)}
-  .medal.m1{background:color-mix(in oklab,var(--gold) 26%, white);color:color-mix(in oklab,var(--gold) 75%, var(--ink))}
-  .medal.m2{background:color-mix(in oklab,var(--silver) 30%, white);color:color-mix(in oklab,var(--silver) 70%, var(--ink))}
-  .medal.m3{background:color-mix(in oklab,var(--bronze) 24%, white);color:color-mix(in oklab,var(--bronze) 78%, var(--ink))}
-  .trend{font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;gap:3px}
-  .trend.up{color:var(--green-ink)}.trend.dn{color:color-mix(in oklab, var(--av-5) 80%, var(--ink))}.trend.fl{color:var(--faint)}
-  /* status bar svg */
-  .sb .icons svg{display:block}
-  /* ring */
-  .ring-wrap{position:relative;width:214px;height:214px;margin:2px auto 0}
-  .ring-wrap svg{width:214px;height:214px;transform:rotate(-90deg)}
-  .ring-track{stroke:var(--track)} .ring-prog{stroke:url(#ringGrad)}
-  .ring-core{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-  .ring-core .big{font-size:52px;font-weight:800;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
-  .mbars rect{fill:color-mix(in oklab, var(--ink) 11%, white)}
-  .mbars .mbest{fill:var(--green)}
-  .goal-line{stroke:var(--line);stroke-dasharray:3 4;stroke-width:1.4;fill:none}
-  .ring-core .of{font-size:13px;color:var(--muted);font-weight:600}
-  .ring-core .of b{color:var(--ink)}
-  .ring-tag{position:absolute;left:50%;bottom:6px;transform:translateX(-50%)}
-  .wk{display:flex;align-items:flex-end;gap:10px;height:54px}
-  .wk .d{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
-  .wk .b7{width:100%;border-radius:6px;background:color-mix(in oklab,var(--ink) 9%, white)}
-  .wk .b7.hot{background:linear-gradient(180deg,color-mix(in oklab,var(--lime) 70%, var(--green)),var(--green))}
-  .wk .lb{font-size:10.5px;font-weight:700;color:var(--faint)}
-  .wk .d.hot .lb{color:var(--green-ink)}
-  /* list rows */
-  .mrow{display:flex;align-items:center;gap:10px;padding:8.5px 0}
-  .mrow .nm{min-width:0;flex:1}
-  .mrow .nm b{font-size:13.5px;display:block;letter-spacing:-.01em}
-  .mrow .mini{height:4px;border-radius:3px;background:var(--track);margin-top:4px;overflow:hidden}
-  .mrow .mini i{display:block;height:100%;border-radius:3px;background:var(--green)}
-  .mrow .val{font-size:13.5px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
-  .mrow .val small{display:block;font-size:10px;color:var(--faint);font-weight:600}
-  .you{background:var(--green-tint);border-radius:14px;padding-left:8px;padding-right:8px;outline:1.5px solid color-mix(in oklab,var(--green) 35%, white)}
-  .you .val{color:var(--green-ink)}
-  /* segmented */
-  .seg{display:flex;background:color-mix(in oklab,var(--ink) 7%, white);border-radius:12px;padding:3px;gap:2px}
-  .seg b{flex:1;text-align:center;font-size:12.5px;font-weight:700;color:var(--muted);padding:7px 0;border-radius:9px}
-  .seg b.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px color-mix(in oklab,var(--ink) 12%, transparent)}
-  /* sheet / overlays */
-  .sheetwrap{position:absolute;inset:0;background:var(--scrim);display:flex;align-items:flex-end;justify-content:center;z-index:5}
-  .sheet{width:100%;background:var(--white);border-radius:30px 30px 0 0;padding:14px 20px 26px}
-  .grab{width:42px;height:5px;border-radius:3px;background:color-mix(in oklab,var(--ink) 14%, white);margin:0 auto 12px}
-  .tiles{display:flex;gap:14px;justify-content:flex-start;padding:6px 2px 2px}
-  .tile{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--muted);width:56px}
-  .tile .sq{width:52px;height:52px;border-radius:14px;background:var(--surface);display:grid;place-items:center;color:var(--ink)}
-  .tile .sq .ic{width:22px;height:22px}
-  .tile .sq.green{background:var(--btn-green);color:var(--white)}
-  .linkline{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:12px;padding:10px 12px;margin-top:12px;font-size:12.5px;font-weight:600;color:var(--green-ink)}
-  .linkline .ic{width:16px;height:16px;color:var(--muted)}
-  .linkline span{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  /* chat */
-  .msg{display:flex;gap:8px;align-items:flex-end;max-width:86%}
-  .msg .who{font-size:10.5px;font-weight:800;color:var(--muted);margin-bottom:3px}
-  .msg .who time{color:var(--faint);font-weight:600;margin-left:5px}
-  .msg .bub{background:var(--white);border-radius:16px 16px 16px 5px;padding:9px 12px;font-size:13px;line-height:1.35;box-shadow:var(--sh);width:fit-content}
-  .msg.me{margin-left:auto;flex-direction:row-reverse}
-  .msg.me .who{text-align:right}
-  .msg.me .bub{background:var(--btn-green);color:var(--white);border-radius:16px 16px 5px 16px}
-  .syscard{margin:2px auto;background:linear-gradient(120deg,var(--green-tint),var(--lime-tint));border:1px solid color-mix(in oklab,var(--green) 26%, white);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:var(--green-ink);width:fit-content;max-width:100%}
-  .syscard .ic{width:18px;height:18px}
-  .flagmsg{margin:0 34px;background:color-mix(in oklab,var(--ink) 4%, white);border:1px dashed color-mix(in oklab,var(--ink) 22%, white);border-radius:12px;padding:8px 12px;font-size:11.5px;color:var(--muted);display:flex;gap:8px;align-items:center}
-  .flagmsg .ic{width:15px;height:15px;color:color-mix(in oklab, var(--av-5) 75%, var(--ink))}
-  .flagmsg u{text-decoration:none;font-weight:800;color:var(--green-ink)}
-  .inputbar{display:flex;gap:8px;align-items:center;padding:8px 14px 16px;background:var(--white);border-top:1px solid var(--line);flex:none}
-  .inputbar .field{flex:1;background:var(--surface);border-radius:999px;padding:11px 16px;font-size:13px;color:var(--faint);font-weight:600}
-  .sendbtn{width:42px;height:42px;border-radius:50%;background:var(--btn-green);color:var(--white);display:grid;place-items:center;box-shadow:0 6px 14px color-mix(in oklab,var(--green) 32%, transparent)}
-  .sendbtn .ic{width:18px;height:18px}
-  .popover{position:absolute;z-index:6;width:212px;background:var(--white);border-radius:16px;box-shadow:0 18px 44px rgba(15,23,42,.28);overflow:hidden}
-  .popover b{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:12.5px;font-weight:700}
-  .popover b .ic{width:15px;height:15px;color:var(--muted)}
-  .popover hr{border:0;border-top:1px solid var(--line)}
-  .popover b.danger{color:color-mix(in oklab, var(--av-5) 80%, var(--ink))}
-  .popover b.danger .ic{color:color-mix(in oklab, var(--av-5) 80%, var(--ink))}
-  /* podium */
-  .podium{display:flex;align-items:flex-end;gap:10px;padding:2px}
-  .pod{flex:1;background:var(--white);border-radius:18px;box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px 11px;position:relative}
-  .pod.p1{padding-top:18px;padding-bottom:15px;outline:1.6px solid color-mix(in oklab,var(--gold) 55%, white)}
-  .pod .crown{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;background:color-mix(in oklab,var(--gold) 30%, white);display:grid;place-items:center;color:color-mix(in oklab,var(--gold) 72%, var(--ink));box-shadow:0 0 0 2.5px var(--white)}
-  .pod .crown .ic{width:12px;height:12px}
-  .pod b{font-size:11.5px}.pod .st{font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--green-ink)}
-  .pod .rank{font-size:9.5px;font-weight:800;color:var(--faint);letter-spacing:.06em}
-  /* forms */
-  .field-l{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-  .inp{display:flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;font-weight:600}
-  .inp .ic{width:17px;height:17px;color:var(--green)}
-  .chips{display:flex;gap:8px}
-  .chips .chip{font-size:12.5px;padding:9px 14px;border:1.5px solid var(--line);background:var(--white)}
-  .chips .chip.on{border-color:var(--green);background:var(--green-tint);color:var(--green-ink)}
-  .code{display:flex;gap:7px}
-  .code b{flex:1;height:46px;border-radius:12px;background:var(--white);border:1.5px solid var(--line);display:grid;place-items:center;font-size:17px;font-weight:800;letter-spacing:.04em}
-  .code b.caret{border-color:var(--green);box-shadow:0 0 0 3px var(--green-tint2)}
-  .setrow{display:flex;align-items:center;gap:11px;padding:7px 2px}
-  .setrow .sqi{width:32px;height:32px;border-radius:10px;background:var(--surface);display:grid;place-items:center;color:var(--muted);flex:none}
-  .setrow .sqi .ic{width:16px;height:16px}
-  .setrow .t{flex:1;min-width:0}
-  .setrow .t b{font-size:13.5px;display:block}
-  .setrow .t small{font-size:11px;color:var(--muted)}
-  .setrow .chev{color:var(--faint)}
-  .disclaim{font-size:10.5px;line-height:1.45;color:var(--faint);padding:0 6px;display:flex;gap:6px;align-items:flex-start}
-  .disclaim .ic{width:13px;height:13px;flex:none;margin-top:1px}
-  .ach{flex:none;width:118px;background:var(--white);border-radius:16px;box-shadow:var(--sh);padding:11px;text-align:center}
-  .ach .circ{width:40px;height:40px;margin:0 auto 7px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px}
-  .ach b{font-size:11px;display:block;line-height:1.25}
-  .ach small{font-size:9.5px;color:var(--muted)}
-  .scrollx{display:flex;gap:10px;overflow:hidden}
-  .note{font-size:11px;color:var(--faint);margin:18px 8px 0;max-width:1500px}
+/* ─── tokens ─── */
+:root{
+  --bg:#FFFFFF;
+  --surface:#F1F5F9;
+  --surface-2:#E8EEF5;
+  --ink:#0F172A;
+  --muted:#64748B;
+  --border:#E2E8F0;
+  --primary:#16A34A;
+  --primary-ink:#166534;
+  --primary-tint:#DCFCE7;
+  --highlight:#A3E635;
+  --highlight-tint:#ECFCCB;
+  --danger:#DC2626;
+  --radius:24px;
+  --tab-h:66px;
+  --sa-t:env(safe-area-inset-top,0px);
+  --sa-b:env(safe-area-inset-bottom,0px);
+  --sa-l:env(safe-area-inset-left,0px);
+  --sa-r:env(safe-area-inset-right,0px);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+button{font-family:inherit;font-feature-settings:"rlig"on;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+img{max-width:100%;height:auto;display:block;}
+/* ─── core layout ─── */
+#root{max-width:430px;margin:auto;padding:env(safe-area-inset) 20px 20px}
+#screens{position:relative;height:100dvh;overflow:hidden;transition:opacity .25s ease,same .25s ease}
+.screen{position:absolute;inset:0;display:none}
+.screen.active{display:block}
+@media(min-width:431px){#root{max-width:100%}.screen{inset:env(safe-area-inset) 0 0 0}.nobleman{position:relative;width:430px;margin:auto;padding:env(safe-area-inset);background:var(--bg);border:1px solid var(--border);border-radius:24px}.nobleman *{box-sizing:border-box}}
+/* ─── bottom nav ─── */
+#bottom-nav{position:fixed;bottom:0;left:0:right;display:flex;background:var(--surface);border-top:1px solid var(--border);padding:8px 4px;border-radius:24px 24px 0 0;z-index:10;gap:24px}
+.bottom-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-center;color:var(--muted);font-size:11px;gap:4px;padding:8px 0;border-radius:20px;cursor:pointer;transition:background .15s,color .15s}
+.bottom-nav-btn.active,.bottom-nav-btn:hover{color:var(--primary);background:var(--primary-tint)}
+/* ─── screens ─── */
+.onboarding{padding-top:env(safe-area-inset-top)}
+.onboarding h1{font-size:24px;font-weight:600;margin-bottom:12px;color:var(--ink)}
+.onboarding p{color:var(--muted);line-height:1.6}
+.onboarding .connect-card{background:var(--surface);border-radius:16px;padding:20px;margin:20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.connect-card svg{width:32;height:32}
+.connect-card span{font-size:14px}
+.today{padding:env(safe-area-inset-top) env(safe-area-inset-left) env(safe-area-inset-bottom) env(safe-area-inset-right)}
+.today h2{font-size:32px;font-weight:600;margin-bottom:8px;color:var(--ink)}
+.today .step-num{font-size:72px;font-weight:700;color:var(--primary);line-height:1}
+.today .goal-ring{width:180;height:180;position:relative}
+.today .goal-ring svg{transform:rotate(-90deg)}
+.today .goal-ring .progress{stroke:var(--primary);stroke-width:12;fill:none;transition:stroke-dashoffset .5s}
+.today .goal-ring .bg{stroke:#E2E8F0;stroke-width:12;fill:none}
+.today .streak{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--primary-tint);color:var(--primary);font-size:12px;border-radius:20px;margin-left:12px;cursor:pointer}
+.today .streak:hover{background:var(--primary)}
+.groups{padding:env(safe-area-inset-top) env(safe-area-inset-left) env(safe-area-inset-bottom) env(safe-area-inset-right)}
+.groups h2{font-size:20px;font-weight:600;margin-bottom:16px;color:var(--ink)}
+.podium{display:flex;justify-content:center;gap:12px;margin-bottom:24px;padding:12px;border-radius:12px;background:var(--surface)}
+.podium .lane{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-center;font-weight:700;color:var(--bg);font-size:12px}
+.podium .lane.gold{background:var(--primary)}
+.podium .lane.silver{background:#E5E7EB}
+.podium .lane.bronze{background:#D4AF37}
+.podium .name{font-weight:500}
+.ranked-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin-top:8px}
+.ranked-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface);border-radius:12px;font-size:13px}
+.ranked-item .progress-bar{width:100;height:8;background:var(--border);border-radius:4;overflow:hidden;margin-left:8px}
+.ranked-item .progress-fill{height:100%;background:var(--primary);width:70%;transition:width .3s}
+.invite-sheet{bottom:66px;left:50%;transform:translateX(-50%);background:var(--surface);border-radius:16px;padding:16px;width:max-content;max-width:80%;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.invite-sheet .copy-link{width:100%;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:8;font-size:13px;margin-bottom:8px}
+.invite-sheet .copy-link:focus{outline:none;border-color:var(--primary)}
+.share-sheet{display:flex;gap:8px;margin-top:8px}
+.share-sheet .btn{flex:1;padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6;font-size:12px;cursor:pointer}
+.share-sheet .btn:focus{outline:none;border-color:var(--primary)}
+/* leaderboard segments */
+.seg-control{display:inline-flex;margin-bottom:16px.gap:4px}
+.seg-control button{padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px.cursor:pointer}
+.seg-control button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* chat */
+.chat-messages{height:70vh;overflow:padding:8px;margin-bottom:8px}
+.chat-message{display:flex;gap:8px;margin-bottom:8px}
+.chat-message.user{flex-direction:row-reverse}
+.chat-message .bubble{max-width:80%;padding:6px 10px;border-radius:12;background:var(--primary-tint);color:var(--ink)}
+.chat-message.user .bubble{background:var(--ink)}
+.chat-action{display:flex;gap:4px;margin-top:4px}
+.chat-action .btn{padding:4px 8px;font-size:11px.background:var(--surface);border:1px solid var(--border);border-radius:6.cursor:pointer}
+.chat-action .btn:focus{outline:none;border-color:var(--primary)}
+/* create/join */
+.form-group{margin-bottom:12px}
+.form-group label{display:block.font-size:13px.color:var(--ink)margin-bottom:4px}
+.form-group input{width:100%;padding:8px;border:1px solid var(--border);border-radius:8;font-family:var(--font)}
+.join-error{color:var(--danger);font-size:12px;margin-top:4px}
+.create-btn{width:100%;padding:8px;background:var(--primary);color:#fff;border:none;border-radius:8;font-size:13px.cursor:pointer}
+.create-btn:focus{outline:none}
+/* profile */
+.achievements{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:8px}
+.achievement{background:var(--surface);border-radius:8;padding:8px.text-align:center}
+.achievement.locked{color:var(--muted)}
+.settings-toggle{display:flex.gap:8;margin-top:8px}
+.settings-toggle label{font-size:12px.color:var(--ink)}
+/* shared styles */
+.section-title{font-size:18px.font-weight:600.color:var(--ink)margin-bottom:16px}
 </style>
 </head>
 <body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="i-act" viewBox="0 0 24 24"><path d="M3 12h4l2.6-7 4 14 2.4-7H21"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5v-5.5a6 6 0 0 1 12 0v5.5l2 2.5H4zM9.8 21.8a2.4 2.4 0 0 0 4.4 0"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M3 19.2c.8-3.1 3-4.8 6-4.8s5.2 1.7 6 4.8"/><path d="M16.2 5.2a3.3 3.3 0 0 1 0 5.8M18.6 14.9c1.8.7 3 2.2 3.4 4.3"/></symbol>
-  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v4.5a4 4 0 0 1-8 0zM8 5.5H4.5V7a3.2 3.2 0 0 0 3.4 3.2M16 5.5h3.5V7a3.2 3.2 0 0 1-3.4 3.2M12 12.5V16M8.5 20h7M10 16h4l.8 4H9.2z"/></symbol>
-  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4.8 6.6A1.6 1.6 0 0 1 6.4 5h11.2a1.6 1.6 0 0 1 1.6 1.6v7.7a1.6 1.6 0 0 1-1.6 1.6H11l-4.2 3.2V15.9H6.4a1.6 1.6 0 0 1-1.6-1.6z"/></symbol>
-  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-3.7 3.6-5.4 7-5.4s6 1.7 7 5.4"/></symbol>
-  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2.8c1.5 3.3 4.9 5 4.9 9a4.9 4.9 0 1 1-9.8 0c0-1.8.9-3.2 2-4.2.1 1.2.6 2.1 1.4 2.5-1-3.2.3-6.2 1.5-7.3z"/></symbol>
-  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5.5l6.5 6.5L9 18.5"/></symbol>
-  <symbol id="i-chevl" viewBox="0 0 24 24"><path d="M15 5.5L8.5 12l6.5 6.5"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5"/><rect x="5.5" y="10.5" width="13" height="9" rx="2.4"/></symbol>
-  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.4S4.3 15.8 3.4 11C2.8 7.7 5.1 5 8.1 5c2.1 0 3.3 1.2 3.9 2.3C12.6 6.2 13.8 5 15.9 5c3 0 5.3 2.7 4.7 6-.9 4.8-8.6 9.4-8.6 9.4z"/></symbol>
-  <symbol id="i-hplus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.6"/><path d="M12 8.4v7.2M8.4 12h7.2"/></symbol>
-  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.6" y="8.6" width="10.8" height="10.8" rx="2.6"/><path d="M4.6 14.4V6.4a1.8 1.8 0 0 1 1.8-1.8h8.2"/></symbol>
-  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"/><path d="M13.6 13.6h2.8v2.8h-2.8zM20 13.6v2.8M16.4 20H20v-3.6"/></symbol>
-  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.6"/><path d="M4.8 7.6 12 13.2l7.2-5.6"/></symbol>
-  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/></symbol>
-  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.2 13.8a4.2 4.2 0 0 0 6 0l2.4-2.4a4.2 4.2 0 0 0-6-6L11.4 6.6"/><path d="M13.8 10.2a4.2 4.2 0 0 0-6 0L5.4 12.6a4.2 4.2 0 0 0 6 6l1.2-1.2"/></symbol>
-  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4.8 12l14.4-6.4-4.6 13.8-3.4-5.6z"/><path d="M11.2 13.8l8-8.2"/></symbol>
-  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M16.8 8.6l-8 8a3 3 0 0 1-4.3-4.3l8.6-8.6a4.4 4.4 0 0 1 6.3 6.3l-8.8 8.8"/></symbol>
-  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2l7 2.5v5.5c0 4.4-2.9 7.3-7 8.7-4.1-1.4-7-4.3-7-8.7V5.7z"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.8l4.6 4.4L19 7.4"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
-  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5.5 21V4.2M5.5 4.8h11.6l-2.2 3.6 2.2 3.6H5.5"/></symbol>
-  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3.5h6l-1 5.2 3.6 3.6H6.4L10 8.7zM12 12.3V20"/></symbol>
-  <symbol id="i-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M6.4 17.6 17.6 6.4"/></symbol>
-  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="19" cy="12" r="1.4" fill="currentColor"/></symbol>
-  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M5 16.5 3.8 7.2l4.7 3.4L12 5.4l3.5 5.2 4.7-3.4L19 16.5z"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.4 2.5 13.6 0 16-2.5-2.4-2.5-13.6 0-16z"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.6v2.4M12 18v2.4M3.6 12H6M18 12h2.4M6 6l1.7 1.7M16.3 16.3 18 18M18 6l-1.7 1.7M7.7 16.3 6 18"/></symbol>
-  <symbol id="i-ruler" viewBox="0 0 24 24"><rect x="3.4" y="9" width="17.2" height="6" rx="1.6"/><path d="M7.5 9v3M11 9v3.8M15 9v3M18.5 9v3.8"/></symbol>
-  <symbol id="i-data" viewBox="0 0 24 24"><path d="M12 3.5c4 0 7.2 1.3 7.2 2.9S16 9.3 12 9.3 4.8 8 4.8 6.4 8 3.5 12 3.5zM4.8 6.4v11c0 1.6 3.2 2.9 7.2 2.9s7.2-1.3 7.2-2.9v-11M4.8 12c0 1.6 3.2 2.9 7.2 2.9s7.2-1.3 7.2-2.9"/></symbol>
-  <symbol id="i-signal" viewBox="0 0 20 12"><path d="M1 9.5h2.5V12H1zM6 6.5h2.5V12H6zM11 3.5h2.5V12H11zM16 1h2.5v11H16z" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="i-wifi" viewBox="0 0 16 12"><path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0" stroke-width="1.6"/><circle cx="8" cy="9.8" r="1.4" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="i-batt" viewBox="0 0 25 12"><rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke="currentColor" fill="none" stroke-width="1.2"/><rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/><path d="M23.2 4.2v3.6" stroke="currentColor" stroke-width="1.6"/></symbol>
-</defs></svg>
-
-<div class="board">
-  <header class="board-head" data-od-id="board-header">
-    <div class="wordmark">
-      <div class="wm-tile"><svg class="ic"><use href="#i-act"/></svg></div>
-      <div><b>StrideSquad</b><span class="k">Social step counter · iOS + Android (Flutter) · high-fidelity UI board</span></div>
+<div id="root">
+  <div id="screens">
+    <!-- Onboarding -->
+    <div class="screen onboarding" id="screen-onboarding">
+      <h1>Get started</h1>
+      <p>Connect your health data to track steps automatically.</p>
+      <div class="connect-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Connect Apple Health / Health Connect</span>
+      </div>
+      <div style="display:flex.gap:8;padding-top:12px">
+        <button class="bottom-nav-btn active" data-screen="today">Allow</button>
+      </div>
     </div>
-    <div class="legend" data-od-id="board-legend"><span class="dot"></span><div>App concept — <i>Count steps. Squad up. Climb the leaderboard together.</i></div></div>
-    <div class="meta">7 artboards · iPhone 393 × 852 · tokens: #16A34A / #A3E635 / #0F172A / #F1F5F9 · 24px cards · system type · no external assets</div>
-  </header>
 
-  <main class="canvas">
+    <!-- Today -->
+    <div class="screen today" id="screen-today">
+      <h2>Today</h2>
+      <div class="step-num" id="step-num">0</div>
+      <div class="goal-ring">
+        <svg viewbox="0 0 180 180"><circle class="bg" cx="90" cy="90" r="70"/><circle class="progress" cx="90" cy="90" r="70" stroke-dasharray="439.82" stroke-dashoffset="439.82"/></svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:12px">
+        <div class="streak" id="streak-chip">12-day streak</div>
+      </div>
+    </div>
 
-  <!-- ════════ 01 ONBOARDING ════════ -->
-  <section class="artboard" data-od-id="ab-onboarding">
-    <div class="lab">01 · Onboarding<small>Value pitch + health-data permission mock</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="ct" style="gap:10px">
-        <div class="row" style="gap:9px;margin-top:6px">
-          <div class="wm-tile" style="width:36px;height:36px;border-radius:12px"><svg class="ic" style="width:20px;height:20px"><use href="#i-act"/></svg></div>
-          <b style="font-size:16px;letter-spacing:-.02em">StrideSquad</b>
-          <span style="margin-left:auto;font-size:13px;color:var(--faint);font-weight:700">Skip</span>
-        </div>
-        <div>
-          <h1 style="font-size:27px;font-weight:800;letter-spacing:-.03em;line-height:1.12">Turn your steps<br>into a <span style="color:var(--green)">squad</span>.</h1>
-          <p class="sub" style="margin-top:8px;line-height:1.42;font-size:13px">Your phone already counts steps. StrideSquad makes them social — weekly group challenges, live leaderboards, and the friends who text back.</p>
-        </div>
-        <div class="chips" style="margin-top:-2px">
-          <span class="chip green"><svg class="ic"><use href="#i-check"/></svg>Auto-sync</span>
-          <span class="chip green"><svg class="ic"><use href="#i-users"/></svg>Squad challenges</span>
-          <span class="chip green"><svg class="ic"><use href="#i-trophy"/></svg>Live boards</span>
-        </div>
-        <div class="card" data-od-id="onboarding-connect-card" style="gap:8px;display:flex;flex-direction:column">
-          <div class="ttl">Connect your step source</div>
-          <div class="row"><div class="av a34 c5"><svg class="ic" style="width:17px;height:17px;color:var(--white)"><use href="#i-heart"/></svg></div>
-            <div class="nm" style="flex:1;min-width:0"><b class="b" style="font-size:13.5px">Apple Health</b><small class="sub tiny" style="display:block">Steps · HealthKit read access</small></div>
-            <button class="btn g sm">Connect</button></div>
-          <div class="row"><div class="av a34 c2"><svg class="ic" style="width:17px;height:17px;color:var(--white)"><use href="#i-hplus"/></svg></div>
-            <div class="nm" style="flex:1;min-width:0"><b class="b" style="font-size:13.5px">Google Health Connect</b><small class="sub tiny" style="display:block">Steps · daily totals only</small></div>
-            <button class="btn g sm">Connect</button></div>
-        </div>
-        <div class="card" data-od-id="onboarding-permission-mock" style="border-radius:22px;box-shadow:0 14px 34px rgba(15,23,42,.18);padding:0;overflow:hidden;text-align:center">
-          <div style="padding:15px 18px 13px">
-            <div class="row" style="justify-content:center;gap:8px;margin-bottom:6px">
-              <div class="av a28 c1"><svg class="ic" style="width:13px;height:13px;color:var(--white)"><use href="#i-act"/></svg></div>
-              <div style="width:1px;height:18px;background:var(--line)"></div>
-              <div class="av a28 c5"><svg class="ic" style="width:13px;height:13px;color:var(--white)"><use href="#i-heart"/></svg></div>
-            </div>
-            <b style="font-size:14.5px;letter-spacing:-.01em">“StrideSquad” Would Like to Use “Health”</b>
-            <p class="tiny" style="color:var(--muted);margin-top:4px;line-height:1.4">StrideSquad would like to access Step Data from Health. Reads daily step totals — never heart rate or location.</p>
-          </div>
-          <div class="hline"></div>
-          <div class="row" style="justify-content:stretch">
-            <span style="flex:1;text-align:center;padding:12px;font-size:13.5px;font-weight:700;color:var(--iosblue);border-right:1px solid var(--line)">Don’t Allow</span>
-            <span style="flex:1;text-align:center;padding:12px;font-size:13.5px;font-weight:800;color:var(--iosblue);background:color-mix(in oklab,var(--iosblue) 6%, transparent)">Allow</span>
-          </div>
-        </div>
-        <div class="grow" style="display:flex;flex-direction:column;gap:9px">
-          <button class="btn p"><svg class="ic"><use href="#i-flame"/></svg>Get started</button>
-          <p class="tiny" style="text-align:center;color:var(--faint)">Steps stay on-device until you join a squad.</p>
+    <!-- Groups -->
+    <div class="screen groups" id="screen-groups">
+      <h2 class="section-title">Groups</h2>
+      <div class="podium">
+        <div class="lane gold" id="lane-gold">1</div>
+        <div class="lane silver" id="lane-silver">2</div>
+        <div class="lane bronze" id="lane-bronze">3</div>
+      </div>
+      <div class="ranked-list" id="ranked-list">
+        <!-- dynamically populated -->
+      </div>
+      <div class="invite-sheet" id="invite-sheet">
+        <div>Invite your squad</div>
+        <input class="copy-link" id="copy-link" value="https://stridesquad.example.com/join" readonly>
+        <div class="share-sheet">
+          <button class="btn">Copy Link</button>
+          <button class="btn">Share</button>
         </div>
       </div>
-      <span class="hi"></span>
-    </div></div>
-  </section>
+      <div class="ranked-list">
+        <div class="ranked-item"><span>You</span><div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div></div>
+        <div class="ranked-item"><span>Friend A</span><div class="progress-fill" style="width:50%"></div></div>
+        <div class="ranked-item"><span>Friend B</span><div class="progress-fill" style="width:30%"></div></div>
+      </div>
+    </div>
 
-  <!-- ════════ 02 HOME / TODAY ════════ -->
-  <section class="artboard" data-od-id="ab-home">
-    <div class="lab">02 · Home / Today<small>Giant count, goal ring, streak, 7-day bars, weekly summary</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="ct" style="gap:10px">
-        <div class="between" style="margin-top:2px">
-          <div><h1 style="font-size:20px;font-weight:800;letter-spacing:-.02em">Good evening, Maya</h1><p class="sub tiny">Sunday, November 1 · 8° and crisp</p></div>
-          <div class="row" style="gap:7px">
-            <span class="chip flame num"><svg class="ic"><use href="#i-flame"/></svg>12-day streak</span>
-            <div class="sqi" style="width:36px;height:36px;border-radius:12px;background:var(--white);box-shadow:var(--sh);display:grid;place-items:center;color:var(--muted)"><svg class="ic" style="width:17px;height:17px"><use href="#i-bell"/></svg></div>
-          </div>
-        </div>
-        <div class="ring-wrap" data-od-id="home-goal-ring">
-          <svg viewBox="0 0 214 214" aria-label="87% of daily goal">
-            <circle class="ring-track" cx="107" cy="107" r="90" fill="none" stroke-width="14"/>
-            <circle class="ring-prog" cx="107" cy="107" r="90" fill="none" stroke-width="14" stroke-linecap="round" stroke-dasharray="492.5 565.5"/>
-            <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" style="stop-color:var(--green)"/><stop offset="1" style="stop-color:var(--lime)"/>
-            </linearGradient></defs>
-          </svg>
-          <div class="ring-core">
-            <span class="big num">7,842</span>
-            <span class="of num">of <b>9,000</b> goal · 87%</span>
-            <span class="chip green ring-tag num"><svg class="ic"><use href="#i-act"/></svg>1,158 to go</span>
-          </div>
-        </div>
-        <div class="row num" style="justify-content:center;gap:8px;margin-top:-4px">
-          <span class="chip">5.9 km</span><span class="chip">341 kcal</span><span class="chip">4h 38m moving</span>
-        </div>
-        <div class="card" data-od-id="home-weekly-summary" style="display:flex;flex-direction:column;gap:8px;padding:14px 16px">
-          <div class="between"><span class="ttl">This week’s goal</span><span class="tiny num b" style="color:var(--green-ink)">52,640 / 56,000</span></div>
-          <div class="pbar"><i style="width:94%"></i></div>
-          <p class="tiny sub">On pace — <b>3,360</b> steps left today to close the week green.</p>
-        </div>
-        <div class="card" data-od-id="home-7day-chart" style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-          <div class="between"><span class="ttl">Last 7 days</span><span class="tiny sub">avg 7,520 · Sun reset</span></div>
-          <div class="wk num">
-            <div class="d"><span class="b7" style="height:67%"></span><span class="lb">M</span></div>
-            <div class="d"><span class="b7" style="height:87%"></span><span class="lb">T</span></div>
-            <div class="d"><span class="b7" style="height:58%"></span><span class="lb">W</span></div>
-            <div class="d"><span class="b7" style="height:100%"></span><span class="lb">T</span></div>
-            <div class="d"><span class="b7" style="height:76%"></span><span class="lb">F</span></div>
-            <div class="d"><span class="b7" style="height:91%"></span><span class="lb">S</span></div>
-            <div class="d hot"><span class="b7 hot" style="height:84%"></span><span class="lb">S</span></div>
-          </div>
-        </div>
-        <div class="card row" data-od-id="home-squad-teaser" style="padding:11px 14px;border-radius:18px">
-          <div class="av a28 c2">DB</div>
-          <div class="av a28 c1 ovl">MC</div>
-          <p class="tiny" style="flex:1;min-width:0;line-height:1.35"><b>Devon is 538 steps ahead</b> on the Milers board</p>
-          <svg class="ic chev" style="width:15px;height:15px;color:var(--faint)"><use href="#i-chev"/></svg>
-        </div>
+    <!-- Leaderboard -->
+    <div class="screen leaderboard" id="screen-leaderboard">
+      <h2 class="section-title">Leaderboards</h2>
+      <div class="seg-control">
+        <button class="active" data-segment="daily">Daily</button>
+        <button data-segment="weekly">Weekly</button>
+        <button data-segment="group">Group</button>
+        <button data-segment="global">Global</button>
       </div>
-      <nav class="nav">
-        <a class="on"><svg class="ic"><use href="#i-act"/></svg>Today</a>
-        <a><svg class="ic"><use href="#i-users"/></svg>Groups</a>
-        <a><svg class="ic"><use href="#i-trophy"/></svg>Leaderboard</a>
-        <a><svg class="ic"><use href="#i-chat"/></svg>Chat</a>
-        <a><svg class="ic"><use href="#i-person"/></svg>Profile</a>
-        <span class="hi"></span>
-      </nav>
-    </div></div>
-  </section>
+      <p><span id="sticky-pill" style="display:none;color:var(--primary)">You #208 worldwide</span></p>
+      <button class="create-btn" id="start-group-btn">Start group from this leaderboard</button>
+      <div style="margin-top:16px">
+        <div class="form-group"><label>Group name</label><input id="group-name" value="StrideSquad"></div>
+        <div class="form-group"><label>Privacy</label>
+          <div style="display:flex.gap:4"><label><input type="radio" name="privacy" checked> Private</label><label><input type="radio" name="privacy"> Public</label></div>
+        </div>
+        <div class="form-group"><label>Select friends</label>
+          <div id="friends-list">
+            <div>Friend A</div>
+            <div>Friend B</div>
+            <div>Friend C</div>
+          </div>
+        </div></div>
+        <button class="create-btn" id="create-group">Create</button>
+      </div>
+    </div>
 
-  <!-- ════════ 03 MY GROUP ════════ -->
-  <section class="artboard" data-od-id="ab-group">
-    <div class="lab">03 · My Group<small>Weekly challenge, ranked members, podium, invite sheet open</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="ct" style="gap:11px">
-        <div class="between" style="margin-top:2px">
-          <h1 style="font-size:20px;font-weight:800;letter-spacing:-.02em">My Group</h1>
-          <button class="btn p sm"><svg class="ic" style="width:14px;height:14px"><use href="#i-plus"/></svg>Invite</button>
-        </div>
-        <div class="card" data-od-id="group-header" style="display:flex;flex-direction:column;gap:9px;padding:14px 16px">
-          <div class="row">
-            <div class="row" style="margin-right:2px">
-              <div class="av a34 c2">DB</div><div class="av a34 c3 ovl">PN</div><div class="av a34 c1 ovl">MC</div><div class="av a34 c4 ovl">MW</div>
-              <div class="av a34 ovl" style="background:var(--surface);color:var(--muted);font-size:10px">+4</div>
-            </div>
-            <div style="margin-left:auto;text-align:right">
-              <b style="font-size:15px;letter-spacing:-.01em">The Monday Milers</b>
-              <p class="tiny sub"><svg class="ic" style="width:11px;height:11px;vertical-align:-1.5px"><use href="#i-lock"/></svg> Private · <b class="num">8 of 10</b> members</p>
-            </div>
-          </div>
-          <div class="between tiny"><span class="b" style="color:var(--green-ink)">Week 44 challenge — 60,000 steps together</span><span class="sub num">4 days left</span></div>
-          <div class="pbar"><i style="width:71%"></i></div>
-          <div class="between tiny num"><span class="b">42,880 walked</span><span class="sub">2 days ahead of pace</span></div>
-        </div>
-        <div class="podium" data-od-id="group-podium">
-          <div class="pod"><span class="rank">RUNNER-UP</span><div class="av a40 c3">PN</div><b>Priya</b><span class="st num">8,205</span></div>
-          <div class="pod p1"><span class="crown"><svg class="ic"><use href="#i-crown"/></svg></span><div class="av a48 c2">DB</div><b>Devon</b><span class="st num">10,412</span></div>
-          <div class="pod" style="outline:1.6px solid color-mix(in oklab,var(--green) 42%, white)"><span class="rank">3RD · YOU</span><div class="av a40 c1">MC</div><b>Maya</b><span class="st num">7,842</span></div>
-        </div>
-        <div class="between tiny"><span class="b" style="letter-spacing:.09em;text-transform:uppercase;color:var(--muted)">Today’s standing · personal goal 9k</span></div>
-        <div style="display:flex;flex-direction:column;gap:1px">
-          <div class="mrow"><span class="medal num">4</span><div class="av a34 c4">MW</div>
-            <div class="nm"><b>Marcus Wu</b><span class="mini"><i style="width:83%"></i></span></div>
-            <span class="val num">7,430<small>83%</small></span></div>
-          <div class="mrow"><span class="medal num">5</span><div class="av a34 c5">AD</div>
-            <div class="nm"><b>Aisha Diallo</b><span class="mini"><i style="width:77%"></i></span></div>
-            <span class="val num">6,912<small>77%</small></span></div>
-          <div class="mrow"><span class="medal num">6</span><div class="av a34 c6">TO</div>
-            <div class="nm"><b>Tom Okafor</b><span class="mini"><i style="width:64%"></i></span></div>
-            <span class="val num">5,771<small>64%</small></span></div>
-          <div class="mrow"><span class="medal num">7</span><div class="av a34 c7">LF</div>
-            <div class="nm"><b>Lena Fischer</b><span class="mini"><i style="width:55%"></i></span></div>
-            <span class="val num">4,903<small>55%</small></span></div>
-          <div class="mrow"><span class="medal num">8</span><div class="av a34 c8">CP</div>
-            <div class="nm"><b>Chris Park</b><span class="mini"><i style="width:43%"></i></span></div>
-            <span class="val num">3,860<small>43%</small></span></div>
-        </div>
+    <!-- Chat -->
+    <div class="screen chat" id="screen-chat">
+      <h2 class="section-title">Chat</h2>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-message"><span>Bot</span><div class="bubble">Welcome to StrideSquad! 👋</div></div>
       </div>
-      <div class="sheetwrap" data-od-id="group-invite-sheet">
-        <div class="sheet">
-          <div class="grab"></div>
-          <div class="between" style="margin-bottom:10px"><span class="ttl">Invite to <span style="color:var(--green-ink)">The Monday Milers</span></span><span class="tiny sub num">2 spots open</span></div>
-          <div class="tiles">
-            <div class="tile"><span class="sq green"><svg class="ic"><use href="#i-chat"/></svg></span>Messages</div>
-            <div class="tile"><span class="sq" style="background:var(--av-2);color:var(--white)"><svg class="ic"><use href="#i-mail"/></svg></span>Mail</div>
-            <div class="tile"><span class="sq"><svg class="ic"><use href="#i-copy"/></svg></span>Copy link</div>
-            <div class="tile"><span class="sq"><svg class="ic"><use href="#i-qr"/></svg></span>QR code</div>
-            <div class="tile"><span class="sq"><svg class="ic"><use href="#i-dots"/></svg></span>More</div>
-          </div>
-          <div class="linkline"><svg class="ic"><use href="#i-link"/></svg><span class="num">stridesquad.app/g/milers-44</span>
-            <span class="btn g sm" style="min-height:30px;font-size:12px">Copy</span></div>
-          <div class="tiny sub" style="margin-top:10px;line-height:1.4">Invited runners take slots <b>#9–#10</b> and start from today’s sync — past standings never reset.</div>
-        </div>
+      <div style="display:flex.gap:4;padding:4px;border-top:1px solid var(--border)">
+        <input id="chat-input" type="text" placeholder="Type a message..." style="flex:1;padding:6px 8px;border-radius:6;border:1px solid var(--border);font-family:var(--font)">
+        <button class="btn" id="chat-send">Send</button>
       </div>
-    </div></div>
-  </section>
+    </div>
 
-  <!-- ════════ 04 LEADERBOARDS ════════ -->
-  <section class="artboard" data-od-id="ab-leaderboard">
-    <div class="lab">04 · Leaderboards<small>Daily/Weekly · Group/Global segments, medals, trends, CTA + chat entry</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="ct" style="gap:11px">
-        <div class="between" style="margin-top:2px">
-          <h1 style="font-size:20px;font-weight:800;letter-spacing:-.02em">Leaderboards</h1>
-          <span class="chip green"><svg class="ic"><use href="#i-shield"/></svg>Moderated</span>
-        </div>
-        <div class="row" data-od-id="leaderboard-segments" style="gap:8px">
-          <div class="seg" style="flex:1"><b class="on">Daily</b><b>Weekly</b></div>
-          <div class="seg" style="flex:1"><b>Group</b><b class="on">Global</b></div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:1px">
-          <div class="mrow"><span class="medal m1 num">1</span><div class="av a34 c8">KW</div>
-            <div class="nm"><b>Kenji Watanabe</b><span class="tiny sub">Tokyo · 41 days active</span></div>
-            <span class="val num">14,922<small class="trend up">▲ 2</small></span></div>
-          <div class="mrow"><span class="medal m2 num">2</span><div class="av a34 c5">SR</div>
-            <div class="nm"><b>Sofia Reyes</b><span class="tiny sub">Madrid · streak 26</span></div>
-            <span class="val num">14,107<small class="trend dn">▼ 1</small></span></div>
-          <div class="mrow"><span class="medal m3 num">3</span><div class="av a34 c6">LO</div>
-            <div class="nm"><b>Liam O’Connor</b><span class="tiny sub">Dublin · streak 9</span></div>
-            <span class="val num">13,688<small class="trend up">▲ 1</small></span></div>
-          <div class="mrow"><span class="medal num">4</span><div class="av a34 c3">HB</div>
-            <div class="nm"><b>Hannah Berg</b><span class="tiny sub">Berlin · streak 18</span></div>
-            <span class="val num">12,977<small class="trend fl">— 0</small></span></div>
-          <div class="mrow"><span class="medal num">5</span><div class="av a34 c4">NK</div>
-            <div class="nm"><b>Noah Kim</b><span class="tiny sub">Seoul · streak 4</span></div>
-            <span class="val num">12,402<small class="trend dn">▼ 3</small></span></div>
-          <div class="mrow"><span class="medal num">6</span><div class="av a34 c7">ZA</div>
-            <div class="nm"><b>Zara Ahmed</b><span class="tiny sub">London · streak 31</span></div>
-            <span class="val num">11,915<small class="trend up">▲ 1</small></span></div>
-          <div class="mrow" style="justify-content:center;color:var(--faint);font-size:11px;font-weight:800;letter-spacing:.4em;padding:3px 0">· · ·</div>
-          <div class="mrow you"><span class="medal num">48</span><div class="av a34 c1">MC</div>
-            <div class="nm"><b>Maya Chen <span class="tiny b" style="color:var(--green)">· you</span></b><span class="tiny sub">Toronto · streak 12</span></div>
-            <span class="val num">7,842<small class="trend up">▲ 6</small></span></div>
-        </div>
-        <div class="grow" style="display:flex;flex-direction:column;gap:10px">
-          <div class="card row" data-od-id="leaderboard-start-group-cta" style="background:linear-gradient(115deg,var(--green-tint),color-mix(in oklab,var(--lime) 22%, white));border-radius:20px;padding:13px 15px">
-            <div class="av a40" style="background:var(--green)"><svg class="ic" style="width:19px;height:19px;color:var(--white)"><use href="#i-users"/></svg></div>
-            <div style="flex:1;min-width:0"><b style="font-size:13.5px">Start a group from this leaderboard</b>
-              <p class="tiny sub" style="line-height:1.35;margin-top:1px">Challenge the runners you keep trading places with.</p></div>
-            <span class="btn p sm" style="flex:none">Create</span>
-          </div>
-          <div class="card row" data-od-id="leaderboard-chat-entry" style="border-radius:18px;padding:12px 15px">
-            <svg class="ic" style="width:18px;height:18px;color:var(--green)"><use href="#i-chat"/></svg>
-            <p class="tiny" style="flex:1;min-width:0"><b>Global chat · Daily</b> <span class="sub">— 214 messages today</span></p>
-            <svg class="ic" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg>
-          </div>
-        </div>
-      </div>
-      <nav class="nav">
-        <a><svg class="ic"><use href="#i-act"/></svg>Today</a>
-        <a><svg class="ic"><use href="#i-users"/></svg>Groups</a>
-        <a class="on"><svg class="ic"><use href="#i-trophy"/></svg>Leaderboard</a>
-        <a><svg class="ic"><use href="#i-chat"/></svg>Chat</a>
-        <a><svg class="ic"><use href="#i-person"/></svg>Profile</a>
-        <span class="hi"></span>
-      </nav>
-    </div></div>
-  </section>
+    <!-- Create/Join -->
+    <div class="screen create-join" id="screen-create-join">
+      <h2 class="section-title">Create or Join Group</h2>
+      <div class="form-group"><label>Group name</label><input id="new-group-name" value="Squad"></div>
+      <div class="form-group"><label>Join code</label><input id="join-code" placeholder="SQUAD10"></div>
+      <button class="create-btn" id="do-create">Create group</button>
+      <div class="join-error" id="join-error" style="color:var(--danger);display:none"></div>
+      <button class="bottom-nav-btn" data-screen="groups">Cancel</button>
+    </div>
 
-  <!-- ════════ 05 LEADERBOARD CHAT ════════ -->
-  <section class="artboard" data-od-id="ab-chat">
-    <div class="lab">05 · Leaderboard Chat<small>Public thread, team-up system card, long-press report/block, flagged state</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="between" style="flex:none;padding:4px 18px 8px">
-        <div class="row"><svg class="ic" style="width:20px;height:20px;color:var(--muted)"><use href="#i-chevl"/></svg>
-          <div><b style="font-size:15px;letter-spacing:-.01em">Global Chat · Daily</b><p class="tiny sub">7,412 runners · online 380</p></div></div>
-        <span class="chip green"><svg class="ic"><use href="#i-globe"/></svg>Public</span>
+    <!-- Profile -->
+    <div class="screen profile" id="screen-profile">
+      <h2 class="section-title">Profile</h2>
+      <div class="achievements" id="achievements">
+        <div class="achievement">10k steps</div>
+        <div class="achievement">5k steps</div>
+        <div class="achievement">100 days</div>
+        <div class="achievement locked">Marathon</div>
+        <div class="achievement locked">Half-marathon</div>
       </div>
-      <div class="ct" style="gap:11px;padding-top:0">
-        <div class="row" style="gap:7px;background:color-mix(in oklab,var(--lime) 20%, white);border-radius:12px;padding:8px 11px;font-size:11px;color:var(--green-ink);font-weight:700">
-          <svg class="ic" style="width:14px;height:14px;flex:none"><use href="#i-shield"/></svg>
-          Public thread — monitored. Be kind; report anything that isn’t.
-        </div>
-        <div class="msg"><div class="av a28 c8">KW</div><div><p class="who">Kenji Watanabe<time class="num">4:12 PM</time></p>
-          <div class="bub">14k before dinner and the palace loop never misses. Tokyo is mine today.</div></div></div>
-        <div class="msg me"><div class="av a28 c1">MC</div><div><p class="who">You<time class="num">4:15 PM</time></p>
-          <div class="bub">Devon’s got me by 130 on the Milers board. 1,158 to go — watch this.</div></div></div>
-        <div class="msg"><div class="av a28 c3">PN</div><div><p class="who">Priya Nair<time class="num">4:18 PM</time></p>
-          <div class="bub">Anyone up for a Saturday squad? I’ll make the group if two of you commit to 60k/week.</div></div></div>
-        <div class="syscard" data-od-id="chat-teamup-card"><svg class="ic"><use href="#i-users"/></svg>Team up — create a group with these runners <span style="color:var(--green);font-weight:800">Start group ›</span></div>
-        <div class="msg"><div class="av a28 c5">SR</div><div><p class="who">Sofia Reyes<time class="num">4:21 PM</time></p>
-          <div class="bub" style="outline:2px solid var(--btn-green);outline-offset:2px">Steps stalled after the watch update — restart fixed it. Don’t be like me.</div></div></div>
-        <div class="flagmsg" data-od-id="chat-flagged-state"><svg class="ic"><use href="#i-flag"/></svg>
-          <span>One message hidden while under review. <u>View</u> · <u>Reported by 3 runners</u></span></div>
-        <div class="grow"></div>
+      <div class="settings-toggle" id="settings-toggle">
+        <label><input type="checkbox" checked> Weekly summary</label>
+        <label><input type="checkbox" > Night mode</label>
       </div>
-      <div style="position:absolute;inset:0;background:var(--scrim);z-index:4"></div>
-      <div class="popover" data-od-id="chat-longpress-menu" style="left:126px;top:386px">
-        <b><svg class="ic"><use href="#i-pin"/></svg>Pin message</b>
-        <b><svg class="ic"><use href="#i-copy"/></svg>Copy text</b>
-        <hr>
-        <b class="danger"><svg class="ic"><use href="#i-flag"/></svg>Report Sofia’s message</b>
-        <b class="danger"><svg class="ic"><use href="#i-block"/></svg>Block Sofia</b>
-      </div>
-      <div class="inputbar" style="position:relative;z-index:3">
-        <svg class="ic" style="width:19px;height:19px;color:var(--muted);flex:none"><use href="#i-clip"/></svg>
-        <div class="field">Message Global Daily…</div>
-        <span class="sendbtn"><svg class="ic"><use href="#i-send"/></svg></span>
-      </div>
-    </div></div>
-  </section>
+    </div>
+  </div>
 
-  <!-- ════════ 06 CREATE / JOIN GROUP ════════ -->
-  <section class="artboard" data-od-id="ab-create-join">
-    <div class="lab">06 · Create / Join Group<small>Creation form + join-by-code with live group preview</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="between" style="flex:none;padding:2px 18px 6px">
-        <div class="row"><svg class="ic" style="width:20px;height:20px;color:var(--muted)"><use href="#i-chevl"/></svg><b style="font-size:16px">Groups</b></div>
-      </div>
-      <div class="ct" style="gap:12px">
-        <div class="card" data-od-id="create-group-form" style="display:flex;flex-direction:column;gap:13px">
-          <div><div class="field-l">Group name</div>
-            <div class="inp">Saturday Striders<svg class="ic" style="margin-left:auto"><use href="#i-check"/></svg></div></div>
-          <div><div class="field-l">Privacy</div>
-            <div class="seg"><b class="on"><svg class="ic" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px"><use href="#i-lock"/></svg>Private</b><b><svg class="ic" style="width:13px;height:13px;vertical-align:-2px;margin-right:4px"><use href="#i-globe"/></svg>Public</b></div>
-            <p class="tiny sub" style="margin-top:6px;line-height:1.4">Private groups stay off Global boards. Public groups can be found and joined by anyone.</p></div>
-          <div><div class="field-l">Weekly step target — shared goal</div>
-            <div class="chips num"><span class="chip">30k</span><span class="chip on">60k</span><span class="chip">100k</span><span class="chip">Custom</span></div>
-            <p class="tiny sub" style="margin-top:6px">Resets Sundays 00:00 · all 10 members push one number.</p></div>
-          <button class="btn p" style="margin-top:2px"><svg class="ic"><use href="#i-users"/></svg>Create group</button>
-        </div>
-        <div class="row" style="gap:12px;color:var(--faint);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:0 8px">
-          <span style="flex:1;height:1px;background:var(--line)"></span>or join<span style="flex:1;height:1px;background:var(--line)"></span></div>
-        <div class="card" data-od-id="join-by-code" style="display:flex;flex-direction:column;gap:11px">
-          <div><div class="field-l">Join by code or link</div>
-            <div class="row" style="gap:8px">
-              <div class="code num" style="flex:1"><b>6</b><b>Q</b><b>K</b><b>2</b><b>T</b><b class="caret">|</b></div>
-              <span class="btn g sm" style="align-self:stretch;min-height:46px;border-radius:12px">Paste</span>
-            </div></div>
-          <div style="border:1.5px solid var(--green);background:var(--green-tint);border-radius:18px;padding:13px 15px;display:flex;flex-direction:column;gap:9px">
-            <div class="row">
-              <div class="row" style="margin-right:4px">
-                <div class="av a28 c2">DB</div><div class="av a28 c3 ovl">PN</div><div class="av a28 c4 ovl">MW</div>
-                <div class="av a28 ovl" style="background:var(--white);color:var(--muted);font-size:9px">+5</div></div>
-              <div style="margin-left:auto;text-align:right"><b style="font-size:13.5px">City Wanderers</b>
-                <p class="tiny sub num"><svg class="ic" style="width:10px;height:10px;vertical-align:-1px"><use href="#i-globe"/></svg> Public · 9 of 10 members</p></div>
-            </div>
-            <div class="tiny num row" style="justify-content:space-between;color:var(--green-ink);font-weight:800">
-              <span>Week 44 · 45,000-step challenge</span><span>64% complete</span></div>
-            <div class="pbar" style="background:color-mix(in oklab,var(--green) 18%, white)"><i style="width:64%"></i></div>
-            <div class="between tiny"><span class="sub">Your standing if you join today: <b class="num" style="color:var(--ink)">#3 — 7,842 steps</b></span>
-              <span class="btn p sm" style="min-height:34px">Join group</span></div>
-          </div>
-          <p class="tiny" style="color:var(--faint);line-height:1.4;display:flex;gap:6px;align-items:flex-start"><svg class="ic" style="width:13px;height:13px;flex:none"><use href="#i-shield"/></svg>
-            Codes rotate every 24h. Hosts approve every join request before a runner appears on the board.</p>
-        </div>
-      </div>
-      <span class="hi"></span>
-    </div></div>
-  </section>
-
-  <!-- ════════ 07 PROFILE / STATS ════════ -->
-  <section class="artboard" data-od-id="ab-profile">
-    <div class="lab">07 · Profile / Stats<small>Monthly history, averages, achievements shelf, gear disclaimer, settings</small></div>
-    <div class="phone"><div class="scr">
-      <div class="sb"><span class="num">9:41</span><span class="island"></span>
-        <span class="icons"><svg class="ic" width="18" height="11"><use href="#i-signal"/></svg><svg class="ic" width="15" height="11"><use href="#i-wifi"/></svg><svg class="ic" width="24" height="12"><use href="#i-batt"/></svg></span></div>
-      <div class="ct" style="gap:8px;padding-top:4px">
-        <div class="card row" data-od-id="profile-header" style="padding:13px 15px;border-radius:22px">
-          <div class="av a56 c1">MC</div>
-          <div style="flex:1;min-width:0"><b style="font-size:16.5px;letter-spacing:-.01em">Maya Chen</b>
-            <p class="tiny sub">Member since Mar 2025 · <b>The Monday Milers</b></p>
-            <div class="row num" style="gap:6px;margin-top:6px"><span class="chip flame tiny" style="padding:5px 9px"><svg class="ic"><use href="#i-flame"/></svg>12</span>
-              <span class="chip tiny num" style="padding:5px 9px"><svg class="ic"><use href="#i-trophy"/></svg>Group #3</span></div></div>
-          <svg class="ic" style="width:17px;height:17px;color:var(--faint)"><use href="#i-chev"/></svg>
-        </div>
-        <div class="card" data-od-id="profile-stats" style="padding:11px 8px;display:flex">
-          <div style="flex:1;text-align:center"><b class="num" style="font-size:17px;letter-spacing:-.02em">7,840</b><p class="tiny sub">avg / day</p></div>
-          <div style="width:1px;background:var(--line)"></div>
-          <div style="flex:1;text-align:center"><b class="num" style="font-size:17px;letter-spacing:-.02em;color:var(--green-ink)">12,856</b><p class="tiny sub">best day</p></div>
-          <div style="width:1px;background:var(--line)"></div>
-          <div style="flex:1;text-align:center"><b class="num" style="font-size:17px;letter-spacing:-.02em">243k</b><p class="tiny sub">October</p></div>
-          <div style="width:1px;background:var(--line)"></div>
-          <div style="flex:1;text-align:center"><b class="num" style="font-size:17px;letter-spacing:-.02em">178 km</b><p class="tiny sub">this month</p></div>
-        </div>
-        <div class="card" data-od-id="profile-monthly-chart" style="padding:12px 15px;display:flex;flex-direction:column;gap:8px">
-          <div class="between"><span class="ttl">October history</span><span class="tiny sub num">goal line 9k · 10 green days</span></div>
-          <svg viewBox="0 0 300 74" preserveAspectRatio="none" style="width:100%;height:64px;display:block" role="img" aria-label="Daily steps for October">
-            <line class="goal-line" x1="0" y1="25" x2="300" y2="25"/>
-            <g class="mbars">
-              <rect x="0" y="34" width="7" height="40" rx="3"/><rect x="9.7" y="26" width="7" height="48" rx="3"/><rect x="19.4" y="40" width="7" height="34" rx="3"/>
-              <rect x="29.1" y="20" width="7" height="54" rx="3"/><rect x="38.8" y="30" width="7" height="44" rx="3"/><rect x="48.5" y="24" width="7" height="50" rx="3"/>
-              <rect x="58.2" y="38" width="7" height="36" rx="3"/><rect x="67.9" y="28" width="7" height="46" rx="3"/><rect x="77.6" y="36" width="7" height="38" rx="3"/>
-              <rect x="87.3" y="22" width="7" height="52" rx="3"/><rect x="97" y="32" width="7" height="42" rx="3"/><rect x="106.7" y="19" width="7" height="55" rx="3"/>
-              <rect x="116.4" y="30" width="7" height="44" rx="3"/><rect x="135.8" y="34" width="7" height="40" rx="3"/><rect x="145.5" y="24" width="7" height="50" rx="3"/>
-              <rect x="155.2" y="30" width="7" height="44" rx="3"/><rect x="164.9" y="20" width="7" height="54" rx="3"/><rect x="174.6" y="36" width="7" height="38" rx="3"/>
-              <rect x="184.3" y="27" width="7" height="47" rx="3"/><rect x="194" y="33" width="7" height="41" rx="3"/><rect x="203.7" y="21" width="7" height="53" rx="3"/>
-              <rect x="213.4" y="29" width="7" height="45" rx="3"/><rect x="223.1" y="35" width="7" height="39" rx="3"/><rect x="232.8" y="23" width="7" height="51" rx="3"/>
-              <rect x="242.5" y="31" width="7" height="43" rx="3"/><rect x="252.2" y="26" width="7" height="48" rx="3"/><rect x="261.9" y="33" width="7" height="41" rx="3"/>
-              <rect x="271.6" y="19" width="7" height="55" rx="3"/><rect x="281.3" y="28" width="7" height="46" rx="3"/>
-            </g>
-            <rect class="mbest" x="126.1" y="4" width="7" height="70" rx="3"/>
-          </svg>
-          <div class="between tiny num" style="color:var(--faint);font-weight:700"><span>Oct 1</span><span>Oct 14 · best 12,856</span><span>Oct 31</span></div>
-        </div>
-        <div data-od-id="profile-achievements" style="display:flex;flex-direction:column;gap:8px">
-          <span class="tiny b" style="letter-spacing:.09em;text-transform:uppercase;color:var(--muted)">Achievements</span>
-          <div class="scrollx">
-            <div class="ach"><span class="circ" style="background:color-mix(in oklab,var(--gold) 24%, white);color:color-mix(in oklab,var(--gold) 72%, var(--ink))">1M</span><b>Million Steps</b><small>Oct 28</small></div>
-            <div class="ach"><span class="circ" style="background:var(--green-tint)"><svg class="ic" style="width:18px;height:18px;color:var(--green)"><use href="#i-flame"/></svg></span><b>Fortnight Streak · 14</b><small>Oct 19</small></div>
-            <div class="ach"><span class="circ" style="background:color-mix(in oklab,var(--av-3) 16%, white);color:var(--av-3)">CC</span><b>Century Club</b><small>100k in a month</small></div>
-            <div class="ach" style="opacity:.55"><span class="circ" style="background:var(--surface);color:var(--faint)">70</span><b>Half-Marathon Wk</b><small class="num">82% · keep going</small></div>
-          </div>
-        </div>
-        <p class="disclaim" data-od-id="profile-disclaimer"><svg class="ic"><use href="#i-shield"/></svg>
-          <span>Steps sync from Apple Health / Google Health Connect. Counting accuracy varies with device fit, motion and battery-saver mode — StrideSquad is not a medical device.</span></p>
-        <div style="display:flex;flex-direction:column;gap:0">
-          <div class="setrow"><span class="sqi"><svg class="ic"><use href="#i-heart"/></svg></span>
-            <span class="t"><b>Health sources</b><small>Apple Health · connected hourly</small></span><svg class="ic chev" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg></div>
-          <div class="setrow"><span class="sqi"><svg class="ic"><use href="#i-bell"/></svg></span>
-            <span class="t"><b>Notifications</b><small>Squad nudges · 6 pm daily</small></span><svg class="ic" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg></div>
-          <div class="setrow"><span class="sqi"><svg class="ic"><use href="#i-ruler"/></svg></span>
-            <span class="t"><b>Units &amp; goals</b><small>km · daily goal 9,000</small></span><svg class="ic" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg></div>
-          <div class="setrow"><span class="sqi"><svg class="ic"><use href="#i-data"/></svg></span>
-            <span class="t"><b>Privacy &amp; data</b><small>Board visibility: groups only</small></span><svg class="ic" style="width:14px;height:14px;color:var(--faint)"><use href="#i-chev"/></svg></div>
-        </div>
-      </div>
-      <nav class="nav">
-        <a><svg class="ic"><use href="#i-act"/></svg>Today</a>
-        <a><svg class="ic"><use href="#i-users"/></svg>Groups</a>
-        <a><svg class="ic"><use href="#i-trophy"/></svg>Leaderboard</a>
-        <a><svg class="ic"><use href="#i-chat"/></svg>Chat</a>
-        <a class="on"><svg class="ic"><use href="#i-person"/></svg>Profile</a>
-        <span class="hi"></span>
-      </nav>
-    </div></div>
-  </section>
-
-  </main>
-  <p class="note">Prototype board — states shown live in-app: invite share sheet (03), long-press report/block menu (05), health-permission prompt mock (01). Flutter design tokens map 1:1: primary #16A34A · highlight #A3E635 · ink #0F172A · surface #F1F5F9 · card radius 24.</p>
+  <nav id="bottom-nav">
+    <button class="bottom-nav-btn active" data-screen="today">Today</button>
+    <button class="bottom-nav-btn" data-screen="groups">Groups</button>
+    <button class="bottom-nav-btn" data-screen="leaderboard">Leaderboard</button>
+    <button class="bottom-nav-btn" data-screen="chat">Chat</button>
+    <button class="bottom-nav-btn" data-screen="profile">Profile</button>
+  </nav>
 </div>
+
+<script>
+(function(){
+  'use strict'
+
+  // ——— persistent state ————————————————————————————————
+  const store = (key, val) => {if(arguments.length>1){localStorage.setItem(key,val)}return localStorage.getItem(key)}
+  const SET = 'stridesquad-state'
+  const initialState = {screen:'today', onboarded:store(SET)==='1', steps:0, daily:8634, weekly:24560, groupRank:5}
+  const S = store(SET)||JSON.stringify(initialState)
+  state = JSON.parse(S)
+  if(state.screen==='today'&&state.onboarded==='1')state.screen='today'
+
+  // ——— screen management ————————————————————————————————
+  const screens={}
+  Object.keys(document.querySelectorAll('[id^="screen-"]')).forEach(k=>{
+    const id=k.replace('screen-','')
+    screens[id]=document.getElementById('screen-'+id)
+  })
+  const go=(target,options={skipHistory:false})=>
+  {Object.values(screens).forEach(s=>{s.classList.remove('active');s.style.display='none'})
+   const scr=screens[target]
+   if(scr){scr.classList.add('active');scr.style.display=''}
+    if(target==='today'&&!state.onboarded){state.onboarded='1';store(SET,'1')}
+    if(options&&options.onComplete)options.onComplete()}
+  const nav=document.getElementById('bottom-nav')
+  nav.addEventListener('click',e=>{
+    const btn=e.target.closest('.bottom-nav-btn')
+    if(btn){
+      const t=btn.dataset.screen
+      go(t)
+      Object.keys(btns).forEach(k=>btns[k].classList.remove('active'))
+      btn.classList.add('active')
+    }
+  })
+  const btns={}
+  document.querySelectorAll('.bottom-nav-btn').forEach(b=>btns[b.dataset.screen]=b)
+  if(state.screen&&screens[state.screen])go(state.screen)
+
+  // ——— onboarding → today ————————————————————————————————
+  const onboarding=document.getElementById('screen-onboarding')
+  const allowBtn=document.querySelector('[data-screen="today"]')
+  if(allowBtn){
+    allowBtn.addEventListener('click',()=>{go('today')})
+  }
+
+  // ——— Today: step counter + goal ring —————————————————————
+  const stepNum=document.getElementById('step-num')
+  let steps=state.steps
+  const dailyGoal=state.daily
+  function countSteps(){
+    if(steps>=dailyGoal){steps=dailyGoal}else{steps++}
+    stepNum.textContent=steps
+    const circumference=2*Math.PI*70
+    const progress=circumference*(1-steps/dailyGoal)
+    document.querySelector('.progress').style.strokeDashoffset=progress
+    if(steps===dailyGoal){setTimeout(()=>go('groups'),1500)}
+  }
+  let rafId
+  function render(){rafId=requestAnimationFrame(countSteps)}render()
+  // auto-advance after a few seconds
+  setInterval(()=>{if(steps<dailyGoal){render()}},800)
+
+  // ——— Streak chip expands weekly detail ———————————————————
+  const streakChip=document.getElementById('streak-chip')
+  if(streakChip){
+    streakChip.addEventListener('click',()=>{
+      const sheet=document.createElement('div')
+      sheet.style.position='fixed'
+      sheet.style.bottom='76px'
+      sheet.style.left='20px'
+      sheet.style.background='var(--surface)'
+      sheet.style.borderRadius='12px'
+      sheet.style.padding='16px'
+      sheet.style.boxShadow='0 4px 12px rgba(0,0,0,.05)'
+      sheet.style.zIndex='100'
+      sheet.innerHTML=`<div style="font-size:12px.color:var(--muted);margin-bottom:8px">Weekly progress</div>
+        <svg width="100" height="80" viewBox="0 0 100 80" style="background:var(--border);border-radius:6;padding:4px"><path d="M10 70 Q50 10 90 70 L90 30 Q50 50 10 30 Z" fill="var(--primary)"/><text x="50" y="55" font-size="10" text-anchor="middle" fill="var(--bg)">2456</text></svg>`
+      document.body.appendChild(sheet)
+      setTimeout(()=>sheet.remove(),3000)
+    })
+  }
+
+  // ——— Groups: INVITE / share-sheet ———————————————————————
+  const inviteSheet=document.getElementById('invite-sheet')
+  const copyLink=document.getElementById('copy-link')
+  if(copyLink){
+    copyLink.addEventListener('click',async e=>{
+      try{
+        await navigator.clipboard.writeText(copyLink.value)
+        showToast('Link copied')
+      }catch{
+        copyLink.select();document.execCommand('copy')
+        showToast('Link copied (fallback)')
+      }
+    })
+  }
+  // tap-outside dismisses invite-sheet
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('#invite-sheet')&&!e.target.closest('.bottom-nav-btn[data-screen="groups"]')){
+      inviteSheet.style.display='none'
+    }
+  })
+  function showToast(msg){
+    const toast=document.createElement('div')
+    toast.style.position='fixed'
+    toast.style.bottom='100px'
+    toast.style.left='50%'
+    toast.transform='translateX(-50%)'
+    toast.style.background='var(--primary)'
+    toast.style.color='#fff'
+    toast.style.padding='8px 12px'
+    toast.style.borderRadius='20px'
+    toast.style.boxShadow='0 4px 12px rgba(0,0,0,.15)'
+    toast.style.zIndex='200'
+    toast.textContent=msg
+    document.body.appendChild(toast)
+    setTimeout(()=>toast.remove(),2000)
+  }
+
+  // ——— Groups: member row → profile card sheet —————————————
+  document.querySelectorAll('.ranked-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const sheet=document.createElement('div')
+      sheet.style.position='fixed'
+      sheet.style.bottom='76px'
+      sheet.style.left='20px'
+      sheet.style.background='var(--surface)'
+      sheet.style.borderRadius='12px'
+      sheet.style.padding='16px'
+      sheet.style.boxShadow='0 4px 12px rgba(0,0,0,.05)'
+      sheet.style.zIndex='100'
+      sheet.innerHTML=`<div style="font-weight:500;margin-bottom:8px">Profile</div>
+        <div style="font-size:12px.color:var(--muted);margin-bottom:4px">Friend A</div>
+        <div style="font-size:11px.color:var(--muted)">12,345 steps</div>`
+      document.body.appendChild(sheet)
+      setTimeout(()=>sheet.remove(),3000)
+    })
+  })
+
+  // ——— Leaderboard segment controls ———————————————————————
+  document.querySelectorAll('.seg-control button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.seg-control button').forEach(b=>b.classList.remove('active'))
+      btn.classList.add('active')
+      const seg=btn.dataset.segment
+      // swap datasets
+      const dailyData=['You #208 worldwide','Friend A #152','Friend B #312']
+      const weeklyData=['32,150 steps','28,400 steps','22,100 steps']
+      const groupData=['Squad: 12,340 steps','Another squad: 9,800 steps']
+      const globalData=['You #208 worldwide','#152 worldwide','#312 worldwide']
+      const data=({daily:dailyData,weekly:weeklyData,group:groupData,global:globalData}[seg]||dailyData)
+      document.querySelectorAll('#sticky-pill').forEach(p=>{p.style.display='seg==="global"? "inline":"none"}))
+      // update rows (mock)
+      const rows=document.querySelectorAll('.ranked-item')
+      rows.forEach((r,i)=>{r.querySelector('.progress-fill').style.width=({daily:'70%',weekly:'50%',group:'30%',global:'10%'}[seg]||'70%')})
+    })
+  })
+
+  // ——— CTA: "Start group from this leaderboard" ——————————
+  const startGroupBtn=document.getElementById('start-group-btn')
+  if(startGroupBtn){
+    startGroupBtn.addEventListener('click',()=>{document.getElementById('screen-create-join').classList.add('active');document.getElementById('screen-create-join').style.display=''})
+  }
+
+  // ——— Chat: bubble thread, send, long-press → report/block — —
+  const chatMessages=document.getElementById('chat-messages')
+  const chatInput=document.getElementById('chat-input')
+  const chatSend=document.getElementById('chat-send')
+  function addChat(msg,fromBot=false){
+    const msgDiv=document.createElement('div')
+    msgDiv.className='chat-message'+(fromBot?'':' user')
+    const bubble=document.createElement('div')
+    bubble.className='bubble'
+    bubble.textContent=msg
+    msgDiv.appendChild(bubble)
+    msgDiv.querySelector('.name').textContent=(fromBot?'Bot':['Friend A','Friend B','You'][Math.random()*3|0])
+    chatMessages.appendChild(msgDiv)
+    chatMessages.scrollTop=chatMessages.scrollHeight
+    // long-press → action sheet
+    let pressTimer
+    bubble.addEventListener('mousedown',()=>{pressTimer=setTimeout(()=>{openMessageActions(bubble)},550)})
+    bubble.addEventListener('mouseup',()=>{clearTimeout(pressTimer)})
+    bubble.addEventListener('mouseleave',()=>{clearTimeout(pressTimer)})
+  }
+  function openMessageActions(bubble){
+    const actions=['Report','Block']
+    const sheet=document.createElement('div')
+    sheet.style.position='fixed'
+    sheet.style.bottom='80px'
+    sheet.style.left='50%'
+    sheet.transform='translateX(-50%)'
+    sheet.style.background='var(--surface)'
+    sheet.style.borderRadius='12px'
+    sheet.style.padding='8px 12px'
+    sheet.style.boxShadow='0 4px 12px rgba(0,0,0,.05)'
+    sheet.style.zIndex='200'
+    sheet.innerHTML=actions.map(a=>`<div class="action-item" style="cursor:pointer;padding:4px 8px;font-size:12px;">${a}</div>`).join('')
+    document.body.appendChild(sheet)
+    // report
+    sheet.querySelectorAll('.action-item')[0].addEventListener('click',()=>{
+      sheet.remove()
+      bubble.style.display='none'
+      showToast('Reported — our team will review')
+    })
+    // block
+    sheet.querySelectorAll('.action-item')[1].addEventListener('click',()=>{
+      sheet.remove()
+      showToast('Blocked')
+    })
+  }
+  chatSend.addEventListener('click',()=>{
+    const val=chatInput.value.trim()
+    if(val){
+      addChat(val,true)
+      chatInput.value=''
+    }
+  })
+  chatInput.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){chatSend.click()}
+  })
+
+  // ——— Create/Join: editable form ———————————————————————
+  const doCreate=document.getElementById('do-create')
+  const joinCode=document.getElementById('join-code')
+  const joinError=document.getElementById('join-error')
+  const friendsList=document.getElementById('friends-list')
+  const createGroupBtn=document.getElementById('create-group')
+  if(doCreate){
+    doCreate.addEventListener('click',()=>{
+      const gname=document.getElementById('new-group-name').value||'New Group'
+      // prepend to Groups screen
+      const li=document.createElement('div')
+      li.className='ranked-item'
+      li.innerHTML=`<span>${gname}</span><div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>`
+      document.querySelector('#screen-groups .ranked-list').prepend(li)
+      // switch to Groups
+      go('groups')
+    })
+  }
+  joinCode.addEventListener('input',()=>{
+    const val=joinCode.value.trim()
+    if(val==='SQUAD10'){
+      joinError.style.display='none'
+      // add to groups
+      const li=document.createElement('div')
+      li.className='ranked-item'
+      li.innerHTML=`<span>Squad</span><div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>`
+      friendsList.innerHTML=''
+      joinError.style.display='none'
+    }else if(val){
+      joinError.style.display='block'
+      joinError.textContent='Wrong demo code: '+val
+    }
+  })
+
+  // ——— Profile: achievements shelf + settings toggles ———
+  const settingsToggle=document.getElementById('settings-toggle')
+  if(settingsToggle){
+    settingsToggle.addEventListener('change',()=>{
+      const toggles=document.querySelectorAll('#settings-toggle input')
+      const vals=[...toggles].map(i=>i.checked)
+      showToast('Settings updated: '+vals.join(', '))
+    })
+  }
+  // populate achievements
+  const achievements=document.getElementById('achievements')
+  if(achievements){
+    const achData=['10k steps','5k steps','100 days','Marathon','Half-marathon']
+    achData.forEach((a,i)=>{
+      const el=document.createElement('div')
+      el.className='achievement'+(i>=3?' locked':'')
+      el.textContent=a
+      achievements.appendChild(el)
+    })
+  }
+
+  // ——— initial render ————————————————————————————————
+  if(state.screen&&screens[state.screen])go(state.screen)
+})()
+</script>
 </body>
 </html>
