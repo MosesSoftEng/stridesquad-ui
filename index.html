@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>StrideSquad — Interactive Prototype v5</title>
+<title>StrideSquad — Interactive Prototype v6</title>
 <style>
   /* ─── tokens: the only place raw hex appears ─────────────────────── */
   :root {
@@ -486,6 +486,87 @@
 
   .reduce .ring__prog { transition: none !important; }
   .u-hide { display: none !important; }
+
+  /* ─── v6 · goal fork ─────────────────────────────────────────────── */
+  .fork-card { display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:var(--surface); border-radius:var(--radius-card); box-shadow:var(--shadow-card); border:1.5px solid transparent; padding:18px; transition:transform .06s ease, border-color .15s ease, background .15s ease; }
+  .fork-card + .fork-card { margin-top:12px; }
+  .fork-card:hover { border-color:var(--primary); background:var(--primary-soft); }
+  .fork-card:active { transform:scale(.99); }
+  .fork-card__glyph { width:54px; height:54px; border-radius:18px; flex:none; display:grid; place-items:center; background:var(--primary-soft); color:var(--primary-ink); }
+  .fork-card__glyph svg { width:27px; height:27px; }
+  .fork-card__glyph--lime { background:color-mix(in srgb, var(--highlight) 55%, var(--surface)); color:var(--ink); }
+  .fork-card__t { min-width:0; }
+  .fork-card__t b { display:block; font-size:16.5px; font-weight:800; letter-spacing:-.01em; }
+  .fork-card__t span { display:block; font-size:13px; color:var(--muted); margin-top:2px; }
+  .fork-card > svg { width:20px; height:20px; color:var(--faint); flex:none; margin-left:auto; }
+
+  /* ─── v6 · solo goal setup ───────────────────────────────────────── */
+  .goal-out { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-top:2px; }
+  .goal-out b { font-size:26px; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+  .goal-out span { font-size:12.5px; color:var(--faint); font-weight:700; }
+  .slider { -webkit-appearance:none; appearance:none; width:100%; height:30px; margin:10px 0 2px; background:transparent; }
+  .slider::-webkit-slider-runnable-track { height:8px; border-radius:999px; background:var(--border); }
+  .slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:28px; height:28px; margin-top:-10px; border-radius:50%; background:var(--primary-deep); border:3px solid var(--surface); box-shadow:0 1px 4px color-mix(in srgb, var(--ink) 30%, transparent); }
+  .slider::-moz-range-track { height:8px; border-radius:999px; background:var(--border); }
+  .slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:var(--primary-deep); border:3px solid var(--surface); box-shadow:0 1px 4px color-mix(in srgb, var(--ink) 30%, transparent); }
+  .slider:focus-visible { outline:3px solid var(--primary-ink); outline-offset:4px; }
+  .slider-scale { display:flex; justify-content:space-between; font-family:var(--mono); font-size:10px; font-weight:700; color:var(--faint); }
+
+  /* ─── v6 · discover cards ────────────────────────────────────────── */
+  .disc-lead { font-size:13.5px; color:var(--muted); margin-bottom:12px; line-height:1.45; }
+  .pubcard { background:var(--surface); border-radius:var(--radius-card); box-shadow:var(--shadow-card); padding:16px 18px; }
+  .pubcard + .pubcard { margin-top:12px; }
+  .pubcard__row1 { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .pubcard__name { font-size:16px; font-weight:800; letter-spacing:-.01em; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pb { flex:none; display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; border-radius:999px; padding:6px 10px; }
+  .pb svg { width:12px; height:12px; }
+  .pb--open { background:var(--primary-soft); color:var(--primary-ink); }
+  .pb--private { background:color-mix(in srgb, var(--muted) 14%, var(--surface)); color:var(--muted); }
+  .pubcard__meta { display:flex; align-items:center; gap:16px; margin-top:10px; }
+  .pubcard__big { font-size:26px; font-weight:800; letter-spacing:-.03em; line-height:1.05; font-variant-numeric:tabular-nums; }
+  .pubcard__big small { display:block; font-size:11px; color:var(--faint); font-weight:700; letter-spacing:0; margin-top:2px; }
+  .pubcard__occ { font-size:13px; color:var(--muted); font-weight:600; }
+  .pubcard__note { font-size:12.5px; color:var(--muted); margin-top:9px; line-height:1.4; }
+  .pubcard__note b { color:var(--ink); }
+  .pubcard .btn { margin-top:12px; text-transform:uppercase; letter-spacing:.05em; font-size:13.5px; }
+  .btn[disabled] { opacity:.6; cursor:default; }
+  .btn[disabled]:active { transform:none; }
+  .btn--requested { background:var(--primary-soft); color:var(--primary-ink); }
+
+  /* ─── v6 · privacy segment ───────────────────────────────────────── */
+  .seg--stack button { display:flex; flex-direction:column; justify-content:center; gap:2px; min-height:58px; padding:8px 10px; text-align:left; font-size:14px; }
+  .seg--stack button small { font-size:10.5px; font-weight:600; color:var(--faint); line-height:1.25; }
+  .seg--stack button.active small { color:var(--muted); }
+
+  /* ─── v6 · group stats ───────────────────────────────────────────── */
+  .wbars { display:flex; align-items:flex-end; gap:5px; height:158px; padding:10px 2px 0; }
+  .wbar { flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:5px; height:100%; }
+  .wbar__val { font-family:var(--mono); font-size:8.5px; font-weight:700; color:var(--faint); }
+  .wbar__col { width:100%; max-width:22px; border-radius:6px 6px 3px 3px; background:color-mix(in srgb, var(--primary) 32%, var(--surface)); }
+  .wbar--you .wbar__col { background:var(--primary-deep); }
+  .wbar__lbl { font-size:9px; font-weight:800; color:var(--muted); font-family:var(--mono); letter-spacing:-.02em; }
+  #gd-stat-row { margin-top:14px; }
+
+  /* ─── v6 · hub sections ──────────────────────────────────────────── */
+  .hub-h { font-size:11.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); font-family:var(--mono); margin:16px 2px 8px; }
+  .hub-h:first-child { margin-top:2px; }
+
+  /* ─── v6 · user sheet ────────────────────────────────────────────── */
+  .user-head { display:flex; align-items:center; gap:14px; margin-top:2px; }
+  .user-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px; }
+  .user-stats div { background:var(--bg); border-radius:16px; padding:11px 6px; text-align:center; }
+  .user-stats b { display:block; font-size:15px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+  .user-stats span { display:block; font-size:10px; color:var(--faint); font-weight:700; margin-top:2px; }
+  .ubadges { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .ubadge { font-size:11.5px; font-weight:700; border-radius:999px; padding:5px 11px; background:color-mix(in srgb, var(--highlight) 42%, var(--surface)); color:var(--ink); }
+  .lb-row--tap { cursor:pointer; }
+  .lb-row--tap:hover { background:var(--primary-soft); }
+
+  /* ─── v6 · QR placeholder ────────────────────────────────────────── */
+  .qr-row { display:flex; align-items:center; gap:14px; margin-top:14px; background:var(--bg); border:1px dashed var(--border); border-radius:var(--radius-ctl); padding:12px 14px; }
+  .qr-row svg { width:78px; height:78px; flex:none; fill:var(--ink); background:var(--surface); border-radius:10px; padding:5px; box-shadow:var(--shadow-card); }
+  .qr-row p { font-size:11.5px; color:var(--muted); line-height:1.45; }
+  .qr-row b { display:block; font-size:13px; color:var(--ink); margin-bottom:2px; }
 </style>
 </head>
 <body>
@@ -560,22 +641,88 @@
       </div>
     </section>
 
+    <!-- ══ 1b · GOAL FORK ═══════════════════════════════════════════ -->
+    <section id="scr-choose" class="screen" data-screen data-od-id="goal-fork" aria-label="Choose your path">
+      <div class="onb" style="max-width:360px;">
+        <p class="onb__brand">Almost there</p>
+        <h1 class="onb__title" style="font-size:31px;">What brings you here?</h1>
+        <p class="onb__lead">Pick a starting point — you can change your mind later from Groups or your profile.</p>
+        <button class="fork-card" id="btn-fork-squad" data-od-id="fork-squad">
+          <span class="fork-card__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>
+          </span>
+          <span class="fork-card__t"><b>Squad up</b><span>Join or create a group</span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="fork-card" id="btn-fork-solo" data-od-id="fork-solo">
+          <span class="fork-card__glyph fork-card__glyph--lime" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg>
+          </span>
+          <span class="fork-card__t"><b>Just me</b><span>Track my steps against my own goal</span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="btn btn--text" id="btn-fork-back" data-od-id="fork-back">← Back to health permissions</button>
+      </div>
+    </section>
+
+    <!-- ══ 1c · SOLO GOAL SETUP ═════════════════════════════════════ -->
+    <section id="scr-goal" class="screen" data-screen data-od-id="goal-setup" aria-label="Set your daily goal">
+      <div class="screen-head">
+        <div>
+          <h2 class="screen-title">Set your goal</h2>
+          <p class="screen-sub">A daily target just for you</p>
+        </div>
+        <button class="icon-btn" data-goto="scr-choose" aria-label="Back" data-od-id="goal-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="card" data-od-id="goal-target-card">
+        <p class="card-label">Daily step target</p>
+        <div class="goal-chips" id="solo-goal-chips" role="group" aria-label="Quick targets" style="margin-bottom:16px;">
+          <button type="button" data-sgoal="6000">6,000</button>
+          <button type="button" class="active" data-sgoal="8000">8,000</button>
+          <button type="button" data-sgoal="10000">10,000</button>
+          <button type="button" data-sgoal="12000">12,000</button>
+        </div>
+        <div class="goal-out"><b id="goal-readout" class="num">8,000</b><span>steps per day</span></div>
+        <input class="slider" type="range" id="goal-slider" min="2000" max="20000" step="500" value="8000" aria-label="Custom daily step target">
+        <div class="slider-scale"><span>2k</span><span>11k</span><span>20k</span></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;" data-od-id="goal-reminder-card">
+        <div class="set-row" style="min-height:52px;">
+          <div class="set-row__t"><b>Weekly reminder</b><span>Sunday 6pm recap of your week</span></div>
+          <button class="switch" role="switch" aria-checked="true" id="sw-weekly" aria-label="Weekly reminder"></button>
+        </div>
+      </div>
+
+      <button class="btn btn--primary btn--block" id="btn-save-goal" style="margin-top:18px;" data-od-id="goal-save">Save &amp; start tracking</button>
+      <p style="font-size:12.5px;color:var(--faint);text-align:center;margin-top:12px;line-height:1.45;">Solo mode hides squad ranks — you can still join a group later from Groups › Discover.</p>
+    </section>
+
     <!-- ══ 2 · TODAY ════════════════════════════════════════════════ -->
     <section id="scr-today" class="screen" data-screen data-od-id="today" aria-label="Today">
       <div class="screen-head">
         <div>
           <h2 class="screen-title">Today</h2>
-          <p class="screen-sub">Tuesday · Sunrise Steppers squad</p>
+          <p class="screen-sub" id="today-sub">Tuesday · Sunrise Steppers squad</p>
         </div>
-        <span class="chip" data-od-id="today-streak-chip" title="Current streak">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg>
-          12-day streak
-        </span>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+          <span class="chip" data-od-id="today-streak-chip" title="Current streak">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg>
+            12-day streak
+          </span>
+          <span class="chip u-hide" id="solo-chip" style="background:var(--primary-soft);color:var(--primary-ink);" data-od-id="today-solo-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+            Solo mode
+          </span>
+        </div>
       </div>
 
       <div class="card ring-card" data-od-id="today-goal-card">
         <div class="ring-wrap">
-          <svg class="ring" viewBox="0 0 200 200" role="img" aria-label="Goal ring: 7,842 of 9,000 steps">
+          <svg class="ring" id="ring-svg" viewBox="0 0 200 200" role="img" aria-label="Goal ring: 7,842 of 9,000 steps">
             <defs>
               <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" style="stop-color:var(--primary)"/>
@@ -587,7 +734,7 @@
           </svg>
           <div class="ring-center">
             <p class="step-count num" id="step-count">0</p>
-            <p class="step-goal">of 9,000 steps</p>
+            <p class="step-goal" id="goal-text">of 9,000 steps</p>
           </div>
         </div>
         <p class="ring-caption" id="ring-caption">87% of today's goal · 1,158 to go</p>
@@ -596,7 +743,7 @@
       <div class="stat-row" data-od-id="today-stats">
         <div class="stat-cell"><b>5.9</b><span>km walked</span></div>
         <div class="stat-cell"><b>314</b><span>kcal est.</span></div>
-        <div class="stat-cell"><b>6th</b><span>in squad</span></div>
+        <div class="stat-cell"><b id="stat-rank-val">6th</b><span id="stat-rank-lbl">in squad</span></div>
       </div>
 
       <div class="card" style="margin-top:14px;" data-od-id="today-week-card">
@@ -604,7 +751,7 @@
         <div class="spark" aria-hidden="true" id="week-spark"></div>
       </div>
 
-      <div class="card" style="margin-top:14px;" data-od-id="today-squad-pulse">
+      <div class="card" style="margin-top:14px;" id="pulse-card" data-od-id="today-squad-pulse">
         <div class="pulse-row">
           <div>
             <b style="font-size:15px;">Squad pulse</b>
@@ -619,11 +766,17 @@
     <section id="scr-groups" class="screen" data-screen data-od-id="my-groups" aria-label="My Groups">
       <div class="screen-head">
         <div>
-          <h2 class="screen-title">My Groups</h2>
+          <h2 class="screen-title">Groups</h2>
           <p class="screen-sub" id="mg-sub">3 groups · week of Nov 2</p>
         </div>
       </div>
 
+      <div class="seg" role="group" aria-label="Groups view" data-od-id="groups-seg">
+        <button class="active" data-gview="mine">My groups</button>
+        <button data-gview="discover">Discover</button>
+      </div>
+
+      <div id="grp-mine" style="margin-top:14px;">
       <div id="groups-list" data-od-id="groups-list"></div>
 
       <div style="margin-top:14px;" data-od-id="groups-actions">
@@ -644,6 +797,12 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         </button>
       </div>
+      </div><!-- /#grp-mine -->
+
+      <div id="grp-discover" hidden style="margin-top:14px;">
+        <p class="disc-lead">Public squads looking for walkers. Open groups accept join requests; private groups reply with an invite.</p>
+        <div id="discover-list" data-od-id="discover-list"></div>
+      </div>
     </section>
 
     <!-- ══ 3b · GROUP DETAIL ════════════════════════════════════════ -->
@@ -661,6 +820,12 @@
         <button class="btn btn--primary" id="btn-invite" data-od-id="group-invite" style="min-height:46px;padding:10px 18px;flex:none;">Invite</button>
       </div>
 
+      <div class="seg" role="group" aria-label="Group view" data-od-id="group-detail-seg" style="margin-bottom:14px;">
+        <button class="active" data-gtab="ranking">Ranking</button>
+        <button data-gtab="stats">Stats</button>
+      </div>
+
+      <div id="gd-ranking">
       <div class="card" data-od-id="group-podium">
         <div class="podium" id="gd-podium"></div>
       </div>
@@ -668,6 +833,15 @@
       <div class="card" data-od-id="group-members" style="margin-top:14px;">
         <p class="card-label">Full ranking — today</p>
         <div id="gd-members"></div>
+      </div>
+      </div><!-- /#gd-ranking -->
+
+      <div id="gd-stats" hidden>
+        <div class="card" data-od-id="group-stats-chart">
+          <p class="card-label">Weekly steps per member</p>
+          <div class="wbars" id="gd-bars"></div>
+        </div>
+        <div class="stat-row" id="gd-stat-row" style="grid-template-columns:1fr 1fr;"></div>
       </div>
     </section>
 
@@ -735,6 +909,32 @@
       </form>
     </section>
 
+    <!-- ══ 5c · DM THREAD (1:1) ═════════════════════════════════════ -->
+    <section id="scr-dm-thread" class="screen screen--chat" data-screen data-od-id="dm-thread" aria-label="Direct message thread">
+      <div class="screen-head" style="flex:none;">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-chat" aria-label="Back to chats" data-od-id="dm-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="dm-title" style="font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Direct message</h2>
+            <p class="screen-sub" id="dm-sub">…</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex:none;">
+          <button class="icon-btn" id="btn-dm-menu" aria-label="Conversation options" data-od-id="dm-menu">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+          </button>
+          <div class="avatar avatar--lime" id="dm-avatar" aria-hidden="true">NP</div>
+        </div>
+      </div>
+      <div class="chat-scroll" id="dm-scroll"></div>
+      <form class="composer" id="dm-composer">
+        <input id="dm-input" type="text" placeholder="Message…" autocomplete="off" aria-label="Message text">
+        <button class="btn btn--primary" type="submit" aria-label="Send message">Send</button>
+      </form>
+    </section>
+
     <!-- ══ 6 · CREATE / JOIN ═════════════════════════════════════════ -->
     <section id="scr-create" class="screen" data-screen data-od-id="create-join" aria-label="Create or join a group">
       <div class="screen-head">
@@ -759,6 +959,13 @@
             <button type="button" class="active" data-goal="8000">8,000</button>
             <button type="button" data-goal="9000">9,000</button>
             <button type="button" data-goal="12000">12,000</button>
+          </div>
+        </div>
+        <div class="field">
+          <label id="priv-label">Privacy</label>
+          <div class="seg seg--stack" role="group" aria-labelledby="priv-label" data-od-id="create-privacy">
+            <button type="button" class="active" data-priv="open"><span>Open</span><small>Discoverable — join by request</small></button>
+            <button type="button" data-priv="private"><span>Private</span><small>Invite link only</small></button>
           </div>
         </div>
         <button class="btn btn--primary btn--block" id="btn-create-group" data-od-id="create-submit">Create group</button>
@@ -815,6 +1022,16 @@
         </div>
       </div>
 
+      <button class="gcta" style="margin-top:14px;" id="btn-profile-discover" data-od-id="profile-discover-link">
+        <span class="gcta__t">
+          <span class="gcta__glyph" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5Z"/></svg>
+          </span>
+          <span><b>Find a squad</b><span>Browse public groups · join by request</span></span>
+        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+
       <div class="card" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;" data-od-id="profile-health">
         <div><b style="font-size:15px;">Health source</b><p style="font-size:13px;color:var(--muted);margin-top:2px;">Connected · syncing every 5 min</p></div>
         <span class="chip" style="background:var(--primary-soft);color:var(--primary-ink);">Apple Health</span>
@@ -853,6 +1070,10 @@
         <span class="chip" id="invite-code" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
       </div>
       <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
+      <div class="qr-row" data-od-id="invite-qr">
+        <svg id="qr-svg" viewBox="0 0 21 21" aria-hidden="true"></svg>
+        <p><b>Or scan to join</b>QR placeholder — generated from the invite link in the shipped app.</p>
+      </div>
       <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
     </div>
 
@@ -862,6 +1083,32 @@
       <button class="btn btn--danger btn--block" id="btn-report" data-od-id="report-confirm">Report</button>
       <button class="btn btn--danger btn--block" id="btn-block" data-od-id="block-confirm">Block sender</button>
       <button class="btn btn--cancel btn--block" id="btn-report-cancel">Cancel</button>
+    </div>
+
+    <div class="sheet" id="user-sheet" role="dialog" aria-modal="true" aria-label="Walker profile" data-od-id="user-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <div class="user-head">
+        <div class="avatar avatar--lg" id="us-avatar" aria-hidden="true">AR</div>
+        <div style="min-width:0;">
+          <h3 id="us-name">Walker</h3>
+          <p id="us-rank">Global weekly rank #1</p>
+        </div>
+      </div>
+      <div class="user-stats">
+        <div><b id="us-avg" class="num">—</b><span>steps/day avg</span></div>
+        <div><b id="us-streak" class="num">—</b><span>day streak</span></div>
+        <div><b id="us-total" class="num">—</b><span>this week</span></div>
+      </div>
+      <div class="ubadges" id="us-badges"></div>
+      <button class="btn btn--primary btn--block" id="btn-dm-user" data-od-id="dm-open-thread">Message user</button>
+    </div>
+
+    <div class="sheet" id="dm-sheet" role="dialog" aria-modal="true" aria-label="Conversation options" data-od-id="dm-options-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="dm-sheet-title" style="margin-bottom:6px;">Conversation</h3>
+      <button class="btn btn--danger btn--block" id="btn-dm-report" data-od-id="dm-report">Report user</button>
+      <button class="btn btn--danger btn--block" id="btn-dm-block" data-od-id="dm-block-user">Block user</button>
+      <button class="btn btn--cancel btn--block" id="btn-dm-cancel">Cancel</button>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -893,8 +1140,10 @@
   var SCREEN_TAB = {
     'scr-group':       'scr-groups',
     'scr-create':      'scr-groups',
-    'scr-chat-thread': 'scr-chat'
+    'scr-chat-thread': 'scr-chat',
+    'scr-dm-thread':   'scr-chat'
   };
+  var NO_TABBAR = ['scr-onboarding', 'scr-choose', 'scr-goal'];
 
   function showScreen(id) {
     if (!SCREENS[id]) return;
@@ -904,7 +1153,7 @@
     });
     var activeTab = SCREEN_TAB[id] || id;
     tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.tab === activeTab); });
-    phone.classList.toggle('no-tabbar', id === 'scr-onboarding');
+    phone.classList.toggle('no-tabbar', NO_TABBAR.indexOf(id) !== -1);
     if (enterHooks[id]) enterHooks[id]();
   }
 
@@ -942,7 +1191,7 @@
   });
   document.getElementById('btn-allow-health').addEventListener('click', function () {
     toast('Health connected');
-    showScreen('scr-today');
+    showScreen('scr-choose');   // v6 · goal fork replaces the jump straight to Today
   });
   document.getElementById('btn-skip-health').addEventListener('click', function () {
     showScreen('scr-today');
@@ -963,7 +1212,7 @@
     var token = ++animToken;
     if (reduceMotion) {
       progEl.style.transition = 'none';
-      setRing(STEPS / GOAL);
+      setRing(Math.min(1, STEPS / GOAL));
       stepEl.textContent = STEPS.toLocaleString('en-US');
       return;
     }
@@ -971,7 +1220,7 @@
     progEl.style.strokeDashoffset = CIRC;   // start empty
     void progEl.getBoundingClientRect();    // force reflow so the draw replays
     progEl.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.22,.8,.28,1)';
-    progEl.style.strokeDashoffset = CIRC * (1 - STEPS / GOAL);
+    progEl.style.strokeDashoffset = CIRC * (1 - Math.min(1, STEPS / GOAL));
     stepEl.textContent = '0';
     var t0 = performance.now(), dur = 1400;
     function tick(t) {
@@ -984,7 +1233,6 @@
     requestAnimationFrame(tick);
   }
   enterHooks['scr-today'] = animateToday;
-  capEl.textContent = '87% of today\'s goal · ' + (GOAL - STEPS).toLocaleString('en-US') + ' to go';
 
   // weekly sparkline (mock, filled bars)
   var sparkData = [
@@ -1093,7 +1341,6 @@
   }
 
   function renderGroups() {
-    mgSubEl.textContent = GROUPS.length + ' groups · week of Nov 2';
     groupsListEl.innerHTML = '';
     GROUPS.forEach(function (g) {
       var card = document.createElement('button');
@@ -1113,6 +1360,7 @@
       card.addEventListener('click', function () { openGroup(g.id); });
       groupsListEl.appendChild(card);
     });
+    setGroupsView(gView);
   }
 
   var currentGroup = GROUPS[0];
@@ -1124,7 +1372,8 @@
     var top = roster(g, 'd');
     document.getElementById('gd-name').textContent = g.name;
     document.getElementById('gd-sub').textContent =
-      'Weekly challenge · ' + g.members.length + ' of ' + g.cap + ' members';
+      'Weekly challenge · ' + g.members.length + ' of ' + g.cap + ' members' +
+      (g.privacy === 'private' ? ' · Private — invite only' : (g.privacy === 'open' ? ' · Open — join by request' : ''));
 
     // podium: top 3 by today's steps (#1 centred, blanks keep the grid)
     var podEl = document.getElementById('gd-podium');
@@ -1159,6 +1408,8 @@
       listEl.appendChild(row);
     });
 
+    renderStats(g);
+    setGdTab('ranking');
     showScreen('scr-group');
   }
 
@@ -1172,13 +1423,7 @@
   scrim.addEventListener('click', closeSheets);          // tap-outside dismisses
 
   document.getElementById('btn-invite').addEventListener('click', function () {
-    var g = currentGroup;
-    document.getElementById('invite-title').textContent = 'Invite to ' + g.name;
-    document.getElementById('invite-desc').textContent =
-      'Share this link — they land straight in ' + g.name + '.';
-    document.getElementById('invite-link').textContent = 'https://stridesquad.app/join/' + g.code;
-    document.getElementById('invite-code').textContent = g.code;
-    openSheet(document.getElementById('invite-sheet'));
+    openInviteSheet(currentGroup);
   });
 
   document.getElementById('btn-copy-link').addEventListener('click', function () {
@@ -1260,7 +1505,8 @@
       max = data[0].s;
       subName = 'global walkers';
     }
-    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' + subName;
+    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' + subName +
+      (lbScope === 'global' ? ' · tap a walker' : '');
     lbChipsEl.classList.toggle('u-hide', lbScope !== 'mygroup');
 
     lbListEl.innerHTML = '';
@@ -1275,6 +1521,16 @@
         (row.you ? ' <span style="font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--highlight);color:var(--ink);border-radius:5px;padding:2px 5px;vertical-align:2px;">YOU</span>' : '') +
         '</span><span class="meter"><span class="meter__fill" style="width:' + Math.round(row.s / max * 100) + '%"></span></span></span>' +
         '<span class="member__steps num" style="font-weight:700;color:var(--ink);">' + row.s.toLocaleString('en-US') + '</span>';
+      if (lbScope === 'global' && !row.you) {
+        el.classList.add('lb-row--tap');
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-label', 'View ' + row.n + '\'s profile');
+        el.addEventListener('click', function () { openUserSheet(row, idx); });
+        el.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openUserSheet(row, idx); }
+        });
+      }
       lbListEl.appendChild(el);
     });
     lbListEl.animate && lbListEl.animate(
@@ -1357,6 +1613,27 @@
 
   function renderHub() {
     chanListEl.innerHTML = '';
+    /* v6 · direct messages sit above the group channels */
+    if (DM_META.length) {
+      chanListEl.insertAdjacentHTML('beforeend', '<p class="hub-h">Direct messages</p>');
+      DM_META.forEach(function (d) {
+        var msgs = DM[d.peer] || [];
+        var last = msgs.length ? msgs[msgs.length - 1] : null;
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'chan';
+        row.setAttribute('data-od-id', 'chat-dm-' + d.peer.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+        row.innerHTML =
+          '<span class="avatar' + (d.v ? ' avatar--' + d.v : '') + '" aria-hidden="true">' + escapeHtml(d.i) + '</span>' +
+          '<span class="chan__mid"><span class="chan__name">' + escapeHtml(d.peer) + '</span>' +
+          '<span class="chan__prev">' + (last ? '<b>' + escapeHtml(last.who) + '</b> · ' + escapeHtml(last.text) : '<i>No messages yet</i>') + '</span></span>' +
+          '<span class="chan__end"><span class="chan__time">' + (last ? escapeHtml(last.t) : '—') + '</span>' +
+          (d.unread > 0 ? '<span class="badge">' + d.unread + '</span>' : '') + '</span>';
+        row.addEventListener('click', function () { openDm(d.peer, { i: d.i, v: d.v }); });
+        chanListEl.appendChild(row);
+      });
+    }
+    chanListEl.insertAdjacentHTML('beforeend', '<p class="hub-h">Group channels</p>');
     CHANNELS_META.forEach(function (c) {
       var row = document.createElement('button');
       row.type = 'button';
@@ -1523,8 +1800,8 @@
   document.getElementById('btn-open-join').addEventListener('click', function () {
     showScreen('scr-create');
     var codeEl = document.getElementById('join-code');
-    codeEl.focus();
-    codeEl.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    codeEl.focus({ preventScroll: true });
+    SCREENS['scr-create'].scrollTop = SCREENS['scr-create'].scrollHeight;
   });
 
   document.getElementById('btn-create-group').addEventListener('click', function () {
@@ -1539,6 +1816,7 @@
       id: 'g' + Date.now(),
       name: name,
       code: code,
+      privacy: createPrivacy,
       cap: 10,
       trend: [STEPS, STEPS, STEPS, STEPS, STEPS, STEPS, STEPS],
       members: [you()]
@@ -1551,8 +1829,8 @@
     renderLeaderboard();
     renderHub();
     toast('Group created');
-    showScreen('scr-groups');
-    SCREENS['scr-groups'].scrollTop = 0;
+    openGroup(g.id);        // v6 · Create lands on the group detail…
+    openInviteSheet(g);     //       …with the invite sheet (link copy + QR) already up
   });
 
   document.getElementById('btn-join').addEventListener('click', function () {
@@ -1563,6 +1841,8 @@
     if (g) {
       err.textContent = '';
       toast('Joined ' + g.name);
+      soloMode = false;      // v6 · back-retention: squad ranks return on Today
+      refreshTodayGoal();
       document.getElementById('join-code').value = '';
       showScreen('scr-groups');
     } else {
@@ -1591,6 +1871,358 @@
   });
   bindSwitch('sw-visible', function (on) { toast(on ? 'Goal visible to squad' : 'Goal hidden from squad'); });
 
+  /* ═══ v6 ═══════════════════════════════════════════════════════════
+     Goal fork · solo setup · discover · privacy · group stats ·
+     user sheets · DM threads — same registry, same patterns. */
+
+  /* ── 8 · goal fork + solo mode ───────────────────────────────────── */
+  var soloMode = false, soloGoal = 8000, gView = 'mine';
+
+  function refreshTodayGoal() {
+    document.getElementById('goal-text').textContent = 'of ' + GOAL.toLocaleString('en-US') + ' steps';
+    document.getElementById('ring-svg').setAttribute('aria-label',
+      'Goal ring: ' + STEPS.toLocaleString('en-US') + ' of ' + GOAL.toLocaleString('en-US') + ' steps');
+    var pct = Math.round(STEPS / GOAL * 100);
+    capEl.textContent = pct >= 100
+      ? 'Goal reached · ' + (STEPS - GOAL).toLocaleString('en-US') + ' steps to spare'
+      : pct + '% of today\'s goal · ' + (GOAL - STEPS).toLocaleString('en-US') + ' to go';
+    document.getElementById('today-sub').textContent = soloMode ? 'Tuesday · Solo mode' : 'Tuesday · Sunrise Steppers squad';
+    document.getElementById('solo-chip').classList.toggle('u-hide', !soloMode);
+    document.getElementById('pulse-card').classList.toggle('u-hide', soloMode);
+    var avg = Math.round(sparkData.reduce(function (s, d) { return s + d.s; }, 0) / 7);
+    document.getElementById('stat-rank-val').textContent = soloMode ? avg.toLocaleString('en-US') : '6th';
+    document.getElementById('stat-rank-lbl').textContent = soloMode ? 'avg steps/day' : 'in squad';
+  }
+
+  document.getElementById('btn-fork-squad').addEventListener('click', function () { openGroupsView('discover'); });
+  document.getElementById('btn-fork-solo').addEventListener('click', function () { showScreen('scr-goal'); });
+  document.getElementById('btn-fork-back').addEventListener('click', function () {
+    document.getElementById('onb-intro').hidden = true;
+    document.getElementById('onb-connect').hidden = false;
+    showScreen('scr-onboarding');
+  });
+
+  var goalSlider  = document.getElementById('goal-slider');
+  var goalReadout = document.getElementById('goal-readout');
+  function syncSoloGoal(v) {
+    soloGoal = v;
+    goalReadout.textContent = v.toLocaleString('en-US');
+    goalSlider.value = v;
+    document.querySelectorAll('#solo-goal-chips [data-sgoal]').forEach(function (b) {
+      b.classList.toggle('active', parseInt(b.dataset.sgoal, 10) === v);
+    });
+  }
+  document.querySelectorAll('#solo-goal-chips [data-sgoal]').forEach(function (b) {
+    b.addEventListener('click', function () { syncSoloGoal(parseInt(b.dataset.sgoal, 10)); });
+  });
+  goalSlider.addEventListener('input', function () { syncSoloGoal(parseInt(goalSlider.value, 10)); });
+  bindSwitch('sw-weekly', function (on) { toast(on ? 'Weekly reminder on' : 'Weekly reminder off'); });
+
+  document.getElementById('btn-save-goal').addEventListener('click', function () {
+    soloMode = true;
+    GOAL = soloGoal;
+    refreshTodayGoal();
+    showScreen('scr-today');   // enter hook replays the count-up + ring against the new goal
+    toast('Goal saved — you\'re in Solo mode');
+  });
+
+  /* ── 9 · discover ────────────────────────────────────────────────── */
+  var PUBLIC_GROUPS = [
+    { id: 'trailblazers', name: 'TrailBlazers', avg: 142, size: 7, cap: 10, privacy: 'open', requested: false,
+      blurb: 'Weekend trail crew — forest loops, hills, muddy shoes.' },
+    { id: 'morning-miles', name: 'Morning Miles', avg: 98, size: 9, cap: 10, privacy: 'private', requested: false,
+      blurb: '6am regulars. The pace is brisk, the group chat is not.' },
+    { id: 'deckers', name: 'Deckers', avg: 121, size: 3, cap: 10, privacy: 'open', requested: false,
+      blurb: 'Balcony laps, lunch walks, dog rounds. Small numbers, loud cheers.' }
+  ];
+  var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
+  var discoverListEl = document.getElementById('discover-list');
+
+  function renderDiscover() {
+    discoverListEl.innerHTML = '';
+    PUBLIC_GROUPS.forEach(function (p) {
+      var el = document.createElement('div');
+      el.className = 'pubcard';
+      el.setAttribute('data-od-id', 'discover-card-' + p.id);
+      var badge = p.privacy === 'open'
+        ? '<span class="pb pb--open">Open</span>'
+        : '<span class="pb pb--private">' + LOCK_SVG + 'Private</span>';
+      el.innerHTML =
+        '<div class="pubcard__row1"><span class="pubcard__name">' + escapeHtml(p.name) + '</span>' + badge + '</div>' +
+        '<div class="pubcard__meta"><span class="pubcard__big num">' + p.avg + '<small>avg steps/day</small></span>' +
+        '<span class="pubcard__occ num">' + p.size + ' of ' + p.cap + ' members</span></div>' +
+        '<p class="pubcard__note">' + escapeHtml(p.blurb) +
+        (p.privacy === 'private' ? ' · <b>invite only</b>' : '') + '</p>' +
+        '<button type="button" class="btn btn--block ' + (p.requested ? 'btn--requested' : 'btn--primary') + '" data-req="' + p.id + '"' +
+        (p.requested ? ' disabled' : '') + '>' +
+        (p.requested ? 'Requested ✓' : (p.privacy === 'private' ? 'Request access' : 'Request join')) + '</button>';
+      discoverListEl.appendChild(el);
+    });
+  }
+
+  discoverListEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-req]');
+    if (!btn || btn.disabled) return;
+    for (var i = 0; i < PUBLIC_GROUPS.length; i++) {
+      if (PUBLIC_GROUPS[i].id === btn.dataset.req) { PUBLIC_GROUPS[i].requested = true; break; }
+    }
+    renderDiscover();
+    setGroupsView('discover');
+    toast('Join request sent to group admins');
+  });
+
+  function setGroupsView(view) {
+    gView = view;
+    document.querySelectorAll('[data-gview]').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.gview === view);
+    });
+    document.getElementById('grp-mine').hidden = view !== 'mine';
+    document.getElementById('grp-discover').hidden = view !== 'discover';
+    if (view === 'discover') {
+      var open = PUBLIC_GROUPS.filter(function (p) { return !p.requested; }).length;
+      mgSubEl.textContent = open ? open + ' public groups · week of Nov 2' : 'All requests sent · week of Nov 2';
+    } else {
+      mgSubEl.textContent = GROUPS.length + ' groups · week of Nov 2';
+    }
+  }
+  document.querySelectorAll('[data-gview]').forEach(function (b) {
+    b.addEventListener('click', function () { setGroupsView(b.dataset.gview); });
+  });
+  function openGroupsView(view) { showScreen('scr-groups'); setGroupsView(view); }
+  document.getElementById('btn-profile-discover').addEventListener('click', function () { openGroupsView('discover'); });
+
+  /* ── 10 · create: privacy · invite sheet with QR ─────────────────── */
+  var createPrivacy = 'open';
+  document.querySelectorAll('[data-priv]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      createPrivacy = b.dataset.priv;
+      document.querySelectorAll('[data-priv]').forEach(function (x) { x.classList.toggle('active', x === b); });
+    });
+  });
+
+  function hashStr(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function drawQr(text) {
+    var svg = document.getElementById('qr-svg');
+    if (!svg) return;
+    var h = hashStr(String(text)), cells = 21, out = '';
+    function inFinder(x, y) { return (x < 8 && y < 8) || (x >= cells - 8 && y < 8) || (x < 8 && y >= cells - 8); }
+    for (var y = 0; y < cells; y++) {
+      for (var x = 0; x < cells; x++) {
+        var on;
+        if (inFinder(x, y)) {
+          var fx = x < 8 ? x : x - (cells - 8);
+          var fy = y < 8 ? y : y - (cells - 8);
+          on = (fx <= 6 && fy <= 6) &&
+            ((fx === 0 || fx === 6 || fy === 0 || fy === 6) || (fx >= 2 && fx <= 4 && fy >= 2 && fy <= 4));
+        } else {
+          h = Math.imul(h ^ (x * 31 + y * 7), 2654435761) >>> 0;
+          on = (h % 100) < 46;
+        }
+        if (on) out += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>';
+      }
+    }
+    svg.innerHTML = out;
+  }
+
+  function openInviteSheet(g) {
+    document.getElementById('invite-title').textContent = 'Invite to ' + g.name;
+    document.getElementById('invite-desc').textContent = g.privacy === 'private'
+      ? 'Private squad — only people with this link can join ' + g.name + '.'
+      : 'Share this link — they land straight in ' + g.name + '.';
+    var link = 'https://stridesquad.app/join/' + g.code;
+    document.getElementById('invite-link').textContent = link;
+    document.getElementById('invite-code').textContent = g.code;
+    drawQr(link);
+    openSheet(document.getElementById('invite-sheet'));
+  }
+
+  /* ── 11 · group detail tabs + weekly stats ───────────────────────── */
+  function setGdTab(t) {
+    document.querySelectorAll('[data-gtab]').forEach(function (b) { b.classList.toggle('active', b.dataset.gtab === t); });
+    document.getElementById('gd-ranking').hidden = t !== 'ranking';
+    document.getElementById('gd-stats').hidden = t !== 'stats';
+  }
+  document.querySelectorAll('[data-gtab]').forEach(function (b) {
+    b.addEventListener('click', function () { setGdTab(b.dataset.gtab); });
+  });
+
+  function renderStats(g) {
+    var bars = document.getElementById('gd-bars');
+    bars.innerHTML = '';
+    var rw = roster(g, 'w');
+    var maxW = rw.length ? rw[0].w : 1;
+    rw.forEach(function (m) {
+      var col = document.createElement('div');
+      col.className = 'wbar' + (m.you ? ' wbar--you' : '');
+      col.title = m.n + ' · ' + m.w.toLocaleString('en-US') + ' steps this week';
+      var lbl = m.w >= 1000 ? (m.w / 1000).toFixed(1) + 'k' : String(m.w);
+      col.innerHTML =
+        '<span class="wbar__val num">' + lbl + '</span>' +
+        '<span class="wbar__col" style="height:' + Math.max(8, Math.round(m.w / maxW * 110)) + 'px"></span>' +
+        '<span class="wbar__lbl">' + escapeHtml(m.i) + '</span>';
+      bars.appendChild(col);
+    });
+    var total = g.members.reduce(function (s, m) { return s + m.w; }, 0);
+    var best = Math.max.apply(null, g.trend);
+    var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    document.getElementById('gd-stat-row').innerHTML =
+      '<div class="stat-cell"><b class="num">' + total.toLocaleString('en-US') + '</b><span>group steps · this week</span></div>' +
+      '<div class="stat-cell"><b class="num">' + best.toLocaleString('en-US') + '</b><span>best day · ' + days[g.trend.indexOf(best)] + '</span></div>';
+  }
+
+  /* ── 12 · global user sheet + DM threads ─────────────────────────── */
+  var USER_INFO = {
+    'Aisha R.':   { streak: 34, badges: ['Global top 5', '100k club'] },
+    'Tomás L.':  { streak: 21, badges: ['Evening walker'] },
+    'Kenji S.':   { streak: 58, badges: ['Global top 5', 'Hill taker', '100k club'] },
+    'Nadia F.':   { streak: 12, badges: ['Dawn patrol'] },
+    'Owen M.':    { streak: 9,  badges: ['Stair master'] },
+    'Ines B.':    { streak: 27, badges: ['Podium week'] },
+    'Priya T.':   { streak: 19, badges: ['Goal crusher'] },
+    'Maya K.':    { streak: 41, badges: ['Dawn patrol', '12-week streak'] },
+    'Marisol V.': { streak: 30, badges: ['Hill taker'] }
+  };
+  var sheetUser = null;
+  function weeklyOf(name) {
+    var list = LB['weekly-global'];
+    for (var i = 0; i < list.length; i++) if (list[i].n === name) return list[i];
+    return null;
+  }
+  function openUserSheet(row, idx) {
+    var wk = weeklyOf(row.n);
+    var rank = wk ? (LB['weekly-global'].indexOf(wk) + 1) : (idx + 1);
+    var info = USER_INFO[row.n] || { streak: 7, badges: ['New walker'] };
+    var avgDay = wk ? Math.round(wk.s / 7) : null;
+    sheetUser = { n: row.n, i: row.i, v: row.v, rank: rank, wk: wk ? wk.s : null };
+    var av = document.getElementById('us-avatar');
+    av.className = 'avatar avatar--lg' + (row.v ? ' avatar--' + row.v : '');
+    av.textContent = row.i;
+    document.getElementById('us-name').textContent = row.n;
+    document.getElementById('us-rank').textContent = 'Global weekly rank #' + rank;
+    document.getElementById('us-avg').textContent = avgDay === null ? '—' : avgDay.toLocaleString('en-US');
+    document.getElementById('us-streak').textContent = info.streak;
+    document.getElementById('us-total').textContent = wk ? wk.s.toLocaleString('en-US') : '—';
+    var bd = document.getElementById('us-badges');
+    bd.innerHTML = '';
+    info.badges.forEach(function (b) {
+      bd.insertAdjacentHTML('beforeend', '<span class="ubadge">' + escapeHtml(b) + '</span>');
+    });
+    openSheet(document.getElementById('user-sheet'));
+  }
+  document.getElementById('btn-dm-user').addEventListener('click', function () {
+    if (!sheetUser) return;
+    closeSheets();
+    openDm(sheetUser.n, { i: sheetUser.i, v: sheetUser.v, rank: sheetUser.rank, wk: sheetUser.wk });
+  });
+
+  var DM = {
+    'Nina P.': [
+      { mid: 'n1', s: 'out', i: 'YO', v: 'slate', who: 'You',  t: 'Mon',    text: 'Did the river loop this morning?' },
+      { mid: 'n2', s: 'in',  i: 'NP', v: 'lime',  who: 'Nina', t: '09:05', text: 'great run today 🙌' }
+    ]
+  };
+  var DM_META = [{ peer: 'Nina P.', i: 'NP', v: 'lime', unread: 1, blocked: false }];
+  var dmPeer = null;
+  var dmScroll = document.getElementById('dm-scroll');
+
+  function dmBlocked() {
+    if (!dmPeer) return false;
+    for (var i = 0; i < DM_META.length; i++) if (DM_META[i].peer === dmPeer.name) return !!DM_META[i].blocked;
+    return false;
+  }
+
+  function renderDm() {
+    if (!dmPeer) return;
+    dmScroll.innerHTML = '';
+    (DM[dmPeer.name] || []).forEach(function (m) {
+      var row = document.createElement('div');
+      row.className = 'msg ' + (m.s === 'out' ? 'msg--out' : 'msg--in');
+      row.setAttribute('data-mid', m.mid);
+      row.setAttribute('data-od-id', 'dm-message-' + m.mid);
+      var avCls = m.s === 'out' ? 'avatar avatar--slate' : 'avatar' + (m.v ? ' avatar--' + m.v : '');
+      row.innerHTML =
+        '<div class="' + avCls + '" aria-hidden="true">' + escapeHtml(m.i) + '</div>' +
+        '<div class="msg__bubble"></div>';
+      var bubble = row.querySelector('.msg__bubble');
+      bubble.textContent = m.text;
+      var t = document.createElement('span');
+      t.className = 'msg__time'; t.textContent = m.t;
+      bubble.appendChild(t);
+      dmScroll.appendChild(row);
+    });
+    if (dmBlocked()) {
+      var sys = document.createElement('div');
+      sys.className = 'syscard';
+      sys.innerHTML = '<b>Blocked</b><p>' + escapeHtml(dmPeer.name) + ' can\'t message you and you won\'t see their replies.</p>';
+      dmScroll.appendChild(sys);
+    }
+    document.getElementById('dm-composer').classList.toggle('u-hide', dmBlocked());
+    dmScroll.scrollTop = dmScroll.scrollHeight;
+  }
+
+  function openDm(name, profile) {
+    profile = profile || {};
+    var meta = null;
+    for (var i = 0; i < DM_META.length; i++) if (DM_META[i].peer === name) meta = DM_META[i];
+    if (!meta) {
+      meta = { peer: name, i: profile.i || name.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase(), v: profile.v || '', unread: 0, blocked: false };
+      DM_META.unshift(meta);
+    }
+    if (!DM[name]) DM[name] = [];
+    meta.unread = 0;
+    dmPeer = { name: name, i: meta.i, v: meta.v };
+    document.getElementById('dm-title').textContent = name;
+    document.getElementById('dm-sub').textContent = profile.rank
+      ? 'Global weekly #' + profile.rank + ' · ' + Math.round((profile.wk || 0) / 7).toLocaleString('en-US') + ' avg/day'
+      : 'Direct message';
+    var av = document.getElementById('dm-avatar');
+    av.className = 'avatar' + (meta.v ? ' avatar--' + meta.v : '');
+    av.textContent = meta.i;
+    document.getElementById('dm-input').placeholder = 'Message ' + name.split(' ')[0] + '…';
+    renderDm();
+    renderHub();
+    showScreen('scr-dm-thread');
+  }
+
+  document.getElementById('dm-composer').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!dmPeer || dmBlocked()) return;
+    var input = document.getElementById('dm-input');
+    var text = input.value.trim();
+    if (!text) return;
+    var now = new Date();
+    var hh = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
+    DM[dmPeer.name].push({ mid: 'm' + (++msgSeq), s: 'out', i: 'YO', v: 'slate', who: 'You', t: hh, text: text });
+    input.value = '';
+    renderDm();
+    renderHub();
+  });
+
+  document.getElementById('btn-dm-menu').addEventListener('click', function () {
+    if (!dmPeer) return;
+    document.getElementById('dm-sheet-title').textContent = 'Conversation with ' + dmPeer.name;
+    document.getElementById('btn-dm-block').classList.toggle('u-hide', dmBlocked());
+    openSheet(document.getElementById('dm-sheet'));
+  });
+  document.getElementById('btn-dm-cancel').addEventListener('click', closeSheets);
+  document.getElementById('btn-dm-report').addEventListener('click', function () {
+    closeSheets();
+    if (dmPeer) toast('Reported ' + dmPeer.name + ' to moderators');
+  });
+  document.getElementById('btn-dm-block').addEventListener('click', function () {
+    if (dmPeer) {
+      for (var i = 0; i < DM_META.length; i++) if (DM_META[i].peer === dmPeer.name) DM_META[i].blocked = true;
+      toast('Blocked ' + dmPeer.name);
+      renderDm();
+      renderHub();
+    }
+    closeSheets();
+  });
+
   /* ── device presentation: scale the frame to fit the viewport ─────
      Desktop only. ≤500px the CSS media query dissolves the frame and
      the app fills 100dvh, so we hand the sizing back to CSS. */
@@ -1615,9 +2247,12 @@
   if (mqMobile.addEventListener) mqMobile.addEventListener('change', fitDevice);
   fitDevice();
 
-  /* boot: My Groups + hub render eagerly so screens are never blank */
+  /* boot: every data-driven screen renders eagerly — never blank */
   renderGroups();
   renderHub();
+  renderDiscover();
+  refreshTodayGoal();
+  drawQr(document.getElementById('invite-link').textContent.trim());
 })();
 </script>
 </body>
