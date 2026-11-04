@@ -1859,6 +1859,9 @@
     epPrev.className = 'avatar avatar--lg' + (S.avV && !S.avChar ? ' avatar--' + S.avV : '') + (S.avChar ? ' avatar--char' : '');
     if (S.avChar) epPrev.innerHTML = avCharSvg(S.avChar, 56);
     else epPrev.textContent = S.avI;
+    /* FIX(qa) · KI-2 — round-trip the stored display name so reopening the
+       form after a rename shows it (static markup always said "You"). */
+    document.getElementById('ep-name').value = S.displayName || 'You';
     document.getElementById('ep-initials').value = S.avI;
     document.querySelectorAll('[data-av]').forEach(function (sw) {
       sw.classList.toggle('active', !S.avChar && sw.dataset.av === S.avV);
@@ -3294,6 +3297,10 @@
     toast(on ? 'Achievements visible on your profile' : 'Achievements hidden on your profile');
   });
   function renderProfileG4() {
+    /* FIX(qa) · KI-2 — header name must boot-paint from state. The edit-profile
+       save handler's direct #pf-name write lands on a detached stub (real element
+       lives on profile.html only), so profile boot relies on this line. */
+    document.getElementById('pf-name').textContent = S.displayName || 'You';
     var line = document.getElementById('pf-userline');
     line.textContent = '@' + S.username + ' \u00b7 ' + S.city;
     line.hidden = !S.username;
