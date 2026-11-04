@@ -1930,14 +1930,30 @@
   });
 
   /* ── notifications submenu ───────────────────────────────────────── */
+  /* FIX(qa) · KI-3 — notification switches now persist to S.notifs (saveSS
+     snapshots the whole S object) and are restored on each screen's enter. */
+  function notifPersist(id, on) { (S.notifs || (S.notifs = {}))[id] = !!on; saveNow(); }
+  function notifRestore(ids) {
+    var ns = S.notifs || {};
+    ids.forEach(function (id) {
+      if (!(id in ns)) return;
+      var sw = document.getElementById(id);
+      if (sw.getAttribute('data-stub')) return;   /* absent on this page */
+      sw.setAttribute('aria-checked', String(ns[id]));
+      if (id === 'sw-streak') document.getElementById('nr-time-row').style.display = ns[id] ? '' : 'none';
+    });
+  }
+  var NOTIF_IDS = ['sw-streak', 'sw-gact', 'sw-chal', 'sw-quiet'];
+  enterHooks['scr-settings-notifications'] = function () { notifRestore(NOTIF_IDS); };
   bindSwitch('sw-streak', function (on) {
+    notifPersist('sw-streak', on);
     document.getElementById('nr-time-row').style.display = on ? '' : 'none';
     toast(on ? 'Streak reminders on' : 'Streak reminders off');
   });
-  bindSwitch('sw-gact', function (on) { toast(on ? 'Group activity on' : 'Group activity off'); });
-  bindSwitch('sw-chal', function (on) { toast(on ? 'Challenge alerts on' : 'Challenge alerts off'); });
-  bindSwitch('sw-quiet', function (on) { toast(on ? 'Quiet hours on — 10pm to 7am' : 'Quiet hours off'); });
-  bindSwitch('sw-goalsoon', function (on) { toast(on ? 'Goal visible to squad' : 'Goal hidden from squad'); });
+  bindSwitch('sw-gact', function (on) { notifPersist('sw-gact', on); toast(on ? 'Group activity on' : 'Group activity off'); });
+  bindSwitch('sw-chal', function (on) { notifPersist('sw-chal', on); toast(on ? 'Challenge alerts on' : 'Challenge alerts off'); });
+  bindSwitch('sw-quiet', function (on) { notifPersist('sw-quiet', on); toast(on ? 'Quiet hours on — 10pm to 7am' : 'Quiet hours off'); });
+  bindSwitch('sw-goalsoon', function (on) { notifPersist('sw-goalsoon', on); toast(on ? 'Goal visible to squad' : 'Goal hidden from squad'); });
   var TIMES = ['6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '9:00 PM'], tIdx = 1;
   document.getElementById('nr-time').addEventListener('click', function () {
     tIdx = (tIdx + 1) % TIMES.length;
@@ -1989,7 +2005,7 @@
     updateBlockChip();
   }
   enterHooks['scr-blocklist'] = renderBlocklist;
-  enterHooks['scr-settings-privacy'] = updateBlockChip;
+  enterHooks['scr-settings-privacy'] = function () { updateBlockChip(); notifRestore(['sw-goalsoon']); };
 
   /* ── help · FAQ accordion + support ──────────────────────────────── */
   document.querySelectorAll('.faq__q').forEach(function (q) {
