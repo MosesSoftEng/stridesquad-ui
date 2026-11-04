@@ -2926,7 +2926,6 @@
     document.getElementById('user-head-sub').textContent = p.rank ? 'Global weekly rank #' + p.rank : 'StrideSquad walker';
     var av = document.getElementById('user-av');
     av.className = 'uav' + (p.v ? ' uav--' + p.v : '');
-    document.getElementById('user-ini').textContent = p.i || initialsOf(p.n);
     /* v8-g6 · generated avatar replaces the face plate for your own card */
     if (S.avChar && (p.n === 'You' || (S.displayName && p.n === S.displayName))) {
       av.classList.add('uav--char');
@@ -2935,6 +2934,10 @@
       av.classList.remove('uav--char');
       if (USER_AV_DEFAULT) av.innerHTML = USER_AV_DEFAULT;
     }
+    /* FIX(qa) · KI-1 — initials must be painted AFTER the innerHTML restore
+       above: USER_AV_DEFAULT re-injects the static <span id="user-ini">YO</span>,
+       so writing before it was always wiped out. */
+    document.getElementById('user-ini').textContent = p.i || initialsOf(p.n);
     document.getElementById('user-name').textContent = p.n;
     document.getElementById('user-city-n').textContent = p.city;
     document.getElementById('user-rank').textContent = p.rank
