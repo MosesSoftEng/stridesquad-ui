@@ -627,16 +627,67 @@
     --warn-line:  color-mix(in srgb, #F59E0B 45%, var(--border));
     --g-blue: #4285F4; --g-red: #EA4335; --g-yellow: #FBBC05; --g-green: #34A853;
   }
-  /* splash */
-  .splash { align-items: center; justify-content: center; text-align: center; gap: 6px; }
-  .splash__mark { width: 92px; height: 92px; border-radius: 28px; background: var(--primary-deep); display: grid; place-items: center; box-shadow: var(--shadow-card); }
-  .splash__mark svg { width: 52px; height: 52px; color: var(--highlight); }
-  .splash__word { font-family: var(--mono); font-size: 15px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--primary-ink); margin-top: 16px; }
-  .splash__tag { font-size: 12.5px; color: var(--muted); }
-  .splash__bar { width: 150px; height: 3px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 24px; }
-  .splash__bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--primary); animation: splashload 1.15s cubic-bezier(.3,.7,.4,1) forwards; }
-  @keyframes splashload { 0% { width: 0 } 100% { width: 100% } }
-  .reduce .splash__bar i { animation-duration: .01s; }
+  /* ═══ splash v2 — squad climbing the trail (single-component redesign) ═══
+     white → light-green vertical wash + topographic contour texture at ~3%.
+     All colors derive from the bound tokens; art-only hues are oklch() literals. */
+  .splash {
+    align-items: center; text-align: center; gap: 0; justify-content: space-between;
+    padding: 12px 18px calc(28px + env(safe-area-inset-bottom));
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' fill='none' stroke='rgba(15,23,42,.034)' stroke-width='1.3'%3E%3Cellipse cx='92' cy='92' rx='28' ry='21' transform='rotate(-16 92 92)'/%3E%3Cellipse cx='92' cy='92' rx='52' ry='39' transform='rotate(-16 92 92)'/%3E%3Cellipse cx='92' cy='92' rx='78' ry='60' transform='rotate(-16 92 92)'/%3E%3Cellipse cx='276' cy='272' rx='26' ry='34' transform='rotate(24 276 272)'/%3E%3Cellipse cx='276' cy='272' rx='52' ry='66' transform='rotate(24 276 272)'/%3E%3Cellipse cx='276' cy='272' rx='80' ry='98' transform='rotate(24 276 272)'/%3E%3Cpath d='M0 246 Q96 206 182 288 T360 252'/%3E%3Cpath d='M0 34 C108 74 236 -4 360 46'/%3E%3Cpath d='M-10 120 C70 132 150 104 240 128 S340 118 372 130'/%3E%3C/svg%3E") repeat 0 0 / 360px 360px,
+      linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--primary) 5%, var(--surface)) 52%, color-mix(in srgb, var(--primary) 12%, var(--surface)) 100%);
+  }
+  .phone.no-tabbar .splash { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
+
+  /* hero — flexes between 190 and 318px; scene stays bottom-anchored so
+     any leftover reads as sky, not as an empty hole */
+  .splash__hero { position: relative; width: 100%; flex: 1 1 220px; min-height: 190px; max-height: 318px; display: grid; place-items: end center; }
+  .splash__scene { width: 100%; height: 100%; }
+  .splash__scene text { font-family: var(--font); font-weight: 700; }
+  .splash__trail-band { stroke-dasharray: 100; stroke-dashoffset: 100; animation: splashdraw .75s cubic-bezier(.25,.65,.3,1) .05s forwards; }
+  .splash__trail-dash, .splash__props { opacity: 0; animation: splashfade .45s ease-out .55s forwards; }
+  .splash__av { opacity: 0; transform-box: fill-box; transform-origin: center;
+    filter: drop-shadow(0 3px 6px color-mix(in srgb, var(--ink) 14%, transparent));
+    animation: splashpop .5s cubic-bezier(.3,1.5,.6,1) forwards; }
+  #av1 { animation-delay: .16s; } #av2 { animation-delay: .27s; } #av3 { animation-delay: .38s; }
+  #av4 { animation-delay: .49s; } #av5 { animation-delay: .6s; }
+
+  /* branding — green square mark + forest-green uppercase wordmark, paired */
+  .splash__brand { position: relative; display: flex; align-items: center; justify-content: center; gap: 11px; margin-top: 20px; }
+  .splash__mark { position: relative; width: 46px; height: 46px; border-radius: 15px; background: linear-gradient(150deg, var(--primary), var(--primary-deep)); display: grid; place-items: center; box-shadow: 0 6px 14px color-mix(in srgb, var(--primary) 32%, transparent); }
+  .splash__mark svg { width: 26px; height: 26px; color: var(--highlight); }
+  .splash__word { font-size: 19px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; color: var(--primary-ink); }
+
+  /* copy stack */
+  .splash__headline { position: relative; margin-top: 16px; font-size: clamp(32px, 9.4vw, 38px); line-height: 1.09; letter-spacing: -0.025em; font-weight: 800; color: var(--ink); }
+  .splash__support { position: relative; margin-top: 12px; max-width: 330px; font-size: 15px; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
+
+  /* three feature pills */
+  .splash__chips { position: relative; margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; column-gap: 8px; row-gap: 8px; }
+  .splash__chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;
+    background: var(--surface); border: 1.5px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--ink) 6%, transparent);
+    font-size: 12.5px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap;
+    transition: transform .08s ease; }
+  .splash__chip:active { transform: scale(.97); }
+
+  /* CTA — single primary action, bottom-pinned, soft green shadow, real press state */
+  .splash__cta { position: relative; margin-top: 22px; min-height: 56px; border-radius: 18px; font-size: 17px;
+    box-shadow: 0 12px 26px color-mix(in srgb, var(--primary) 38%, transparent), 0 3px 8px color-mix(in srgb, var(--primary) 24%, transparent); }
+  .splash__cta:hover { background: color-mix(in srgb, var(--primary-deep) 88%, var(--ink)); }
+  .splash__cta:active { transform: translateY(1.5px) scale(.985);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--primary) 28%, transparent); }
+
+  /* staged entrances — full copy readable well inside the 3s window */
+  .splash__in { position: relative; animation: splashrise .5s cubic-bezier(.2,.7,.3,1) both; }
+  .splash__brand { animation-delay: .08s; } .splash__headline { animation-delay: .16s; }
+  .splash__support { animation-delay: .23s; } .splash__chips { animation-delay: .3s; }
+  .splash__cta { animation-delay: .38s; }
+  @keyframes splashrise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes splashpop { 0% { opacity: 0; transform: scale(.35); } 66% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes splashdraw { to { stroke-dashoffset: 0; } }
+  @keyframes splashfade { to { opacity: 1; } }
+  .reduce .splash *, .reduce .splash::before { animation-duration: .01s !important; animation-delay: 0s !important; }
 
   /* progress rail (never zero) */
   .rail { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
