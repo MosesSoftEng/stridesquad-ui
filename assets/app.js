@@ -3657,13 +3657,14 @@
     if (q.get('ch')) { openChannel(q.get('ch')); return; }
     if (q.get('dm')) { openDm(q.get('dm')); return; }
     if (q.get('u'))  { openUserProfile(findUserRow(q.get('u')), null); return; }
-    if (q.get('g'))  { openGroup(q.get('g'), q.get('tab') || undefined); return; }
+    if (q.get('g'))  { openGroup(groupById(q.get('g')) ? q.get('g') : currentGroup.id, q.get('tab') || undefined); return; }   /* FIX(qa) · unknown group id falls back to default instead of blank */
     if (q.get('open')) { showScreen(q.get('open')); return; }
     if (document.body.getAttribute('data-splash') === '1' && !S.onboarded) { bootSplash(); return; }
     if (def === 'scr-groups') {
-      if (q.get('city')) discoverCity = q.get('city');
+      if (q.get('city')) discoverCity = q.get('city').toLowerCase();   /* FIX(qa) · filter compares lower-case city */
       if (q.get('view')) gView = q.get('view');
       setGroupsView(gView || 'mine');
+      if ((gView || 'mine') === 'discover') renderDiscover();           /* FIX(qa) · re-render after city applied on deep link */
     }
     if (def === 'scr-group')        { openGroup(currentGroup.id); return; }
     if (def === 'scr-chat-thread')  { openChannel(curChannel || 'global'); return; }
