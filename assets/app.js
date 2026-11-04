@@ -4,34 +4,36 @@
 
   function SPRITE_HTML() {
     /* ══ Icon system · v8-g7 — crafted SVG sprite, one-time boot injection ══
-       24x24 grid · 2px stroke · round caps/joins · duotone: stroke currentColor,
-       explicit lime/gold fills on inner paths so .ico{fill:none} can't erase them. */
+       24x24 grid · 2px stroke · round caps/joins · unified nav line style:
+       every ic-* UI symbol is stroke-only currentColor — no accent fills.
+       Sticker art (stk-*) intentionally keeps its duotone fills. */
     var _ICONS = '<svg id="ss-icons" style="display:none" aria-hidden="true">'
       /* ── UI symbols ── */
-      + '<symbol id="ic-squad" viewBox="0 0 24 24"><circle cx="12" cy="9.2" r="4.9" fill="none" stroke="#A3E635"/><circle cx="12" cy="9.2" r="3" fill="rgba(163,230,53,.4)"/><path d="M7 20.5a5 5 0 0 1 10 0"/><circle cx="4.4" cy="7.2" r="1.9"/><path d="M2 13.9a3.1 3.1 0 0 1 5.4 1.4"/><circle cx="19.6" cy="7.2" r="1.9"/><path d="M22 13.9a3.1 3.1 0 0 0-5.4 1.4"/></symbol>'
-      + '<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13 2.2 4.8 13.4h5.1L8.9 21.8l8.4-11.4h-5.1L13 2.2Z" fill="rgba(163,230,53,.4)"/></symbol>'
-      + '<symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4.5a5 5 0 0 1-10 0V4Z" fill="rgba(163,230,53,.35)"/><path d="M8 21h8M12 17.5V21"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></symbol>'
-      + '<symbol id="ic-footprint" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(163,230,53,.28)"/><ellipse cx="9.3" cy="8.5" rx="2.1" ry="2.9" transform="rotate(-16 9.3 8.5)" fill="#A3E635" stroke="none"/><ellipse cx="13.9" cy="14.6" rx="2.1" ry="2.9" transform="rotate(16 13.9 14.6)" fill="#A3E635" stroke="none"/></symbol>'
-      + '<symbol id="ic-flame" viewBox="0 0 24 24"><path d="M12 2.6c.7 3.1-1.3 4.5-2.6 6.1A6.7 6.7 0 0 0 7 14.3a5 5 0 0 0 10 0c0-2-.8-3.6-1.9-4.9-.4 1.3-1.1 2-1.9 2.3.9-3 .4-6.5-1.2-9.1Z"/><path d="M12 14c1.5 1.7 2.1 2.7 2.1 3.8a2.6 2.6 0 0 1-5.2 0c0-1.1 1.1-2.2 3.1-3.8Z" fill="rgba(163,230,53,.55)" stroke="none"/></symbol>'
-      + '<symbol id="ic-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="11.8" rx="1.6" fill="rgba(163,230,53,.28)"/><path d="M3.5 12.6h17M12 8.5v11.8"/><path d="M12 8.5C11.2 5.9 9.7 4.7 8.2 5c-1.6.3-2 2.3-.7 3.2 1 .7 3.2.8 4.5.3Z" fill="rgba(163,230,53,.5)"/><path d="M12 8.5c.8-2.6 2.3-3.8 3.8-3.5 1.6.3 2 2.3.7 3.2-1 .7-3.2.8-4.5.3Z" fill="rgba(163,230,53,.5)"/></symbol>'
-      + '<symbol id="ic-event" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="15" rx="2.2" fill="rgba(163,230,53,.25)"/><path d="M3.5 10h17M8 3.5v4M16 3.5v4"/><circle cx="8.6" cy="14.2" r="1.2" fill="#A3E635" stroke="none"/><circle cx="12.6" cy="14.2" r="1.2" fill="rgba(15,23,42,.45)" stroke="none"/></symbol>'
-      + '<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8" fill="rgba(163,230,53,.22)"/><path d="M3.2 12h17.6M12 3.2c4 5 4 12.6 0 17.6-4-5-4-12.6 0-17.6Z"/></symbol>'
-      + '<symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3.2" y="5.5" width="17.6" height="14" rx="2.4" fill="rgba(163,230,53,.25)"/><circle cx="9" cy="10.2" r="1.5" fill="#A3E635" stroke="none"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></symbol>'
-      + '<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6.2 16V11a5.8 5.8 0 0 1 11.6 0v5l1.6 2.6H4.6L6.2 16Z" fill="rgba(163,230,53,.3)"/><path d="M10 21.2a2.2 2.2 0 0 0 4 0"/></symbol>'
-      + '<symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3.4 2.7 5.4 6 .9-4.3 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.7l6-.9L12 3.4Z" fill="rgba(163,230,53,.35)"/></symbol>'
-      + '<symbol id="ic-medal" viewBox="0 0 24 24"><path d="M8.8 3.6 11 8.8M15.2 3.6 13 8.8"/><circle cx="12" cy="14.8" r="5.8" fill="rgba(245,158,11,.4)"/><circle cx="12" cy="14.8" r="1.9" fill="rgba(163,230,53,.85)" stroke="none"/></symbol>'
-      + '<symbol id="ic-route" viewBox="0 0 24 24"><path d="M6.2 18.6c3.2-1 2-4.2-.4-5.4-3-1.6-2.2-5.8 1.6-6.6 3-.6 6.6.6 9.4-1.4"/><circle cx="4.4" cy="19.8" r="1.9" fill="rgba(163,230,53,.85)" stroke="none"/><circle cx="19.6" cy="4.4" r="1.9" fill="rgba(15,23,42,.35)" stroke="none"/></symbol>'
-      + '<symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h14"/><path d="M13.5 6.2 19.3 12l-5.8 5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
-      + '<symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="M19.5 12h-14"/><path d="M10.5 6.2 4.7 12l5.8 5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
-      + '<symbol id="ic-arrow-down" viewBox="0 0 24 24"><path d="M12 4.5v14"/><path d="M6.2 13.5 12 19.3l5.8-5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
+      + '<symbol id="ic-squad" viewBox="0 0 24 24"><circle cx="12" cy="9.2" r="4.9"/><path d="M7 20.5a5 5 0 0 1 10 0"/><circle cx="4.4" cy="7.2" r="1.9"/><path d="M2 13.9a3.1 3.1 0 0 1 5.4 1.4"/><circle cx="19.6" cy="7.2" r="1.9"/><path d="M22 13.9a3.1 3.1 0 0 0-5.4 1.4"/></symbol>'
+      + '<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13 2.2 4.8 13.4h5.1L8.9 21.8l8.4-11.4h-5.1L13 2.2Z"/></symbol>'
+      + '<symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M8 21h8M12 17.5V21"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></symbol>'
+      + '<symbol id="ic-footprint" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="9.3" cy="8.5" rx="2.1" ry="2.9" transform="rotate(-16 9.3 8.5)"/><ellipse cx="13.9" cy="14.6" rx="2.1" ry="2.9" transform="rotate(16 13.9 14.6)"/></symbol>'
+      + '<symbol id="ic-flame" viewBox="0 0 24 24"><path d="M12 2.6c.7 3.1-1.3 4.5-2.6 6.1A6.7 6.7 0 0 0 7 14.3a5 5 0 0 0 10 0c0-2-.8-3.6-1.9-4.9-.4 1.3-1.1 2-1.9 2.3.9-3 .4-6.5-1.2-9.1Z"/><path d="M12 14c1.5 1.7 2.1 2.7 2.1 3.8a2.6 2.6 0 0 1-5.2 0c0-1.1 1.1-2.2 3.1-3.8Z"/></symbol>'
+      + '<symbol id="ic-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="11.8" rx="1.6"/><path d="M3.5 12.6h17M12 8.5v11.8"/><path d="M12 8.5C11.2 5.9 9.7 4.7 8.2 5c-1.6.3-2 2.3-.7 3.2 1 .7 3.2.8 4.5.3Z"/><path d="M12 8.5c.8-2.6 2.3-3.8 3.8-3.5 1.6.3 2 2.3.7 3.2-1 .7-3.2.8-4.5.3Z"/></symbol>'
+      + '<symbol id="ic-event" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="15" rx="2.2"/><path d="M3.5 10h17M8 3.5v4M16 3.5v4"/><circle cx="8.6" cy="14.2" r="1.2"/><circle cx="12.6" cy="14.2" r="1.2"/></symbol>'
+      + '<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M3.2 12h17.6M12 3.2c4 5 4 12.6 0 17.6-4-5-4-12.6 0-17.6Z"/></symbol>'
+      + '<symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3.2" y="5.5" width="17.6" height="14" rx="2.4"/><circle cx="9" cy="10.2" r="1.5"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></symbol>'
+      + '<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6.2 16V11a5.8 5.8 0 0 1 11.6 0v5l1.6 2.6H4.6L6.2 16Z"/><path d="M10 21.2a2.2 2.2 0 0 0 4 0"/></symbol>'
+      + '<symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3.4 2.7 5.4 6 .9-4.3 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.7l6-.9L12 3.4Z"/></symbol>'
+      + '<symbol id="ic-medal" viewBox="0 0 24 24"><path d="M8.8 3.6 11 8.8M15.2 3.6 13 8.8"/><circle cx="12" cy="14.8" r="5.8"/><circle cx="12" cy="14.8" r="1.9"/></symbol>'
+      + '<symbol id="ic-route" viewBox="0 0 24 24"><path d="M6.2 18.6c3.2-1 2-4.2-.4-5.4-3-1.6-2.2-5.8 1.6-6.6 3-.6 6.6.6 9.4-1.4"/><circle cx="4.4" cy="19.8" r="1.9"/><circle cx="19.6" cy="4.4" r="1.9"/></symbol>'
+      + '<symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h14"/><path d="m13.5 6.2 5.8 5.8-5.8 5.8"/></symbol>'
+      + '<symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="M19.5 12h-14"/><path d="m10.5 6.2-5.8 5.8 5.8 5.8"/></symbol>'
+      + '<symbol id="ic-arrow-down" viewBox="0 0 24 24"><path d="M12 4.5v14"/><path d="m6.2 13.5 5.8 5.8 5.8-5.8"/></symbol>'
       + '<symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/></symbol>'
-      + '<symbol id="ic-users-plus" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="rgba(163,230,53,.4)"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="16.6" cy="7.6" r="2.2"/><path d="M17.2 11.6v6M14.2 14.6h6"/></symbol>'
-      + '<symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M12 2.8 5 5.5v5.6c0 4.4 3 7.7 7 9.5 4-1.8 7-5.1 7-9.5V5.5l-7-2.7Z" fill="rgba(163,230,53,.28)"/><path d="m9 12.2 2.3 2.3 4.4-5"/></symbol>'
+      + '<symbol id="ic-users-plus" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="16.6" cy="7.6" r="2.2"/><path d="M17.2 11.6v6M14.2 14.6h6"/></symbol>'
+      + '<symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M12 2.8 5 5.5v5.6c0 4.4 3 7.7 7 9.5 4-1.8 7-5.1 7-9.5V5.5l-7-2.7Z"/><path d="m9 12.2 2.3 2.3 4.4-5"/></symbol>'
       + '<symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></symbol>'
-      + '<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8" fill="rgba(163,230,53,.25)"/><path d="M12 6.8V12l3.6 2.2"/></symbol>'
-      + '<symbol id="ic-spark" viewBox="0 0 24 24"><path d="M11 3.2c1 4.7 2.6 6.3 7.3 7.3-4.7 1-6.3 2.6-7.3 7.3-1-4.7-2.6-6.3-7.3-7.3 4.7-1 6.3-2.6 7.3-7.3Z" fill="rgba(245,158,11,.45)"/><path d="M18.8 15.2c.4 1.8 1 2.4 2.8 2.8-1.8.4-2.4 1-2.8 2.8-.4-1.8-1-2.4-2.8-2.8 1.8-.4 2.4-1 2.8-2.8Z" fill="#F59E0B" stroke="none"/></symbol>'
-      + '<symbol id="ic-cheer" viewBox="0 0 24 24"><path d="M3.8 20.4 7.4 9.8l6.8 6.8-10.4 3.8Z" fill="rgba(163,230,53,.35)"/><path d="m6.4 15.6 4.4 2.8"/><circle cx="17.2" cy="6.4" r="1" fill="#A3E635" stroke="none"/><circle cx="20.8" cy="10.4" r=".9" fill="rgba(15,23,42,.75)" stroke="none"/><path d="M14.6 3.2v2.6M19.6 2.6l-1.4 2.2M21.6 6.6l-2.4.8"/></symbol>'
-      + '<symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4.8h14.6v8H5Z" fill="rgba(163,230,53,.3)"/><rect x="8.65" y="4.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="15.95" y="4.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="5" y="8.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="12.3" y="8.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/></symbol>'
+      + '<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.8V12l3.6 2.2"/></symbol>'
+      + '<symbol id="ic-spark" viewBox="0 0 24 24"><path d="M11 3.2c1 4.7 2.6 6.3 7.3 7.3-4.7 1-6.3 2.6-7.3 7.3-1-4.7-2.6-6.3-7.3-7.3 4.7-1 6.3-2.6 7.3-7.3Z"/><path d="M18.8 15.2c.4 1.8 1 2.4 2.8 2.8-1.8.4-2.4 1-2.8 2.8-.4-1.8-1-2.4-2.8-2.8 1.8-.4 2.4-1 2.8-2.8Z"/></symbol>'
+      + '<symbol id="ic-cheer" viewBox="0 0 24 24"><path d="M3.8 20.4 7.4 9.8l6.8 6.8-10.4 3.8Z"/><path d="m6.4 15.6 4.4 2.8"/><circle cx="17.2" cy="6.4" r="1"/><circle cx="20.8" cy="10.4" r=".9"/><path d="M14.6 3.2v2.6M19.6 2.6l-1.4 2.2M21.6 6.6l-2.4.8"/></symbol>'
+      + '<symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4.8h14.6v8H5Z"/></symbol>'
+      + '<symbol id="ic-logout" viewBox="0 0 24 24"><path d="M9.5 4.5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h3.5"/><path d="m15.5 8.5 3.5 3.5-3.5 3.5"/><path d="M19 12H9.5"/></symbol>'
       /* ── sticker art symbols — playful duotone, no text ── */
       + '<symbol id="stk-kicks" viewBox="0 0 24 24"><path d="M4.6 16.4c.3-3.4 1.4-5.5 3.4-7l1.8-1.3c.6-.4 1.2-.3 1.8.1 1.4.9 3 1.4 4.7 1.6 1.7.2 2.8 1.3 3.1 3l.4 2.1c.1 1-.7 1.9-1.7 1.9H6.3c-1 0-1.8-.9-1.7-1.9l-.3.5Z" fill="rgba(245,158,11,.4)"/><path d="M4.6 18.8h14.9"/><path d="m8.8 12.8 3 2.6"/><path d="M5.9 16.9h6.3" stroke="#A3E635"/></symbol>'
       + '<symbol id="stk-flameface" viewBox="0 0 24 24"><path d="M12 3c.7 3-1.2 4.4-2.4 6A6.4 6.4 0 0 0 7.8 14.4a4.6 4.6 0 0 0 9.2 0c0-1.9-.8-3.4-1.8-4.6-.4 1.2-1.1 1.8-1.8 2 .8-2.9.3-6-1.4-8.8Z"/><circle cx="10.2" cy="13.4" r=".85" fill="currentColor" stroke="none"/><circle cx="13.8" cy="13.4" r=".85" fill="currentColor" stroke="none"/><path d="M10.4 15.8c.5.7 1 1 1.6 1s1.1-.3 1.6-1"/><circle cx="8.2" cy="14.6" r=".9" fill="rgba(163,230,53,.8)" stroke="none"/><circle cx="15.8" cy="14.6" r=".9" fill="rgba(163,230,53,.8)" stroke="none"/></symbol>'
@@ -1904,9 +1906,25 @@
     refreshAcctRow();
     toast('Export requested — .zip emailed within 24h');
   });
+  /* ── logout · one shared path for profile's Log out + Settings>Account>Sign out ──
+     Clears localStorage 'ss.v8.state' completely and routes signup.html.
+     Works for signed-up and demo users alike; demo users see an extra
+     "progress will not be saved" line in the profile confirm sheet. */
+  var _loggingOut = false;
+  function doLogout() {
+    _loggingOut = true;                       /* stop lifecycle saves from resurrecting the cleared state */
+    try { localStorage.removeItem(SS_KEY); } catch (e) {}
+    location.href = 'signup.html';
+  }
+  var logoutSheet = document.getElementById('logout-sheet');
+  document.getElementById('btn-profile-logout').addEventListener('click', function () {
+    document.getElementById('logout-sheet-demo').hidden = !S.demo;   /* demo note only for demo sessions */
+    openSheet(logoutSheet);
+  });
+  document.getElementById('btn-logout-cancel').addEventListener('click', closeSheets);
+  document.getElementById('btn-logout-confirm').addEventListener('click', doLogout);
   document.getElementById('btn-signout').addEventListener('click', function () {
-    toast('Signed out');
-    showScreen('scr-login');
+    doLogout();                               /* single shared logout handler */
   });
 
   /* ── delete account · confirm sheet + final state ────────────────── */
@@ -2178,14 +2196,14 @@
 
   /* ── notifications inbox ────────────────────────────────────────── */
   var NI = {
-    trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>',
-    up:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0-5 5m5-5 5 5"/></svg>',
-    heart:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.6-9.2-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.2 11c-2.2 4.4-9.2 9-9.2 9Z"/></svg>',
-    person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>',
-    coin:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12h7M12 8.5v7"/></svg>',
-    users:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>',
-    info:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.6" r=".9" fill="currentColor" stroke="none"/></svg>',
-    moon:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></svg>'
+    trophy: '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>',
+    up:     '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0-5 5m5-5 5 5"/></svg>',
+    heart:  '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.6-9.2-9A5.4 5.4 0 0 1 12 6.5 5.4 5.4 0 0 1 21.2 11c-2.2 4.4-9.2 9-9.2 9Z"/></svg>',
+    person: '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>',
+    coin:   '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12h7M12 8.5v7"/></svg>',
+    users:  '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>',
+    info:   '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.6" r=".9" fill="currentColor" stroke="none"/></svg>',
+    moon:   '<svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></svg>'
   };
   var NOTIF = [
     { h: 'Squad activity', rows: [
@@ -2227,7 +2245,7 @@
         row.className = 'notif-row';
         row.setAttribute('data-od-id', 'notif-row-' + si + '-' + ri);
         row.innerHTML =
-          '<span class="notif-ic' + (r.cls ? ' ' + r.cls : '') + '" aria-hidden="true">' + NI[r.ic] + '</span>' +
+          NI[r.ic] +
           '<span class="notif-row__t"><b>' + safeHTML(r.t) + '</b><span>' + safeHTML(r.s) + '</span></span>' +
           '<span class="notif-row__end"><span class="notif-row__time">' + escapeHtml(r.m) + '</span>' +
           (r.u ? '<span class="unread-dot" aria-label="Unread"></span>' : '') + '</span>';
@@ -2655,10 +2673,10 @@
       when: 'Oct 26 · 6:45', walked: 12, past: true }
   ];
   var EV_ICONS = {
-    walk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5h18V18a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 18v-2.5Z"/><path d="M3 15.5V11l4-4 2.4 2 5.1-.6L18 12l3 1v2.5"/><path d="M9.5 11.5 8 13.2"/></svg>',
-    routine: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2.5 3.5 3.5L17 9.5"/><path d="M3.5 11V9.5a4 4 0 0 1 4-4h13"/><path d="M7 21.5 3.5 18 7 14.5"/><path d="M20.5 13v1.5a4 4 0 0 1-4 4h-13"/></svg>',
-    challenge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21.5V3.5"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg>',
-    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>'
+    walk: '<svg class="ico"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5h18V18a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 18v-2.5Z"/><path d="M3 15.5V11l4-4 2.4 2 5.1-.6L18 12l3 1v2.5"/><path d="M9.5 11.5 8 13.2"/></svg>',
+    routine: '<svg class="ico"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m17 2.5 3.5 3.5L17 9.5"/><path d="M3.5 11V9.5a4 4 0 0 1 4-4h13"/><path d="M7 21.5 3.5 18 7 14.5"/><path d="M20.5 13v1.5a4 4 0 0 1-4 4h-13"/></svg>',
+    challenge: '<svg class="ico"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21.5V3.5"/><path d="M5 4h13l-3 4.5L18 13H5"/></svg>',
+    check: '<svg class="ico"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>'
   };
   function evIcon(t) { return EV_ICONS[t] || EV_ICONS.walk; }
   function eventById(id) {
@@ -2686,7 +2704,7 @@
   function evCardHtml(ev, g) {
     var on = ev.rsvp;
     return '<div class="evcard" data-ev="' + ev.id + '" data-od-id="event-card-' + ev.id + '">' +
-      '<div class="evcard__top"><span class="ev-ic" aria-hidden="true">' + evIcon(ev.type) + '</span>' +
+      '<div class="evcard__top">' + evIcon(ev.type) +
       '<div class="evcard__main"><b class="evcard__title">' + escapeHtml(ev.title) + '</b>' +
       '<span class="evcard__meta"><span class="ev-timechip">' + escapeHtml(ev.day + ' · ' + ev.time) + '</span>' +
       (ev.loc ? '<span class="ev-loc">' + CITY_PIN + escapeHtml(ev.loc) + '</span>' : '') +
@@ -2708,7 +2726,7 @@
   }
   function evPastHtml(ev) {
     return '<div class="evcard evcard--past" data-ev="' + ev.id + '" data-od-id="event-past-card-' + ev.id + '">' +
-      '<div class="evcard__top"><span class="ev-ic" aria-hidden="true">' + evIcon(ev.type) + '</span>' +
+      '<div class="evcard__top">' + evIcon(ev.type) +
       '<div class="evcard__main"><b class="evcard__title">' + escapeHtml(ev.title) + '</b>' +
       '<span class="evcard__meta"><span class="ev-timechip">' + escapeHtml(ev.when) + '</span></span>' +
       '<span class="ev-walked">' + EV_ICONS.check + '<b class="num">' + ev.walked + ' walked</b></span>' +
@@ -3664,6 +3682,7 @@
     return 0;
   }
   function saveSS(force) {
+    if (_loggingOut) return;   /* logout · state cleared deliberately — do not rewrite */
     try {
       var snap = {
         S: S, SOLE: SOLE, BLOCKLIST: BLOCKLIST, DM_META: DM_META, DM: DM,

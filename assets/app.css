@@ -178,6 +178,9 @@
   .btn--primary:hover { background: color-mix(in srgb, var(--primary-deep) 86%, var(--ink)); }
   .btn--ghost { background: var(--surface); color: var(--primary-ink); border: 1.5px solid var(--border); }
   .btn--ghost:hover { border-color: var(--primary); background: var(--primary-soft); }
+  .btn--danger-outline { background: var(--surface); color: var(--danger); border: 1.5px solid color-mix(in srgb, var(--danger) 45%, var(--border)); border-radius: 999px; }
+  .btn--danger-outline:hover { border-color: var(--danger); background: var(--danger-soft); }
+  .btn--danger-outline .ico { width: 20px; height: 20px; }
   .btn--text { color: var(--primary-ink); min-height: 44px; padding: 10px 6px; font-weight: 700; }
   .btn--text:hover { color: color-mix(in srgb, var(--primary-ink) 80%, var(--ink)); }
   .btn--block { width: 100%; }
@@ -414,12 +417,7 @@
   .gcta:active { transform: scale(0.99); }
   .gcta + .gcta { margin-top: 12px; }
   .gcta__t { display: flex; align-items: center; gap: 13px; min-width: 0; }
-  .gcta__glyph {
-    width: 42px; height: 42px; border-radius: 14px; flex: none;
-    background: var(--primary-soft); color: var(--primary-ink);
-    display: grid; place-items: center; font-size: 22px; font-weight: 800;
-  }
-  .gcta__glyph svg { width: 22px; height: 22px; }
+  .gcta__t > .ico { width: 20px; height: 20px; color: var(--primary-ink); }
   .gcta b { font-size: 15px; font-weight: 800; display: block; }
   .gcta span.s { font-size: 12.5px; color: var(--muted); }
   .gcta > svg { width: 20px; height: 20px; color: var(--faint); flex: none; }
@@ -476,12 +474,10 @@
     background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
     padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
   }
-  .ach__medal { width: 42px; height: 42px; border-radius: 14px; background: var(--primary-soft); display: grid; place-items: center; color: var(--primary-ink); }
-  .ach__medal svg { width: 22px; height: 22px; }
+  .ach > .ico { width: 20px; height: 20px; }
   .ach b { font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
   .ach span { font-size: 12px; color: var(--muted); line-height: 1.35; }
   .ach--locked { opacity: 0.55; }
-  .ach--locked .ach__medal { background: color-mix(in srgb, var(--muted) 12%, var(--surface)); color: var(--faint); }
   .set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
   .set-row + .set-row { border-top: 1px solid var(--border); }
   .set-row__t b { display: block; font-size: 15px; font-weight: 700; }
@@ -542,9 +538,7 @@
   .fork-card + .fork-card { margin-top:12px; }
   .fork-card:hover { border-color:var(--primary); background:var(--primary-soft); }
   .fork-card:active { transform:scale(.99); }
-  .fork-card__glyph { width:54px; height:54px; border-radius:18px; flex:none; display:grid; place-items:center; background:var(--primary-soft); color:var(--primary-ink); }
-  .fork-card__glyph svg { width:27px; height:27px; }
-  .fork-card__glyph--lime { background:color-mix(in srgb, var(--highlight) 55%, var(--surface)); color:var(--ink); }
+  .fork-card > .ico { width:20px; height:20px; color:var(--primary-ink); flex:none; }
   .fork-card__t { min-width:0; }
   .fork-card__t b { display:block; font-size:16.5px; font-weight:800; letter-spacing:-.01em; }
   .fork-card__t span { display:block; font-size:13px; color:var(--muted); margin-top:2px; }
@@ -738,9 +732,10 @@
   /* settings rows / submenus */
   .srow { display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; min-height: 60px; padding: 9px 2px; }
   .srow + .srow { border-top: 1px solid var(--border); }
-  .srow__ic { width: 38px; height: 38px; border-radius: 12px; background: var(--primary-soft); color: var(--primary-ink); display: grid; place-items: center; flex: none; }
+  .srow > .ico { width: 20px; height: 20px; }
+  /* brand-logo plates (Apple/Google marks) keep their art box; inline overrides live in markup */
+  .srow__ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none; }
   .srow__ic svg { width: 19px; height: 19px; }
-  .srow__ic--danger { background: var(--danger-soft); color: var(--danger); }
   .srow__t { flex: 1; min-width: 0; }
   .srow__t b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
   .srow__t span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 1px; }
@@ -779,12 +774,11 @@
 
   /* today v7 — loss framing + reciprocity */
   .shield { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-card); background: var(--warn-bg); border: 1.5px solid var(--warn-line); box-shadow: var(--shadow-card); margin-bottom: 14px; }
-  .shield__ic { width: 40px; height: 40px; border-radius: 14px; background: var(--surface); display: grid; place-items: center; flex: none; color: var(--warn); box-shadow: var(--shadow-card); }
-  .shield__ic svg { width: 22px; height: 22px; }
+  .shield > .ico { width: 20px; height: 20px; color: var(--warn); }
   .shield b { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
   .shield span { display: block; font-size: 12.5px; color: var(--warn); font-weight: 700; margin-top: 1px; }
   .shield.met { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 32%, var(--border)); }
-  .shield.met .shield__ic { color: var(--primary-ink); }
+  .shield.met > .ico { color: var(--primary-ink); }
   .shield.met span { color: var(--primary-ink); }
   .savecard { border: 1.5px solid var(--warn-line); }
   .savecard .btn { margin-top: 12px; }
@@ -889,20 +883,13 @@
     background: var(--surface); border-radius: 20px; box-shadow: var(--shadow-card);
     padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
   }
-  .medal__disc {
-    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--primary-soft); color: var(--primary-ink);
-    border: 2px solid color-mix(in srgb, var(--primary) 30%, var(--border));
-  }
-  .medal__disc svg { width: 22px; height: 22px; }
-  .medal__disc--lime { background: color-mix(in srgb, var(--highlight) 45%, var(--surface)); color: var(--ink); border-color: color-mix(in srgb, var(--highlight) 60%, var(--border)); }
+  .medal > .ico { width: 20px; height: 20px; }
   .medal b { font-size: 12.5px; font-weight: 800; letter-spacing: -.01em; line-height: 1.25; }
   .medal span { font-size: 11px; color: var(--muted); line-height: 1.3; }
   .lock-row { padding: 13px 2px; }
   .lock-row + .lock-row { border-top: 1px solid var(--border); }
   .lock-row__head { display: flex; align-items: center; gap: 12px; }
-  .lock-row__ic { width: 38px; height: 38px; border-radius: 50%; flex: none; display: grid; place-items: center; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); color: var(--faint); }
-  .lock-row__ic svg { width: 18px; height: 18px; }
+  .lock-row__head > .ico { width: 20px; height: 20px; }
   .lock-row__t { flex: 1; min-width: 0; }
   .lock-row__t b { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; }
   .lock-row__t span { display: block; font-size: 12px; color: var(--muted); margin-top: 1px; }
@@ -911,7 +898,7 @@
     background: color-mix(in srgb, var(--highlight) 42%, var(--surface)); color: var(--ink);
     border-radius: 999px; padding: 5px 10px; white-space: nowrap;
   }
-  .lock-row__bar { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding-left: 50px; }
+  .lock-row__bar { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding-left: 32px; }
   .lock-row__bar .meter { flex: 1; margin-top: 0; }
   .lock-row__pct { flex: none; font-family: var(--mono); font-size: 10.5px; font-weight: 800; color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .mile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -932,13 +919,7 @@
   }
   .notif-row:hover { background: var(--primary-soft); }
   .notif-row + .notif-row { border-top: 1px solid var(--border); }
-  .notif-ic {
-    width: 38px; height: 38px; border-radius: 12px; flex: none; display: grid; place-items: center;
-    background: var(--primary-soft); color: var(--primary-ink);
-  }
-  .notif-ic svg { width: 19px; height: 19px; }
-  .notif-ic--gift { background: color-mix(in srgb, var(--highlight) 45%, var(--surface)); color: var(--ink); }
-  .notif-ic--sys { background: color-mix(in srgb, var(--muted) 13%, var(--surface)); color: var(--muted); }
+  .notif-row > .ico { width: 20px; height: 20px; margin-top: 1px; }
   .notif-row__t { flex: 1; min-width: 0; }
   .notif-row__t b { display: block; font-size: 13.5px; font-weight: 800; letter-spacing: -.01em; line-height: 1.35; }
   .notif-row__t span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
@@ -1001,8 +982,7 @@
   .fs-apply { margin-top: 18px; }
   /* ═════ v8-g2 · nearby polish ═════ */
   .nb-gate { padding: 24px 18px 18px; text-align: center; }
-  .nb-gate__ic { width: 54px; height: 54px; border-radius: 18px; margin: 0 auto 12px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary-ink); }
-  .nb-gate__ic svg { width: 26px; height: 26px; }
+  .nb-gate > .ico { width: 24px; height: 24px; margin: 0 auto 12px; color: var(--primary-ink); }
   .nb-gate h3 { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
   .nb-gate p { font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-top: 6px; max-width: 30ch; margin-left: auto; margin-right: auto; }
   .nb-gate .btn { margin-top: 16px; }
@@ -1043,9 +1023,7 @@
   .evcard { background:var(--surface); border-radius:var(--radius-card); box-shadow:var(--shadow-card); padding:16px; }
   .evcard + .evcard { margin-top:12px; }
   .evcard__top { display:flex; gap:12px; align-items:flex-start; }
-  .ev-ic { width:42px; height:42px; border-radius:13px; display:grid; place-items:center; flex:none;
-    background:var(--primary-soft); color:var(--primary-ink); }
-  .ev-ic svg { width:21px; height:21px; }
+  .evcard__top > .ico { width: 20px; height: 20px; }
   .evcard__main { flex:1; min-width:0; }
   .evcard__title { display:block; font-size:15.5px; font-weight:800; letter-spacing:-.01em; line-height:1.3; }
   .evcard__meta { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:7px; }
@@ -1079,7 +1057,6 @@
   .ev-empty b { display:block; font-size:14px; font-weight:800; }
   .ev-empty p { font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.45; }
   .evcard--past { opacity:.55; }
-  .evcard--past .ev-ic { background:color-mix(in srgb, var(--muted) 12%, var(--surface)); color:var(--muted); }
   .ev-walked { display:inline-flex; align-items:center; gap:6px; margin-top:7px; font-size:12.5px; font-weight:800; color:var(--muted); font-variant-numeric:tabular-nums; }
   .ev-walked svg { width:14px; height:14px; color:var(--primary-ink); }
   /* chat event-card bubble */
@@ -1313,11 +1290,12 @@
   .plan-opt span.save-chip, .prod-row span.save-chip { display:inline-block; margin-left:6px; }
 
   /* ══ Icon system (v8-g7 · emoji → #ss-icons sprite) ════════════════════
-     .ico is the sprite shell: stroke tracks currentColor, duotone fills sit
-     on the symbol's inner paths, so root fill:none never erases them. */
+     .ico is the sprite shell: nav line style everywhere — 2px stroke,
+     currentColor, round caps/joins, no fills, no colored icon chips.
+     UI symbols inherit the parent text color; sizes are set per context. */
   .ico { flex:none; width:1em; height:1em; vertical-align:-0.125em; stroke:currentColor; fill:none;
          stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-  .splash__chip .ico, .chip .ico { width:20px; height:20px; color:var(--highlight); }
+  .splash__chip .ico, .chip .ico { width:18px; height:18px; }
   .sole-pill .ico { width:16px; height:16px; }
   #toast .ico { width:18px; height:18px; vertical-align:-0.3em; }
   .hub-h .ico { width:22px; height:22px; }
