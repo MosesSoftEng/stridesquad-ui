@@ -1610,9 +1610,9 @@
      Demo state + every new screen wired through the same registry,
      the same [data-goto] delegation and the same sheet/toast helpers. */
 
-  var S = { signedUp: false, email: '', healthDone: false, chosen: false, onboarded: false,
+  var S = { signedUp: false, demo: false, email: '', healthDone: false, chosen: false, onboarded: false,
             photoDone: false, exporting: false, avV: '', avI: 'YO',
-            globalRules: false, avChar: null };   /* v8-g6 · house-rules agreement + saved generated avatar */
+            globalRules: false, avChar: null };   /* v8-g6 · house-rules agreement + saved generated avatar · v8-g8 demo browse flag */
   var fmt = function (n) { return n.toLocaleString('en-US'); };
   var JR_DEFAULT = 'Hi! I\u2019m a daily walker \u2014 around 9,000 steps, most of it before 8am. I\u2019d love to join {squad} and keep the streak going.';
   var GO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
@@ -1629,6 +1629,7 @@
      restored flags instead of bouncing anyone whose signedUp isn't true.
      Only a truly fresh state (nothing set at all) boots to signup. */
   function gateResume() {
+    if (S.demo && !S.signedUp) return 'scr-today';   /* FIX (demo) · browse-without-account lands on Today, never bounces to signup */
     if (S.onboarded) return 'scr-today';
     if (S.chosen || S.healthDone || S.signedUp) return 'scr-choose';
     if (S.email)     return 'scr-verify';
@@ -1639,6 +1640,15 @@
        user acts (CTA / login link route through the shared [data-goto] gate). */
     showScreen('scr-splash');
     clearTimeout(splashTimer);   /* safe cleanup — nothing is scheduled anymore */
+  }
+  /* ── demo browse · the restored browse-without-account path ─────────
+     Sets the read-only demo flags, persists with a forced save (explicit
+     user intent, then immediate navigation — same contract as reset),
+     and lands on index.html/Today. signedUp stays false so the Today
+     reciprocity card keeps offering the real account CTA. */
+  function enterDemo() {
+    S.demo = true; S.onboarded = true; saveNow(true);
+    location.href = 'index.html';
   }
 
   /* ── progress rails (never zero — sign-up is counted) ────────────── */
@@ -1763,19 +1773,17 @@
     });
   });
   document.getElementById('btn-signup-skip').addEventListener('click', function () {
-    gotoConnect();
-    toast('Browsing as a guest — your streak isn\u2019t saved yet');
+    enterDemo();      /* FIX (demo) · browse-without-account: was the broken SPA gotoConnect() hop (guest path lost in the multi-page split) */
   });
   document.getElementById('btn-signup-skip-x').addEventListener('click', function () {
-    gotoConnect();
-    toast('Browsing as a guest — your streak isn\u2019t saved yet');
+    enterDemo();      /* FIX (demo) · same demo entry as the text link */
   });
 
   /* ── email verification · 6 boxes ────────────────────────────────── */
   var codeBoxes = Array.prototype.slice.call(document.querySelectorAll('.codebox'));
   function codeValue() { return codeBoxes.map(function (b) { return b.value; }).join(''); }
   function verifyComplete() {
-    S.signedUp = true; saveNow();                               /* FIX · persist BEFORE nav/toast */
+    S.signedUp = true; S.demo = false; saveNow();                 /* FIX · persist BEFORE nav/toast · demo ends when a real account is created */
     toast('Email verified — welcome to StrideSquad');
     renderSaveStreak();
     gotoConnect();
@@ -1821,7 +1829,7 @@
     var email = document.getElementById('li-email').value.trim();
     var err = document.getElementById('li-err');
     if (!emailOk(email)) { err.textContent = 'Enter the email you signed up with'; document.getElementById('li-email').focus(); return; }
-    S.signedUp = true; S.email = email; saveNow();              /* FIX · persist login before any navigation */
+    S.signedUp = true; S.demo = false; S.email = email; saveNow();  /* FIX · persist login before any navigation · demo mode ends on real login */
     err.textContent = '';
     toast('Welcome back');
     renderSaveStreak();
@@ -1829,6 +1837,7 @@
     else showScreen(S.onboarded ? 'scr-today' : 'scr-choose');
   });
   document.getElementById('btn-login-close').addEventListener('click', function () { showScreen('scr-signup'); });
+  document.getElementById('btn-login-demo').addEventListener('click', function () { enterDemo(); });   /* FIX (demo) · browse entry for login page */
 
   document.getElementById('btn-forgot-send').addEventListener('click', function () {
     var email = document.getElementById('fg-email').value.trim();
@@ -1915,7 +1924,7 @@
   document.getElementById('btn-delete-cancel').addEventListener('click', closeSheets);
   document.getElementById('btn-delete-acct').addEventListener('click', function () {
     if (delInput.value !== 'DELETE') return;
-    S.signedUp = false; S.email = ''; saveNow(true);            /* FIX · persist sign-out immediately (forced reset) */
+    S.signedUp = false; S.email = ''; S.demo = false; saveNow(true);  /* FIX · persist sign-out immediately (forced reset) · demo flag cleared too */
     closeSheets();
     renderSaveStreak();
     toast('Account deleted');
@@ -2092,7 +2101,7 @@
 
   /* ── about · reset demo ──────────────────────────────────────────── */
   function resetDemo() {
-    S.signedUp = false; S.email = ''; S.healthDone = false; S.chosen = false; S.onboarded = false;
+    S.signedUp = false; S.email = ''; S.healthDone = false; S.chosen = false; S.onboarded = false; S.demo = false;
     S.photoDone = false; S.exporting = false; S.avV = ''; S.avI = 'YO'; S.avChar = null; S.globalRules = false;
     soloMode = false; GOAL = 9000; soloGoal = 9000;
     saveNow(true);                                 /* FIX · fresh-state write lands immediately (forced reset) */
@@ -3757,7 +3766,7 @@
     if (q.get('u'))  { openUserProfile(findUserRow(q.get('u')), null); return; }
     if (q.get('g'))  { openGroup(groupById(q.get('g')) ? q.get('g') : currentGroup.id, q.get('tab') || undefined); return; }   /* FIX(qa) · unknown group id falls back to default instead of blank */
     if (q.get('open')) { showScreen(q.get('open')); return; }
-    if (document.body.getAttribute('data-splash') === '1' && !S.onboarded) { bootSplash(); return; }
+    if (document.body.getAttribute('data-splash') === '1' && !S.onboarded && !(S.demo && !S.signedUp)) { bootSplash(); return; }   /* FIX (demo) · demo users boot straight to Today — no splash, no signup bounce */
     if (def === 'scr-groups') {
       if (q.get('city')) discoverCity = q.get('city').toLowerCase();   /* FIX(qa) · filter compares lower-case city */
       if (q.get('view')) gView = q.get('view');
