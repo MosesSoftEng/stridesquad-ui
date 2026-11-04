@@ -627,8 +627,10 @@
     --warn-line:  color-mix(in srgb, #F59E0B 45%, var(--border));
     --g-blue: #4285F4; --g-red: #EA4335; --g-yellow: #FBBC05; --g-green: #34A853;
   }
-  /* ═══ splash v2 — squad climbing the trail (single-component redesign) ═══
+  /* ═══ splash v3 — footprint trail climbing the mountain (owner revision) ═══
      white → light-green vertical wash + topographic contour texture at ~3%.
+     The hero's ridgeline backdrop fades to the page surface through an in-SVG
+     gradient mask (lower third, ~120px) — no hard seam between zones.
      All colors derive from the bound tokens; art-only hues are oklch() literals. */
   .splash {
     align-items: center; text-align: center; gap: 0; justify-content: space-between;
@@ -646,11 +648,13 @@
   .splash__scene text { font-family: var(--font); font-weight: 700; }
   .splash__trail-band { stroke-dasharray: 100; stroke-dashoffset: 100; animation: splashdraw .75s cubic-bezier(.25,.65,.3,1) .05s forwards; }
   .splash__trail-dash, .splash__props { opacity: 0; animation: splashfade .45s ease-out .55s forwards; }
-  .splash__av { opacity: 0; transform-box: fill-box; transform-origin: center;
-    filter: drop-shadow(0 3px 6px color-mix(in srgb, var(--ink) 14%, transparent));
+  .splash__fp { opacity: 0; transform-box: fill-box; transform-origin: center;
+    filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--ink) 14%, transparent));
     animation: splashpop .5s cubic-bezier(.3,1.5,.6,1) forwards; }
-  #av1 { animation-delay: .16s; } #av2 { animation-delay: .27s; } #av3 { animation-delay: .38s; }
-  #av4 { animation-delay: .49s; } #av5 { animation-delay: .6s; }
+  .splash__badge { opacity: 0; animation: splashfade .45s ease-out forwards; }
+  .splash__you { opacity: 0; transform-box: fill-box; transform-origin: center;
+    animation: splashfade .4s ease-out .7s forwards, splashyou 2.6s ease-in-out 1.3s infinite; }
+  @keyframes splashyou { 0%,100% { transform: translateY(0); } 45% { transform: translateY(-3.2px); } 60% { transform: translateY(0.4px); } }
 
   /* branding — green square mark + forest-green uppercase wordmark, paired */
   .splash__brand { position: relative; display: flex; align-items: center; justify-content: center; gap: 11px; margin-top: 20px; }
@@ -678,11 +682,21 @@
   .splash__cta:active { transform: translateY(1.5px) scale(.985);
     box-shadow: 0 4px 10px color-mix(in srgb, var(--primary) 28%, transparent); }
 
-  /* staged entrances — full copy readable well inside the 3s window */
+  /* login escape-hatch — quiet text link under the single primary CTA */
+  .splash__login { position: relative; display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; margin-top: 8px; padding: 0 16px; border: 0; border-radius: 12px; background: none;
+    font-family: var(--font); font-size: 14px; font-weight: 700; letter-spacing: -.01em;
+    color: var(--primary-ink); cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: color .15s ease, background .15s ease; }
+  .splash__login:hover { color: color-mix(in srgb, var(--primary) 58%, var(--ink)); text-decoration: underline; text-underline-offset: 3px; }
+  .splash__login:active { transform: scale(.98); background: color-mix(in srgb, var(--primary) 7%, transparent); }
+  .splash__login:focus-visible { outline: 2.5px solid var(--primary); outline-offset: 3px; }
+
+  /* staged entrances — the splash now waits for the user (no auto-advance) */
   .splash__in { position: relative; animation: splashrise .5s cubic-bezier(.2,.7,.3,1) both; }
   .splash__brand { animation-delay: .08s; } .splash__headline { animation-delay: .16s; }
   .splash__support { animation-delay: .23s; } .splash__chips { animation-delay: .3s; }
-  .splash__cta { animation-delay: .38s; }
+  .splash__cta { animation-delay: .38s; } .splash__login { animation-delay: .45s; }
   @keyframes splashrise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes splashpop { 0% { opacity: 0; transform: scale(.35); } 66% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
   @keyframes splashdraw { to { stroke-dashoffset: 0; } }

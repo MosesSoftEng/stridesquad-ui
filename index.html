@@ -41,18 +41,42 @@
           </span>
         </div>
 <div class="stage">
-<section id="scr-splash" class="screen is-visible splash" data-screen data-od-id="splash" aria-label="Splash">
-      <!-- v2 · hero: 5-person squad climbing a winding trail — step badges, rank flag,
-           current user glowing at rank 4. Decorative only, no copy inside the art. -->
+<section id="scr-splash" class="screen is-visible splash" data-screen data-ver="v3" data-od-id="splash" aria-label="Splash">
+      
+            <!-- v3 · hero: a pair-trail of FOOTPRINTS climbing the winding path — the same
+           rounded lime glyph family as the app logo, alternating left/right, rotated to
+           follow the curve, shrinking toward the summit. The final footprint at the top is
+           the CURRENT USER: largest, glowing green ring, slight bounce. Step badges (6.4k→11.2k)
+           + flag keep the leaderboard feel. No people, no copy inside the art — numbers only.
+           The ridgeline backdrop dissolves into the page surface via the bottom fade mask. -->
       <div class="splash__hero" data-od-id="splash-hero" aria-hidden="true">
         <svg class="splash__scene" viewBox="0 0 357 240" preserveAspectRatio="xMidYMax meet" fill="none">
           <defs>
-            <clipPath id="avdisc"><circle cx="0" cy="0" r="20"/></clipPath>
+            <symbol id="fpG" overflow="visible">
+              <ellipse cx="0" cy="4" rx="5.6" ry="8"/>
+              <ellipse cx="-2.7" cy="-7.6" rx="2.3" ry="2.85" transform="rotate(-10 -2.7 -7.6)"/>
+              <ellipse cx="1.9" cy="-9.1" rx="2.05" ry="2.55" transform="rotate(6 1.9 -9.1)"/>
+              <ellipse cx="5.1" cy="-6.9" rx="1.65" ry="2.15" transform="rotate(14 5.1 -6.9)"/>
+            </symbol>
+            <linearGradient id="splashFade" gradientUnits="userSpaceOnUse" x1="0" y1="112" x2="0" y2="240">
+              <stop offset="0" stop-color="#fff"/>
+              <stop offset=".55" stop-color="#fff" stop-opacity=".45"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
+            <mask id="splashFadeMask" maskUnits="userSpaceOnUse" x="0" y="0" width="357" height="240">
+              <rect x="0" y="0" width="357" height="240" fill="url(#splashFade)"/>
+            </mask>
           </defs>
-          <!-- ridgelines -->
-          <path d="M0 240 V128 C46 96 92 118 138 88 C184 58 228 74 274 44 C310 22 336 30 357 12 V240 Z" style="fill:color-mix(in srgb, var(--primary) 7%, var(--surface))"/>
-          <path d="M0 240 V186 C60 158 108 196 168 160 C230 124 272 148 320 104 C336 90 348 82 357 70 V240 Z" style="fill:color-mix(in srgb, var(--primary) 13%, var(--surface))"/>
-          <circle cx="52" cy="44" r="21" style="fill:color-mix(in srgb, var(--highlight) 34%, var(--surface))"/>
+          <!-- ridgelines + sun — masked so the illustration fades into the page's gradient +
+               contour surface across its lower third (~120px). No hard seam at the boundary. -->
+          <g mask="url(#splashFadeMask)">
+            <path d="M0 240 V128 C46 96 92 118 138 88 C184 58 228 74 274 44 C310 22 336 30 357 12 V240 Z" fill-opacity=".9" style="fill:color-mix(in srgb, var(--primary) 7%, var(--surface))"/>
+            <path d="M0 240 V186 C60 158 108 196 168 160 C230 124 272 148 320 104 C336 90 348 82 357 70 V240 Z" fill-opacity=".88" style="fill:color-mix(in srgb, var(--primary) 13%, var(--surface))"/>
+            <circle cx="52" cy="44" r="21" style="fill:color-mix(in srgb, var(--highlight) 34%, var(--surface))"/>
+            <!-- topo echo — same contour rhythm as the page texture, carrying across the blend -->
+            <path d="M0 150 C70 138 150 168 232 148 S330 132 357 142" stroke-width="1.2" style="stroke:rgba(15,23,42,.05)"/>
+            <path d="M0 188 Q112 162 198 194 T357 178" stroke-width="1.2" style="stroke:rgba(15,23,42,.05)"/>
+          </g>
           <!-- the winding route: band draws itself, dotted centreline follows -->
           <path class="splash__trail-band" pathLength="100"
             d="M18 216 C30 212 36 208 52 202 C76 192 96 186 116 178 C140 168 162 158 182 148 C206 136 228 124 248 112 C272 96 296 76 318 62 C324 58 328 55 334 52"
@@ -69,113 +93,77 @@
             <path d="M84 64 v9 M79.5 68.5 h9" stroke-width="2" stroke-linecap="round" style="stroke:var(--highlight)"/>
             <path d="M268 26 v9 M263.5 30.5 h9" stroke-width="2" stroke-linecap="round" style="stroke:var(--highlight)"/>
           </g>
-          <!-- squad, lowest steps to highest -->
-          <g transform="translate(48 180)">
-            <g class="splash__av" id="av1">
-            <g clip-path="url(#avdisc)">
-              <circle r="20" style="fill:color-mix(in srgb, oklch(52% .13 250) 14%, white)"/>
-              <circle cx="0" cy="25" r="15" style="fill:oklch(52% .13 250)"/>
-              <circle cx="0" cy="-5" r="11.6" style="fill:oklch(19% .015 270)"/>
-              <circle cx="0" cy="-2" r="11" style="fill:oklch(46% .07 45)"/>
-              <circle cx="0" cy="-4.6" r="11.2" style="fill:oklch(19% .015 270)"/>
-              <circle cx="0" cy="-6" r="10.4" style="fill:oklch(46% .07 45)"/>
-              <circle cx="-3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <circle cx="3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <path d="M-3.6 2 Q0 5.2 3.6 2" stroke-width="1.6" stroke-linecap="round" style="stroke:oklch(25% .02 262)"/>
+          <!-- the footprint trail: squad marks climbing the path, lowest steps to highest —
+               alternating left/right feet, rotated to the local path tangent, shrinking uphill -->
+          <g transform="translate(35.3 204.6) rotate(70.8) scale(-1 1)">
+            <use href="#fpG" class="splash__fp" stroke-width=".9" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.16s"/>
+          </g>
+          <g transform="translate(64 202) rotate(65.1) scale(.96)">
+            <use href="#fpG" class="splash__fp" stroke-width=".95" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.2s"/>
+          </g>
+          <g transform="translate(102 178.4) rotate(75.1) scale(-.92 .92)">
+            <use href="#fpG" class="splash__fp" stroke-width="1" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.24s"/>
+          </g>
+          <g transform="translate(131 176.1) rotate(62.5) scale(.88)">
+            <use href="#fpG" class="splash__fp" stroke-width="1" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.29s"/>
+          </g>
+          <g transform="translate(168.7 150.3) rotate(69.6) scale(-.84 .84)">
+            <use href="#fpG" class="splash__fp" stroke-width="1.05" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.33s"/>
+          </g>
+          <g transform="translate(195.6 145) rotate(58.5) scale(.8)">
+            <use href="#fpG" class="splash__fp" stroke-width="1.1" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.37s"/>
+          </g>
+          <g transform="translate(232.9 117.3) rotate(65.5) scale(-.76 .76)">
+            <use href="#fpG" class="splash__fp" stroke-width="1.15" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.41s"/>
+          </g>
+          <g transform="translate(257 108.3) rotate(50.5) scale(.72)">
+            <use href="#fpG" class="splash__fp" stroke-width="1.2" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.45s"/>
+          </g>
+          <g transform="translate(293 77.2) rotate(58.5) scale(-.68 .68)">
+            <use href="#fpG" class="splash__fp" stroke-width="1.25" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 55%, var(--surface));animation-delay:.5s"/>
+          </g>
+          <!-- the CURRENT USER at the summit: largest print, glowing green ring, slight bounce -->
+          <g transform="translate(322 59.3) rotate(55.8)">
+            <g class="splash__you">
+              <circle r="23.5" style="fill:color-mix(in srgb, var(--primary) 13%, transparent)"/>
+              <circle r="19.5" stroke-width="5" style="stroke:color-mix(in srgb, var(--highlight) 45%, transparent)"/>
+              <circle r="19.5" stroke-width="2.2" style="stroke:var(--primary)"/>
+              <g transform="scale(1.25)">
+                <use href="#fpG" stroke-width=".85" style="fill:var(--highlight);stroke:color-mix(in srgb, var(--primary) 62%, var(--surface))"/>
+              </g>
             </g>
-            <circle r="20" stroke-width="3.5" style="stroke:var(--surface)"/>
-            <g><rect x="2" y="11" width="40" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
-              <ellipse cx="10" cy="18.9" rx="1.3" ry="1.9" transform="rotate(-14 10 18.9)" style="fill:var(--primary-ink)"/>
-              <ellipse cx="14.6" cy="18.1" rx="1.3" ry="1.9" transform="rotate(14 14.6 18.1)" style="fill:var(--primary-ink)"/>
-              <text x="29.5" y="21.7" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">6.4k</text></g>
           </g>
+          <!-- step-count badges — numbers only, a rising leaderboard ladder beside the trail -->
+          <g class="splash__badge" transform="translate(74.2 158)" style="animation-delay:.52s">
+            <rect x="-21" y="-7.5" width="42" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
+            <ellipse cx="-12.2" rx="1.3" ry="1.9" transform="rotate(-14 -12.2 0)" style="fill:var(--primary-ink)"/>
+            <ellipse cx="-7.6" rx="1.3" ry="1.9" transform="rotate(14 -7.6 0)" style="fill:var(--primary-ink)"/>
+            <text x="6.5" y="3.2" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">6.4k</text>
           </g>
-          <g transform="translate(120 152)">
-            <g class="splash__av" id="av2">
-            <g clip-path="url(#avdisc)">
-              <circle r="20" style="fill:color-mix(in srgb, oklch(70% .14 58) 14%, white)"/>
-              <circle cx="0" cy="-1" r="13.4" style="fill:oklch(45% .11 42)"/>
-              <circle cx="0" cy="25" r="15" style="fill:oklch(70% .14 58)"/>
-              <circle cx="0" cy="-2" r="11" style="fill:oklch(86% .045 62)"/>
-              <circle cx="0" cy="-5.6" r="11.4" style="fill:oklch(45% .11 42)"/>
-              <circle cx="0" cy="-7" r="10.2" style="fill:oklch(86% .045 62)"/>
-              <circle cx="-3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <circle cx="3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <path d="M-3.6 2 Q0 5.2 3.6 2" stroke-width="1.6" stroke-linecap="round" style="stroke:oklch(25% .02 262)"/>
-            </g>
-            <circle r="20" stroke-width="3.5" style="stroke:var(--surface)"/>
-            <g><rect x="2" y="11" width="40" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
-              <ellipse cx="10" cy="18.9" rx="1.3" ry="1.9" transform="rotate(-14 10 18.9)" style="fill:var(--primary-ink)"/>
-              <ellipse cx="14.6" cy="18.1" rx="1.3" ry="1.9" transform="rotate(14 14.6 18.1)" style="fill:var(--primary-ink)"/>
-              <text x="29.5" y="21.7" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">7.2k</text></g>
+          <g class="splash__badge" transform="translate(155.8 129.8)" style="animation-delay:.56s">
+            <rect x="-21" y="-7.5" width="42" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
+            <ellipse cx="-12.2" rx="1.3" ry="1.9" transform="rotate(-14 -12.2 0)" style="fill:var(--primary-ink)"/>
+            <ellipse cx="-7.6" rx="1.3" ry="1.9" transform="rotate(14 -7.6 0)" style="fill:var(--primary-ink)"/>
+            <text x="6.5" y="3.2" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">7.2k</text>
           </g>
+          <g class="splash__badge" transform="translate(208.8 97.8)" style="animation-delay:.6s">
+            <rect x="-21" y="-7.5" width="42" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
+            <ellipse cx="-12.2" rx="1.3" ry="1.9" transform="rotate(-14 -12.2 0)" style="fill:var(--primary-ink)"/>
+            <ellipse cx="-7.6" rx="1.3" ry="1.9" transform="rotate(14 -7.6 0)" style="fill:var(--primary-ink)"/>
+            <text x="6.5" y="3.2" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">8.6k</text>
           </g>
-          <g transform="translate(188 120)">
-            <g class="splash__av" id="av3">
-            <g clip-path="url(#avdisc)">
-              <circle r="20" style="fill:color-mix(in srgb, oklch(56% .15 300) 14%, white)"/>
-              <circle cx="0" cy="-15" r="4.6" style="fill:oklch(26% .03 262)"/>
-              <circle cx="-7.5" cy="-12.5" r="4" style="fill:oklch(26% .03 262)"/>
-              <circle cx="7.5" cy="-12.5" r="4" style="fill:oklch(26% .03 262)"/>
-              <circle cx="0" cy="25" r="15" style="fill:oklch(56% .15 300)"/>
-              <circle cx="0" cy="-5" r="11.6" style="fill:oklch(26% .03 262)"/>
-              <circle cx="0" cy="-2" r="11" style="fill:oklch(70% .085 62)"/>
-              <circle cx="0" cy="-4.4" r="11.3" style="fill:oklch(26% .03 262)"/>
-              <circle cx="0" cy="-5.6" r="10.4" style="fill:oklch(70% .085 62)"/>
-              <circle cx="-3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <circle cx="3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <path d="M-3.6 2 Q0 5.2 3.6 2" stroke-width="1.6" stroke-linecap="round" style="stroke:oklch(25% .02 262)"/>
-            </g>
-            <circle r="20" stroke-width="3.5" style="stroke:var(--surface)"/>
-            <g><rect x="2" y="11" width="40" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
-              <ellipse cx="10" cy="18.9" rx="1.3" ry="1.9" transform="rotate(-14 10 18.9)" style="fill:var(--primary-ink)"/>
-              <ellipse cx="14.6" cy="18.1" rx="1.3" ry="1.9" transform="rotate(14 14.6 18.1)" style="fill:var(--primary-ink)"/>
-              <text x="29.5" y="21.7" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">8.6k</text></g>
+          <g class="splash__badge" transform="translate(253.2 81.6)" style="animation-delay:.64s">
+            <rect x="-21" y="-7.5" width="42" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
+            <ellipse cx="-12.2" rx="1.3" ry="1.9" transform="rotate(-14 -12.2 0)" style="fill:var(--primary-ink)"/>
+            <ellipse cx="-7.6" rx="1.3" ry="1.9" transform="rotate(14 -7.6 0)" style="fill:var(--primary-ink)"/>
+            <text x="6.5" y="3.2" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">9.8k</text>
           </g>
-          </g>
-          <!-- the current user: rank 4, glowing ring, chasing the summit -->
-          <g transform="translate(252 84)">
-            <g class="splash__av" id="av4">
-            <circle r="30" style="fill:color-mix(in srgb, var(--primary) 13%, transparent)"/>
-            <g clip-path="url(#avdisc)">
-              <circle r="20" style="fill:color-mix(in srgb, var(--primary) 15%, white)"/>
-              <circle cx="0" cy="25" r="15" style="fill:var(--primary)"/>
-              <circle cx="0" cy="-5" r="11.6" style="fill:oklch(21% .02 272)"/>
-              <circle cx="0" cy="-2" r="11" style="fill:oklch(58% .085 52)"/>
-              <circle cx="0" cy="-4.8" r="11.3" style="fill:oklch(21% .02 272)"/>
-              <circle cx="0" cy="-6.2" r="10.3" style="fill:oklch(58% .085 52)"/>
-              <circle cx="-3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <circle cx="3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <path d="M-3.6 2 Q0 5.2 3.6 2" stroke-width="1.6" stroke-linecap="round" style="stroke:oklch(25% .02 262)"/>
-            </g>
-            <circle r="20" stroke-width="3.5" style="stroke:var(--surface)"/>
-            <circle r="25" stroke-width="3.5" style="stroke:var(--highlight)"/>
-            <g><rect x="2" y="11" width="40" height="15" rx="7.5" style="fill:var(--primary-deep)"/>
-              <ellipse cx="10" cy="18.9" rx="1.3" ry="1.9" transform="rotate(-14 10 18.9)" style="fill:var(--on-primary)"/>
-              <ellipse cx="14.6" cy="18.1" rx="1.3" ry="1.9" transform="rotate(14 14.6 18.1)" style="fill:var(--on-primary)"/>
-              <text x="29.5" y="21.7" font-size="9" text-anchor="middle" style="fill:var(--on-primary)">9.8k</text></g>
-          </g>
-          </g>
-          <g transform="translate(310 46)">
-            <g class="splash__av" id="av5">
-            <g clip-path="url(#avdisc)">
-              <circle r="20" style="fill:color-mix(in srgb, oklch(78% .15 95) 16%, white)"/>
-              <circle cx="0" cy="-16" r="4.4" style="fill:oklch(81% .09 86)"/>
-              <circle cx="0" cy="-1" r="13.2" style="fill:oklch(81% .09 86)"/>
-              <circle cx="0" cy="25" r="15" style="fill:oklch(78% .15 95)"/>
-              <circle cx="0" cy="-2" r="11" style="fill:oklch(79% .06 85)"/>
-              <circle cx="0" cy="-5.8" r="11.4" style="fill:oklch(81% .09 86)"/>
-              <circle cx="0" cy="-7.2" r="10.2" style="fill:oklch(79% .06 85)"/>
-              <circle cx="-3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <circle cx="3.5" cy="-2.8" r="1.35" style="fill:oklch(25% .02 262)"/>
-              <path d="M-3.6 2 Q0 5.2 3.6 2" stroke-width="1.6" stroke-linecap="round" style="stroke:oklch(25% .02 262)"/>
-            </g>
-            <circle r="20" stroke-width="3.5" style="stroke:var(--surface)"/>
-            <g><rect x="2" y="11" width="42" height="15" rx="7.5" style="fill:var(--surface)" stroke-width="1" stroke="rgba(15,23,42,.08)"/>
-              <ellipse cx="10.6" cy="18.9" rx="1.3" ry="1.9" transform="rotate(-14 10.6 18.9)" style="fill:var(--primary-ink)"/>
-              <ellipse cx="15.2" cy="18.1" rx="1.3" ry="1.9" transform="rotate(14 15.2 18.1)" style="fill:var(--primary-ink)"/>
-              <text x="31" y="21.7" font-size="9" text-anchor="middle" style="fill:var(--primary-ink)">11.2k</text></g>
-          </g>
+          <!-- the current user's own badge — filled green-deep pill at the top of the ladder -->
+          <g class="splash__badge" transform="translate(297 28)" style="animation-delay:.68s">
+            <rect x="-21" y="-7.5" width="42" height="15" rx="7.5" style="fill:var(--primary-deep)"/>
+            <ellipse cx="-12.2" rx="1.3" ry="1.9" transform="rotate(-14 -12.2 0)" style="fill:var(--on-primary)"/>
+            <ellipse cx="-7.6" rx="1.3" ry="1.9" transform="rotate(14 -7.6 0)" style="fill:var(--on-primary)"/>
+            <text x="6.5" y="3.2" font-size="9" text-anchor="middle" style="fill:var(--on-primary)">11.2k</text>
           </g>
         </svg>
       </div>
@@ -193,11 +181,12 @@
         <span class="splash__chip">🏆 Daily Leaderboards</span>
       </div>
       <button class="btn btn--primary btn--block splash__cta splash__in" id="splash-cta" type="button" data-goto="scr-signup" data-od-id="splash-cta">Get Started →</button>
+      <button type="button" class="splash__login splash__in" id="splash-login" data-goto="scr-login" data-od-id="splash-login-link">Already walking? Log in</button>
       <script>
         /* Splash CTA · routes through the EXISTING boot gate only.
            The click bubbles into the shared [data-goto] delegation in app.js,
-           which calls showScreen(target) — the same handler the splash
-           auto-advance uses (showScreen(gateResume())). This listener, running
+           which calls showScreen(target) — the shared navigation delegate
+           (v3: no auto-advance; the splash waits for the user). This listener, running
            at target phase before the document-level delegation, rewrites the
            destination with gateResume's own rules read from the same
            ss.v8.state snapshot (read-only; no LS writes, no router changes):

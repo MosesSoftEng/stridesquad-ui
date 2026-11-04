@@ -1552,7 +1552,7 @@
     showScreen('scr-onboarding');
   }
 
-  /* ── splash · auto-advance to Auth-or-Choose ─────────────────────── */
+  /* ── splash · v3 · waits for the user (no auto-advance) ──────────── */
   var splashTimer = null;
   /* FIX (login-bounce) · gate forgiveness: derive the resume page from the
      restored flags instead of bouncing anyone whose signedUp isn't true.
@@ -1564,11 +1564,10 @@
     return 'scr-signup';
   }
   function bootSplash() {
+    /* v3 · the 1.2s auto-advance timer is removed — the splash stays until the
+       user acts (CTA / login link route through the shared [data-goto] gate). */
     showScreen('scr-splash');
-    clearTimeout(splashTimer);
-    splashTimer = setTimeout(function () {
-      showScreen(gateResume());
-    }, 1200);
+    clearTimeout(splashTimer);   /* safe cleanup — nothing is scheduled anymore */
   }
 
   /* ── progress rails (never zero — sign-up is counted) ────────────── */
