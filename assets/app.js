@@ -157,12 +157,12 @@
 
   /* ── 1 · onboarding flow ──────────────────────────────────────────── */
   document.getElementById('btn-get-started').addEventListener('click', function () {
-    if (!S.signedUp) { showScreen('scr-signup'); return; }   // v7 · auth before health connect
+    if (!S.signedUp) { var r = gateResume(); showScreen(r); return; }   /* FIX · resume furthest step, never blind-bounce to signup */
     document.getElementById('onb-intro').hidden = true;
     document.getElementById('onb-connect').hidden = false;
   });
   document.getElementById('btn-allow-health').addEventListener('click', function () {
-    S.healthDone = true;                                    // v7 · feeds the progress rail
+    S.healthDone = true; saveNow();              // v7 · feeds the progress rail · FIX · persist before toast/nav
     toast('Health connected');
     showScreen('scr-choose');   // v6 · goal fork replaces the jump straight to Today
   });
@@ -1188,8 +1188,8 @@
     document.getElementById('stat-rank-lbl').textContent = soloMode ? 'avg steps/day' : 'in squad';
     updateShield(); renderPulse(); renderSaveStreak();  }
 
-  document.getElementById('btn-fork-squad').addEventListener('click', function () { S.chosen = true; openGroupsView('discover'); });
-  document.getElementById('btn-fork-solo').addEventListener('click', function () { S.chosen = true; showScreen('scr-goal'); });
+  document.getElementById('btn-fork-squad').addEventListener('click', function () { S.chosen = true; saveNow(); openGroupsView('discover'); });
+  document.getElementById('btn-fork-solo').addEventListener('click', function () { S.chosen = true; saveNow(); showScreen('scr-goal'); });
   document.getElementById('btn-fork-back').addEventListener('click', function () {
     document.getElementById('onb-intro').hidden = true;
     document.getElementById('onb-connect').hidden = false;
@@ -1216,6 +1216,7 @@
     soloMode = true;
     GOAL = soloGoal;
     S.onboarded = true;
+    saveNow();                                   /* FIX · persist goal/solo/onboarded before navigation */
     refreshTodayGoal();
     showScreen('scr-today');   // enter hook replays the count-up + ring against the new goal
     toast('Goal saved — you\'re in Solo mode');
@@ -1551,11 +1552,20 @@
 
   /* ── splash · auto-advance to Auth-or-Choose ─────────────────────── */
   var splashTimer = null;
+  /* FIX (login-bounce) · gate forgiveness: derive the resume page from the
+     restored flags instead of bouncing anyone whose signedUp isn't true.
+     Only a truly fresh state (nothing set at all) boots to signup. */
+  function gateResume() {
+    if (S.onboarded) return 'scr-today';
+    if (S.chosen || S.healthDone || S.signedUp) return 'scr-choose';
+    if (S.email)     return 'scr-verify';
+    return 'scr-signup';
+  }
   function bootSplash() {
     showScreen('scr-splash');
     clearTimeout(splashTimer);
     splashTimer = setTimeout(function () {
-      showScreen(S.signedUp ? 'scr-choose' : 'scr-signup');
+      showScreen(gateResume());
     }, 1200);
   }
 
@@ -1654,7 +1664,7 @@
   /* ── sign up ─────────────────────────────────────────────────────── */
   var emailOk = function (v) { return /.+@.+\..+/.test(v); };
   function goVerify(email) {
-    S.email = email;
+    S.email = email; saveNow();                                 /* FIX · gate resume needs email even if verify reloads */
     document.getElementById('verify-mail').textContent = email;
     codeBoxes.forEach(function (b) { b.value = ''; });
     document.getElementById('btn-verify-submit').disabled = true;
@@ -1693,7 +1703,7 @@
   var codeBoxes = Array.prototype.slice.call(document.querySelectorAll('.codebox'));
   function codeValue() { return codeBoxes.map(function (b) { return b.value; }).join(''); }
   function verifyComplete() {
-    S.signedUp = true;
+    S.signedUp = true; saveNow();                               /* FIX · persist BEFORE nav/toast */
     toast('Email verified — welcome to StrideSquad');
     renderSaveStreak();
     gotoConnect();
@@ -1739,7 +1749,7 @@
     var email = document.getElementById('li-email').value.trim();
     var err = document.getElementById('li-err');
     if (!emailOk(email)) { err.textContent = 'Enter the email you signed up with'; document.getElementById('li-email').focus(); return; }
-    S.signedUp = true; S.email = email;
+    S.signedUp = true; S.email = email; saveNow();              /* FIX · persist login before any navigation */
     err.textContent = '';
     toast('Welcome back');
     renderSaveStreak();
@@ -1833,7 +1843,7 @@
   document.getElementById('btn-delete-cancel').addEventListener('click', closeSheets);
   document.getElementById('btn-delete-acct').addEventListener('click', function () {
     if (delInput.value !== 'DELETE') return;
-    S.signedUp = false; S.email = '';
+    S.signedUp = false; S.email = ''; saveNow(true);            /* FIX · persist sign-out immediately (forced reset) */
     closeSheets();
     renderSaveStreak();
     toast('Account deleted');
@@ -1906,7 +1916,7 @@
       btn.classList.toggle('la-btn--off', !st.on);
       document.getElementById('la-' + key + '-sub').textContent = st.sub[st.on ? 0 : 1];
       if (key === 'health') {
-        S.healthDone = st.on;
+        S.healthDone = st.on; saveNow();
         toast(st.on ? 'Health sync resumed' : 'Health sync paused — streak frozen');
       } else {
         toast((st.on ? 'Linked ' : 'Unlinked ') + (key === 'apple' ? 'Apple' : 'Google'));
@@ -1994,6 +2004,7 @@
     S.signedUp = false; S.email = ''; S.healthDone = false; S.chosen = false; S.onboarded = false;
     S.photoDone = false; S.exporting = false; S.avV = ''; S.avI = 'YO'; S.avChar = null; S.globalRules = false;
     soloMode = false; GOAL = 9000; soloGoal = 9000;
+    saveNow(true);                                 /* FIX · fresh-state write lands immediately (forced reset) */
     BLOCKLIST = BLOCK_SEED.slice();
     LA.apple.on = true; LA.google.on = false; LA.health.on = true;
     var paintLa = function (key) {
@@ -3531,18 +3542,46 @@
      path (toast, navigation, pagehide) mirrors them to localStorage, and
      restoreSS() rehydrates before the eager renders at boot. */
   var SS_KEY = 'ss.v8.state';
-  function saveSS() {
+  /* FIX (login-bounce) · journey rank: persistence must never walk auth
+     flags backwards. A stale page's lifecycle save (pagehide, bfcache,
+     second tab backgrounding) used to clobber a further page's newer
+     write — the root cause of signedUp=false after signup+verify. */
+  var _AUTH_FLAGS = ['signedUp', 'email', 'healthDone', 'chosen', 'onboarded'];
+  function _journeyRank(s) {
+    if (!s) return 0;
+    if (s.onboarded) return 5;
+    if (s.chosen)    return 4;
+    if (s.healthDone) return 3;
+    if (s.signedUp)   return 2;
+    if (s.email)      return 1;
+    return 0;
+  }
+  function saveSS(force) {
     try {
-      localStorage.setItem(SS_KEY, JSON.stringify({
+      var snap = {
         S: S, SOLE: SOLE, BLOCKLIST: BLOCKLIST, DM_META: DM_META, DM: DM,
         CHAT: CHAT, BUDDIES: BUDDIES, BUDDY_REQS: BUDDY_REQS, DM_REQS: DM_REQS,
         EVENTS: EVENTS, GROUPS: GROUPS, PUBLIC_GROUPS: PUBLIC_GROUPS,
         CHANNELS_META: CHANNELS_META, LA: LA,
         flags: { soloMode: soloMode, GOAL: GOAL, soloGoal: soloGoal, gView: gView,
                  chatTab: chatTab }
-      }));
+      };
+      if (!force) {
+        var d0 = null; try { d0 = JSON.parse(localStorage.getItem(SS_KEY)); } catch (e0) {}
+        if (d0 && d0.S && _journeyRank(d0.S) > _journeyRank(S)) {
+          /* disk already carries a further journey — keep its auth flags
+             (and adopt them in-memory so this page stops seeing stale) */
+          _AUTH_FLAGS.forEach(function (k) { S[k] = d0.S[k]; });
+        }
+      }
+      localStorage.setItem(SS_KEY, JSON.stringify(snap));
     } catch (e) { /* storage full/disabled — prototype keeps in-memory state */ }
   }
+  /* FIX (login-bounce): canonical immediate persist — call FIRST at every
+     flag mutation and before every navigation, so a snapshot can never
+     precede the mutation it is supposed to carry. force=true only for
+     deliberate full resets (delete account / reset demo). */
+  function saveNow(force) { saveSS(force); }
   function _mergeInto(target, saved) {   /* object dicts: keep identity */
     Object.keys(saved).forEach(function (k) { target[k] = saved[k]; });
   }
@@ -3575,6 +3614,7 @@
 
   /* routeTo: cross-page navigation with context carried via query params */
   function routeTo(id) {
+    saveNow();                 /* FIX (login-bounce): persist truth before we navigate */
     var file = PAGE_OF[id];
     if (!file) return false;   /* unknown screen — stay put, same as v8 no-op */
     var q = [];
@@ -3587,7 +3627,6 @@
       if (gView && gView !== 'mine') p('view', gView);
       if (discoverCity !== null && discoverCity !== undefined) p('city', discoverCity);
     }
-    saveSS();
     location.href = file + (q.length ? '?' + q.join('&') : '');
     return true;
   }
@@ -3635,7 +3674,7 @@
 
   restoreSS();
   try { paintYouAvatars(); soleSync(); } catch (e) {}
-  window.addEventListener('pagehide', saveSS);
+  window.addEventListener('pagehide', function () { saveSS(); });   /* no event-as-force (monotonic guard stays armed) */
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') saveSS(); });
 
   renderNotif();
