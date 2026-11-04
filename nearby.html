@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="nearby" data-screen="scr-nearby">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-nearby" class="screen" data-screen data-od-id="nearby" aria-label="Nearby walkers">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="nearby-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" style="font-size:23px;">Nearby</h2>
+            <p class="screen-sub">Same-day board for your city</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card nb-gate" id="nearby-gate" data-od-id="nearby-optin">
+        <span class="nb-gate__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.4-6.5-10a6.5 6.5 0 0 1 13 0c0 4.6-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>
+        </span>
+        <h3>Walkers near you</h3>
+        <p>StrideSquad only uses your city or state, never precise location.</p>
+        <button class="btn btn--primary btn--block" type="button" id="btn-nearby-on" data-od-id="nearby-turn-on">Turn on nearby</button>
+        <p class="fs-note">You can hide your profile later from Settings › Privacy.</p>
+      </div>
+
+      <div id="nearby-body" hidden>
+        <div class="nb-chiprow">
+          <span class="chip" id="nearby-scope-chip" data-od-id="nearby-scope-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10a6.5 6.5 0 0 1 13 0c0 4.6-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>Nairobi · Today · Top 10%</span>
+        </div>
+
+        <div class="card" data-od-id="nearby-list-card">
+          <p class="card-label">Nearby board · today</p>
+          <div id="nearby-list"></div>
+        </div>
+
+        <p class="hub-h">Communities near you</p>
+        <div data-od-id="nearby-communities-list">
+          <div class="near-card" data-od-id="nearby-community-trailblazers">
+            <span class="near-card__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 19 5.5-8.5L12 16l3.2-4.8L21 19Z"/><circle cx="17.5" cy="5.8" r="2.2"/></svg></span>
+            <span class="near-card__t"><b>TrailBlazers</b><span><span class="nb-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10a6.5 6.5 0 0 1 13 0c0 4.6-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>Nairobi</span>7 of 10 members · weekend trail crew</span></span>
+            <button class="btn btn--primary" type="button" data-njoin="nairobi" data-od-id="nearby-join-trailblazers">Join</button>
+          </div>
+          <div class="near-card" data-od-id="nearby-community-morning-miles">
+            <span class="near-card__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5V7"/><path d="M5.6 10.2 7.4 12M18.4 10.2 16.6 12"/><path d="M6.8 16.5a5.2 5.2 0 0 1 10.4 0"/><path d="M3.5 20.5h17"/></svg></span>
+            <span class="near-card__t"><b>Morning Miles</b><span><span class="nb-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10a6.5 6.5 0 0 1 13 0c0 4.6-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>Nairobi</span>9 of 10 members · 6am city loop</span></span>
+            <button class="btn btn--primary" type="button" data-njoin="nairobi" data-od-id="nearby-join-morning-miles">Join</button>
+          </div>
+          <div class="near-card" data-od-id="nearby-community-deckers">
+            <span class="near-card__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5c2 0 2-1.8 4-1.8s2 1.8 4 1.8 2-1.8 4-1.8 2 1.8 4 1.8"/><path d="M3.5 13.5c2 0 2-1.8 4-1.8s2 1.8 4 1.8 2-1.8 4-1.8 2 1.8 4 1.8"/><path d="M3.5 18.5c2 0 2-1.8 4-1.8s2 1.8 4 1.8 2-1.8 4-1.8 2 1.8 4 1.8"/></svg></span>
+            <span class="near-card__t"><b>Deckers</b><span><span class="nb-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10a6.5 6.5 0 0 1 13 0c0 4.6-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.4"/></svg>Kisumu</span>3 of 10 members · lakeside lunch walks</span></span>
+            <button class="btn btn--primary" type="button" data-njoin="kisumu" data-od-id="nearby-join-deckers">Join</button>
+          </div>
+        </div>
+
+        <div style="text-align:center;">
+          <button class="link-quiet" type="button" data-goto="scr-settings-privacy" data-od-id="nearby-hide-profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+            <i>Hide my profile</i>
+          </button>
+        </div>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

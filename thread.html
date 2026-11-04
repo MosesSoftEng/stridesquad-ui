@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="thread" data-screen="scr-chat-thread">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-chat-thread" class="screen screen--chat" data-screen data-od-id="chat-thread" aria-label="Chat thread">
+      <div class="screen-head" style="flex:none;">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-chat" aria-label="Back to chats" data-od-id="thread-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="th-title" style="font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Chat</h2>
+            <p class="screen-sub" id="th-sub">…</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex:none;">
+          <button class="icon-btn u-hide" id="btn-th-menu" type="button" aria-label="Chat options" aria-haspopup="dialog" data-od-id="thread-menu">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+          </button>
+          <div class="avatar" id="th-avatar" aria-hidden="true">YO</div>
+        </div>
+      </div>
+      <div class="chat-scroll" id="chat-scroll"></div>
+      <form class="composer" id="chat-composer">
+        <button class="composer__photo" type="button" id="btn-chat-photo" aria-label="Attach a photo" data-od-id="chat-photo-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></svg>
+        </button>
+        <input id="chat-input" type="text" placeholder="Message this chat…" autocomplete="off" aria-label="Message text">
+        <button class="composer__send" type="submit" aria-label="Send message" data-od-id="chat-send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12 20 4.5l-4 8 4 8L4.5 12Z"/><path d="M16 12.5H4.5"/></svg>
+        </button>
+      </form>
+    </section>
+<section id="scr-dm-thread" class="screen screen--chat" data-screen data-od-id="dm-thread" aria-label="Direct message thread">
+      <div class="screen-head" style="flex:none;">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-chat" aria-label="Back to chats" data-od-id="dm-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="dm-title" style="font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Direct message</h2>
+            <p class="screen-sub" id="dm-sub">…</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex:none;">
+          <button class="icon-btn" id="btn-dm-menu" aria-label="Conversation options" data-od-id="dm-menu">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+          </button>
+          <div class="avatar avatar--lime" id="dm-avatar" aria-hidden="true">NP</div>
+        </div>
+      </div>
+      <div class="chat-scroll" id="dm-scroll"></div>
+      <form class="composer" id="dm-composer">
+        <button class="composer__photo" type="button" id="btn-dm-photo" aria-label="Attach a photo" data-od-id="dm-photo-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></svg>
+        </button>
+        <input id="dm-input" type="text" placeholder="Message…" autocomplete="off" aria-label="Message text">
+        <button class="composer__send" type="submit" aria-label="Send message" data-od-id="dm-send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12 20 4.5l-4 8 4 8L4.5 12Z"/><path d="M16 12.5H4.5"/></svg>
+        </button>
+      </form>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="rules-sheet" role="dialog" aria-modal="true" aria-labelledby="rules-title" data-od-id="house-rules-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="rules-title">Global Chat House Rules</h3>
+      <ul class="rules-list" data-od-id="house-rules-list">
+        <li><span class="rn" aria-hidden="true">1</span><span>Be respectful — everyone is here for their health goal</span></li>
+        <li><span class="rn" aria-hidden="true">2</span><span>No harassment, hate speech or sexual content</span></li>
+        <li><span class="rn" aria-hidden="true">3</span><span>No spam, scams or solicitation</span></li>
+        <li><span class="rn" aria-hidden="true">4</span><span>Use Report &amp; Block — repeat violations get muted</span></li>
+      </ul>
+      <button class="btn btn--primary btn--block" id="btn-rules-agree" data-od-id="house-rules-agree">I agree — walk with us</button>
+      <button class="btn btn--cancel btn--block" id="btn-rules-later" style="margin-top:10px;" data-od-id="house-rules-later">Maybe later</button>
+    </div>
+<div class="sheet" id="th-sheet" role="dialog" aria-modal="true" aria-label="Chat options" data-od-id="thread-options-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="th-sheet-title" style="margin-bottom:6px;">Global Chat</h3>
+      <button class="btn btn--ghost btn--block" id="btn-th-rules" data-od-id="thread-house-rules-item">House rules</button>
+      <button class="btn btn--cancel btn--block" id="btn-th-cancel">Cancel</button>
+    </div>
+<div class="sheet" id="dm-sheet" role="dialog" aria-modal="true" aria-label="Conversation options" data-od-id="dm-options-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="dm-sheet-title" style="margin-bottom:6px;">Conversation</h3>
+      <button class="btn btn--danger btn--block" id="btn-dm-report" data-od-id="dm-report">Report user</button>
+      <button class="btn btn--danger btn--block" id="btn-dm-block" data-od-id="dm-block-user">Block user</button>
+      <button class="btn btn--cancel btn--block" id="btn-dm-cancel">Cancel</button>
+    </div>
+<div class="sheet" id="report-sheet" role="dialog" aria-modal="true" aria-label="Message options" data-od-id="report-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="report-sheet-title" style="margin-bottom:6px;">Message options</h3>
+      <button class="btn btn--danger btn--block" id="btn-report" data-od-id="report-confirm">Report</button>
+      <button class="btn btn--danger btn--block" id="btn-block" data-od-id="block-confirm">Block sender</button>
+      <button class="btn btn--cancel btn--block" id="btn-report-cancel">Cancel</button>
+    </div>
+<div class="sheet" id="gallery-sheet" role="dialog" aria-modal="true" aria-label="Demo photos" data-od-id="photo-gallery-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" id="btn-gallery-close" aria-label="Close demo gallery" data-od-id="gallery-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3>Demo photos</h3>
+      <p>Mock gallery — pick one to attach. Posts as a “Photo · demo” bubble.</p>
+      <div class="gallery-grid" id="gallery-grid" role="group" aria-label="Demo photos"></div>
+    </div>
+<div class="sheet" id="event-sheet" role="dialog" aria-modal="true" aria-label="New event" data-od-id="event-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" id="btn-ev-close" aria-label="Close event form" data-od-id="event-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3 id="ev-sheet-title">New event</h3>
+      <p id="ev-sheet-desc">Post a walk, routine or challenge — the squad can RSVP right from chat.</p>
+      <div class="field" style="margin-top:14px;">
+        <label for="ev-title-input">Title</label>
+        <input id="ev-title-input" type="text" maxlength="44" placeholder="Saturday 7am Park Walk" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-type-label">Type</span>
+        <div class="seg seg--3" role="group" aria-labelledby="ev-type-label" data-od-id="event-type-seg">
+          <button type="button" class="active" data-etype="walk" data-od-id="event-type-walk">Walk</button>
+          <button type="button" data-etype="routine" data-od-id="event-type-routine">Routine</button>
+          <button type="button" data-etype="challenge" data-od-id="event-type-challenge">Challenge</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-day-label">Day</span>
+        <div class="goal-chips" role="group" aria-labelledby="ev-day-label" id="ev-day-chips" data-od-id="event-day-chips">
+          <button type="button" data-day="Mon">Mon</button>
+          <button type="button" data-day="Tue">Tue</button>
+          <button type="button" data-day="Wed">Wed</button>
+          <button type="button" data-day="Thu">Thu</button>
+          <button type="button" data-day="Fri">Fri</button>
+          <button type="button" class="active" data-day="Sat">Sat</button>
+          <button type="button" data-day="Sun">Sun</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-time-label">Time</span>
+        <div class="goal-chips" role="group" aria-labelledby="ev-time-label" id="ev-time-chips" data-od-id="event-time-chips">
+          <button type="button" data-time="6:00">6:00</button>
+          <button type="button" class="active" data-time="7:00">7:00</button>
+          <button type="button" data-time="9:00">9:00</button>
+          <button type="button" data-time="12:00">12:00</button>
+          <button type="button" data-time="17:00">17:00</button>
+          <button type="button" data-time="19:00">19:00</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="ev-loc-input">Location</label>
+        <input id="ev-loc-input" type="text" maxlength="40" placeholder="Westlands Park, Nairobi" autocomplete="off">
+      </div>
+      <div class="ev-repeat u-hide" id="ev-repeat-row" data-od-id="event-repeat-row">
+        <span><b>Repeat weekly</b><small>Routines recur every week on the same day.</small></span>
+        <button class="switch" role="switch" aria-checked="false" id="sw-ev-repeat" aria-label="Repeat weekly" data-od-id="event-repeat-toggle"></button>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-event-create" data-od-id="event-create">Create event</button>
+      <button class="btn btn--cancel btn--block" id="btn-event-cancel" data-od-id="event-cancel-sheet">Cancel</button>
+    </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="wallet" data-screen="scr-wallet">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-wallet" class="screen" data-screen data-od-id="wallet" aria-label="Sole wallet">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="wallet-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" style="font-size:23px;">Sole wallet</h2>
+            <p class="screen-sub">Coins banked at midnight</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-od-id="wallet-balance-card">
+        <p class="card-label">Balance</p>
+        <div class="bal-hero"><b class="num" id="wallet-bal">128 👟</b><i class="num" id="wallet-today">+12 today</i></div>
+        <div class="lock-row__bar" style="padding-left:0;align-items:flex-start;">
+          <div style="flex:1;min-width:0;">
+            <span class="meter" aria-hidden="true"><span class="meter__fill" id="wallet-cap-fill" style="width:80%"></span></span>
+            <p class="cap-note" id="wallet-cap-note">12 of 15 👟 earned today</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;" data-od-id="wallet-earn-rules">
+        <p class="card-label">Earn rules</p>
+        <div class="rules">
+          <div class="rule-row" data-od-id="wallet-rule-steps"><b>1,000 steps</b><span>= 1 👟</span></div>
+          <div class="rule-row" data-od-id="wallet-rule-cap"><b>Daily cap</b><span>15 👟</span></div>
+          <div class="rule-row" data-od-id="wallet-rule-goal"><b>First goal</b><span>+5 👟</span></div>
+          <div class="rule-row" data-od-id="wallet-rule-streak"><b>Streak 7 / 30 / 100</b><span>+20 / +80 / +300 👟</span></div>
+          <div class="rule-row" data-od-id="wallet-rule-cheer"><b>Cheer a buddy</b><span>+1 👟</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;" data-od-id="wallet-earn-feed">
+        <p class="card-label">Earn feed</p>
+        <div id="wallet-feed-list"></div>
+      </div>
+
+      <div class="seg seg--4" role="group" aria-label="Store tabs" data-od-id="wallet-store-tabs" style="margin-top:14px;">
+        <button type="button" class="active" data-wtab="stickers">Stickers</button>
+        <button type="button" data-wtab="avatar">Avatar</button>
+        <button type="button" data-wtab="gifts">Gifts</button>
+        <button type="button" data-wtab="premium">Premium</button>
+      </div>
+      <div id="wallet-panel-stickers" data-od-id="wallet-panel-stickers">
+        <div id="store-stickers" data-od-id="store-stickers"></div>
+      </div>
+      <div id="wallet-panel-avatar" hidden data-od-id="wallet-panel-avatar">
+        <p class="fs-note" style="text-align:left;">Cosmetic upgrades — buy once, then equip to tint your profile avatar.</p>
+        <button class="btn btn--primary btn--block" type="button" id="btn-wallet-av-shuffle" style="margin-bottom:14px;" data-od-id="wallet-avatar-shuffle">Shuffle — build your avatar</button>
+        <div id="store-avatar" data-od-id="store-avatar"></div>
+      </div>
+      <div id="wallet-panel-gifts" hidden data-od-id="wallet-panel-gifts">
+        <p class="fs-note" style="text-align:left;">The same stickers you send in chats. Premium sends cost 👟.</p>
+        <div id="store-gifts" data-od-id="store-gifts"></div>
+      </div>
+      <div id="wallet-panel-premium" hidden data-od-id="wallet-panel-premium">
+        <p class="fs-note" style="text-align:left;">Top up 👟 with mock in-app purchases, or go StrideSquad+.</p>
+        <div class="packs" id="store-packs" data-od-id="store-packs" role="group" aria-label="Coin packs"></div>
+        <div class="plus-card" id="plus-card" data-od-id="store-plus-card">
+          <p class="plus-hook">You walked <b class="num">128,412</b> steps this week</p>
+          <p class="plus-hook-s">More than most squads combine. StrideSquad+ makes all of it count — coins, cosmetics, deeper stats, no ads.</p>
+          <div class="plan-row" role="group" aria-label="StrideSquad+ plan" data-od-id="store-plus-plans">
+            <button type="button" class="plan-opt sel" data-plusplan="monthly" data-od-id="store-plus-plan-monthly"><b>Monthly</b><span class="num">$6.99<small> /mo</small></span></button>
+            <button type="button" class="plan-opt" data-plusplan="annual" data-od-id="store-plus-plan-annual"><b>Annual</b><span class="num">$39.99<small> /yr</small><span class="save-chip">save 52%</span></span></button>
+          </div>
+          <ul class="benefits" data-od-id="store-plus-benefits">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>500 👟 monthly stipend</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>Exclusive cosmetics tier — same items stay earnable</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>Advanced stats — cadence, terrain, weekly trends</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>4th squad slot</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>Ad-free forever</li>
+          </ul>
+          <button type="button" class="btn btn--primary btn--block plus-cta" id="btn-plus-subscribe" data-od-id="store-plus-subscribe">Subscribe — $6.99/mo</button>
+          <button type="button" class="plus-state u-hide" id="btn-plus-manage" data-od-id="store-plus-manage"><span class="plus-state__t"><b>StrideSquad+</b><span>Subscribed · mock billing</span></span><span class="plus-state__go">Manage ›</span></button>
+        </div>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="pack-sheet" role="dialog" aria-modal="true" aria-label="Coin pack purchase" data-od-id="pack-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" id="btn-pack-close" aria-label="Close purchase" data-od-id="pack-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3>Coin pack</h3>
+      <p>Add 👟 to your wallet instantly.</p>
+      <div class="prod-row" data-od-id="pack-product-row">
+        <span class="prod-row__e" id="pack-glyph" aria-hidden="true">🪙</span>
+        <span class="prod-row__t"><b id="pack-name">Squad Stash</b><span id="pack-coins">+2,900 👟</span></span>
+        <span class="prod-row__price num" id="pack-price">$4.99</span>
+      </div>
+      <p class="mock-note">Mock purchase — no real charge</p>
+      <button class="btn btn--primary btn--block" type="button" id="btn-pack-buy" data-od-id="pack-buy">Buy — $4.99</button>
+      <button class="btn btn--cancel btn--block" type="button" id="btn-pack-cancel">Cancel</button>
+    </div>
+<div class="sheet" id="plus-sheet" role="dialog" aria-modal="true" aria-label="StrideSquad+ subscription" data-od-id="plus-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" id="btn-plus-close" aria-label="Close subscription sheet" data-od-id="plus-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3 id="plus-sheet-title">Confirm subscription</h3>
+      <p id="plus-sheet-desc">Mock subscription — no real charge. Manage any time in Settings › Account.</p>
+      <div class="prod-row" data-od-id="plus-product-row">
+        <span class="prod-row__e" aria-hidden="true">✦</span>
+        <span class="prod-row__t"><b id="plus-sheet-plan">StrideSquad+ · Monthly</b><span id="plus-sheet-period">per month</span></span>
+        <span class="prod-row__price num" id="plus-sheet-price">$6.99</span>
+      </div>
+      <button class="btn btn--primary btn--block" type="button" id="btn-plus-confirm" data-od-id="plus-confirm">Subscribe</button>
+      <button class="btn btn--danger btn--block u-hide" type="button" id="btn-plus-unsub" data-od-id="plus-unsubscribe">Unsubscribe</button>
+      <button class="btn btn--cancel btn--block" type="button" id="btn-plus-cancel">Cancel</button>
+    </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

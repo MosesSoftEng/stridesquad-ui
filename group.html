@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="group" data-screen="scr-group">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-group" class="screen" data-screen data-od-id="group-detail" aria-label="Group detail">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-groups" aria-label="Back to My Groups" data-od-id="group-detail-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" id="gd-name" style="font-size:22px;">Group</h2>
+            <p class="screen-sub" id="gd-sub">Weekly challenge</p>
+          </div>
+        </div>
+        <button class="btn btn--primary" id="btn-invite" data-od-id="group-invite" style="min-height:46px;padding:10px 18px;flex:none;">Invite</button>
+      </div>
+
+      <div class="seg seg--3" role="group" aria-label="Group view" data-od-id="group-detail-seg" style="margin-bottom:14px;">
+        <button class="active" data-gtab="ranking">Ranking</button>
+        <button data-gtab="stats">Stats</button>
+        <button data-gtab="events">Events</button>
+      </div>
+
+      <div id="gd-ranking">
+      <div class="card" data-od-id="group-podium">
+        <div class="podium" id="gd-podium"></div>
+      </div>
+
+      <div class="card" data-od-id="group-members" style="margin-top:14px;">
+        <p class="card-label">Full ranking — today</p>
+        <div id="gd-members"></div>
+      </div>
+      </div><!-- /#gd-ranking -->
+
+      <div id="gd-stats" hidden>
+        <div class="card" data-od-id="group-stats-chart">
+          <p class="card-label">Weekly steps per member</p>
+          <div class="wbars" id="gd-bars"></div>
+        </div>
+        <div class="stat-row" id="gd-stat-row" style="grid-template-columns:1fr 1fr;"></div>
+      </div>
+
+      <div id="gd-events" hidden data-od-id="group-events-panel">
+        <div class="ev-head">
+          <p class="card-label" style="margin:0;">Upcoming</p>
+          <button class="ev-newbtn" type="button" id="btn-new-event" data-od-id="event-new-button">+ New event</button>
+        </div>
+        <div id="gd-upcoming" data-od-id="events-upcoming"></div>
+        <p class="card-label" id="gd-past-label" style="margin:20px 0 10px;">Past</p>
+        <div id="gd-past" data-od-id="events-past"></div>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite to group" data-od-id="invite-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="invite-title">Invite to group</h3>
+      <p id="invite-desc">Share this link — they land straight in the squad.</p>
+      <div class="link-row">
+        <code id="invite-link">https://stridesquad.app/join/SQUAD10</code>
+        <span class="chip" id="invite-code" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
+      <div class="qr-row" data-od-id="invite-qr">
+        <svg id="qr-svg" viewBox="0 0 21 21" aria-hidden="true"></svg>
+        <p><b>Or scan to join</b>QR placeholder — generated from the invite link in the shipped app.</p>
+      </div>
+      <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
+    </div>
+<div class="sheet" id="event-sheet" role="dialog" aria-modal="true" aria-label="New event" data-od-id="event-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" id="btn-ev-close" aria-label="Close event form" data-od-id="event-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3 id="ev-sheet-title">New event</h3>
+      <p id="ev-sheet-desc">Post a walk, routine or challenge — the squad can RSVP right from chat.</p>
+      <div class="field" style="margin-top:14px;">
+        <label for="ev-title-input">Title</label>
+        <input id="ev-title-input" type="text" maxlength="44" placeholder="Saturday 7am Park Walk" autocomplete="off">
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-type-label">Type</span>
+        <div class="seg seg--3" role="group" aria-labelledby="ev-type-label" data-od-id="event-type-seg">
+          <button type="button" class="active" data-etype="walk" data-od-id="event-type-walk">Walk</button>
+          <button type="button" data-etype="routine" data-od-id="event-type-routine">Routine</button>
+          <button type="button" data-etype="challenge" data-od-id="event-type-challenge">Challenge</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-day-label">Day</span>
+        <div class="goal-chips" role="group" aria-labelledby="ev-day-label" id="ev-day-chips" data-od-id="event-day-chips">
+          <button type="button" data-day="Mon">Mon</button>
+          <button type="button" data-day="Tue">Tue</button>
+          <button type="button" data-day="Wed">Wed</button>
+          <button type="button" data-day="Thu">Thu</button>
+          <button type="button" data-day="Fri">Fri</button>
+          <button type="button" class="active" data-day="Sat">Sat</button>
+          <button type="button" data-day="Sun">Sun</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="ev-flabel" id="ev-time-label">Time</span>
+        <div class="goal-chips" role="group" aria-labelledby="ev-time-label" id="ev-time-chips" data-od-id="event-time-chips">
+          <button type="button" data-time="6:00">6:00</button>
+          <button type="button" class="active" data-time="7:00">7:00</button>
+          <button type="button" data-time="9:00">9:00</button>
+          <button type="button" data-time="12:00">12:00</button>
+          <button type="button" data-time="17:00">17:00</button>
+          <button type="button" data-time="19:00">19:00</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="ev-loc-input">Location</label>
+        <input id="ev-loc-input" type="text" maxlength="40" placeholder="Westlands Park, Nairobi" autocomplete="off">
+      </div>
+      <div class="ev-repeat u-hide" id="ev-repeat-row" data-od-id="event-repeat-row">
+        <span><b>Repeat weekly</b><small>Routines recur every week on the same day.</small></span>
+        <button class="switch" role="switch" aria-checked="false" id="sw-ev-repeat" aria-label="Repeat weekly" data-od-id="event-repeat-toggle"></button>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-event-create" data-od-id="event-create">Create event</button>
+      <button class="btn btn--cancel btn--block" id="btn-event-cancel" data-od-id="event-cancel-sheet">Cancel</button>
+    </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

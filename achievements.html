@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="achievements" data-screen="scr-achievements">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-achievements" class="screen" data-screen data-od-id="achievements" aria-label="Achievements">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="achievements-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" style="font-size:23px;">Achievements</h2>
+            <p class="screen-sub">Badges, locked ladder, streak milestones</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-od-id="ach-earned-card">
+        <p class="card-label">Earned · this season</p>
+        <div class="medal-grid" style="grid-template-columns:repeat(2,1fr);">
+          <div class="medal" data-od-id="ach-medal-streak"><span class="medal__disc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg></span><b>12 in a row</b><span>Two weeks of daily streaks</span></div>
+          <div class="medal" data-od-id="ach-medal-crusher"><span class="medal__disc medal__disc--lime" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4l2-6 3.5 12 2-6h5.5"/></svg></span><b>Goal crusher</b><span>Hit 9,000 five days this week</span></div>
+          <div class="medal" data-od-id="ach-medal-dawn"><span class="medal__disc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><b>Dawn patrol</b><span>10 mornings under 7am</span></div>
+          <div class="medal" data-od-id="ach-medal-hill"><span class="medal__disc medal__disc--lime" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 9 9l4 5 3-3 4 9Z"/></svg></span><b>Hill taker</b><span>120 floors this month</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;" data-od-id="ach-ladder-card">
+        <p class="card-label">Locked ladder · closest first</p>
+
+        <div class="lock-row" data-od-id="ach-lock-night-owl">
+          <div class="lock-row__head">
+            <span class="lock-row__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></svg></span>
+            <div class="lock-row__t"><b>Night Owl</b><span>Close tonight&rsquo;s goal after 9pm — 1,158 steps away</span></div>
+            <span class="echo">+20 👟 at day 30</span>
+          </div>
+          <div class="lock-row__bar"><span class="meter" aria-hidden="true"><span class="meter__fill" id="ladder-night-fill" style="width:87%"></span></span><span class="lock-row__pct num" id="ladder-night-pct">7,842 of 9,000 · 87%</span></div>
+        </div>
+
+        <div class="lock-row" data-od-id="ach-lock-podium">
+          <div class="lock-row__head">
+            <span class="lock-row__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg></span>
+            <div class="lock-row__t"><b>Podium week</b><span>Top 3 in your squad for 7 days</span></div>
+            <span class="echo">+12 👟</span>
+          </div>
+          <div class="lock-row__bar"><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:57%"></span></span><span class="lock-row__pct">4 of 7 days · 57%</span></div>
+        </div>
+
+        <div class="lock-row" data-od-id="ach-lock-100k">
+          <div class="lock-row__head">
+            <span class="lock-row__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
+            <div class="lock-row__t"><b>100k club</b><span>Walk 100,000 steps in one week</span></div>
+            <span class="echo">+30 👟</span>
+          </div>
+          <div class="lock-row__bar"><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:52%"></span></span><span class="lock-row__pct">51,972 of 100,000 · 52%</span></div>
+        </div>
+
+        <div class="lock-row" data-od-id="ach-lock-global">
+          <div class="lock-row__head">
+            <span class="lock-row__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3.5c4 5 4 12 0 17-4-5-4-12 0-17Z"/></svg></span>
+            <div class="lock-row__t"><b>Global top 100</b><span>Climb into the weekly global top 100</span></div>
+            <span class="echo">+50 👟</span>
+          </div>
+          <div class="lock-row__bar"><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:31%"></span></span><span class="lock-row__pct">rank 143 · 31% there</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;" data-od-id="ach-milestones-card">
+        <p class="card-label">Streak milestones</p>
+        <div class="mile-grid">
+          <div class="mile mile--met" data-od-id="ach-mile-7"><b>7 ✓</b><span>day streak</span><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:100%"></span></span></div>
+          <div class="mile" data-od-id="ach-mile-30"><b>30</b><span>12 of 30 · 40%<br><b style="font-weight:800;">+20 👟</b> unlocked</span><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:40%"></span></span></div>
+          <div class="mile mile--locked" data-od-id="ach-mile-100"><b>100</b><span>12 of 100 · 12%</span><span class="meter" aria-hidden="true"><span class="meter__fill" style="width:12%"></span></span></div>
+        </div>
+        <p class="fineprint" style="text-align:left;padding:0 4px;margin-top:12px;">Milestone echoes pay out the day you clear them — 30 days is the one that stings to lose.</p>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

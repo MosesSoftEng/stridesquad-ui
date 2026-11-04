@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="groups" data-screen="scr-groups">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-groups" class="screen" data-screen data-od-id="my-groups" aria-label="My Groups">
+      <div class="util-row" data-od-id="groups-util-row">
+        <button class="icon-btn bell" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="groups-bell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13.5 6 9.5Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bell__dot" data-bell-dot aria-hidden="true"></span>
+        </button>
+        <div class="util-row__end">
+          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="groups-sole-pill">👟<b class="num">128</b> ·<i>+12 today</i></button>
+        </div>
+      </div>
+      <div class="screen-head">
+        <div>
+          <h2 class="screen-title">Groups</h2>
+          <p class="screen-sub" id="mg-sub">3 groups · week of Nov 2</p>
+        </div>
+      </div>
+
+      <div class="seg" role="group" aria-label="Groups view" data-od-id="groups-seg">
+        <button class="active" data-gview="mine">My groups</button>
+        <button data-gview="discover">Discover</button>
+      </div>
+
+      <div id="grp-mine" style="margin-top:14px;">
+      <div id="groups-list" data-od-id="groups-list"></div>
+
+      <div style="margin-top:14px;" data-od-id="groups-actions">
+        <button class="gcta" id="btn-open-create" data-od-id="groups-create-card">
+          <span class="gcta__t">
+            <span class="gcta__glyph" aria-hidden="true">+</span>
+            <span><b>Create group</b><span class="s">Name it, set a goal, invite walkers</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="gcta" id="btn-open-join" data-od-id="groups-join-card">
+          <span class="gcta__t">
+            <span class="gcta__glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
+            </span>
+            <span><b>Join with code</b><span class="s">Ask a squad admin for their invite code</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+      </div><!-- /#grp-mine -->
+
+      <div id="grp-discover" hidden style="margin-top:14px;">
+        <div class="seg seg--3" role="group" aria-label="Sort squads" data-od-id="discover-sort">
+          <button type="button" class="active" data-sort="active">Most active</button>
+          <button type="button" data-sort="largest">Largest</button>
+          <button type="button" data-sort="newest">Newest</button>
+        </div>
+        <div class="gchips loc-chips" id="disc-loc-chips" role="group" aria-label="Filter squads by city" data-od-id="discover-loc-chips">
+          <button type="button" class="active" data-loc="all" data-od-id="discover-loc-all">All</button>
+          <button type="button" data-loc="nairobi" data-od-id="discover-loc-nairobi">Nairobi</button>
+          <button type="button" data-loc="kisumu" data-od-id="discover-loc-kisumu">Kisumu</button>
+        </div>
+        <div class="disc-city u-hide" id="disc-city" data-od-id="discover-city-filter">
+          <span class="chip" id="disc-city-label">Nairobi</span>
+          <button class="disc-city__x" type="button" id="disc-city-clear" aria-label="Clear city filter" data-od-id="discover-city-clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+          <span class="disc-city__hint">squads near you</span>
+        </div>
+        <p class="disc-lead">Public squads looking for walkers. Open groups accept join requests; private groups reply with an invite.</p>
+        <div id="discover-list" data-od-id="discover-list"></div>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="join-req-sheet" role="dialog" aria-modal="true" aria-label="Join request message" data-od-id="join-request-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="jr-title">Request to join</h3>
+      <p>A short hello gets approved about twice as often. Edit it if you like — admins see it with your request.</p>
+      <div class="field" style="margin-top:14px;">
+        <label for="jr-msg">Intro message</label>
+        <textarea id="jr-msg" maxlength="280">Hi! I&rsquo;m a daily walker — around 9,000 steps, most of it before 8am. I&rsquo;d love to join your squad and keep the streak going.</textarea>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-send-request" data-od-id="join-request-send">Send request</button>
+      <button class="btn btn--cancel btn--block" id="btn-jr-cancel">Cancel</button>
+    </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

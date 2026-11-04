@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="create" data-screen="scr-create">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone no-tabbar" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-create" class="screen" data-screen data-od-id="create-join" aria-label="Create or join a group">
+      <div class="screen-head">
+        <div>
+          <h2 class="screen-title">New squad</h2>
+          <p class="screen-sub">Start one, or join with a code</p>
+        </div>
+        <button class="icon-btn" data-goto="scr-groups" aria-label="Back to groups" data-od-id="create-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="card" data-od-id="create-form-card">
+        <p class="card-label">Create a group</p>
+        <div class="field">
+          <label for="create-name">Group name</label>
+          <input id="create-name" type="text" value="Sunrise Steppers" maxlength="28">
+        </div>
+        <div class="field">
+          <label id="goal-label">Daily step goal</label>
+          <div class="goal-chips" role="group" aria-labelledby="goal-label">
+            <button type="button" data-goal="6000">6,000</button>
+            <button type="button" data-goal="7000">7,000</button>
+            <button type="button" data-goal="8000">8,000</button>
+            <button type="button" class="active" data-goal="9000">9,000</button>
+            <button type="button" data-goal="10000">10,000</button>
+            <button type="button" data-goal="11000">11,000</button>
+            <button type="button" data-goal="12000">12,000</button>
+          </div>
+          <p class="goal-hint" data-od-id="create-goal-hint"><b>9,000</b> — most squads pick this</p>
+        </div>
+        <div class="field">
+          <label id="priv-label">Privacy</label>
+          <div class="seg seg--stack" role="group" aria-labelledby="priv-label" data-od-id="create-privacy">
+            <button type="button" class="active" data-priv="open"><span>Open <span class="chip chip--rec" data-od-id="create-open-recommended">Recommended</span></span><small>Discoverable — join by request</small></button>
+            <button type="button" data-priv="private"><span>Private</span><small>Invite link only</small></button>
+          </div>
+        </div>
+        <button class="btn btn--primary btn--block" id="btn-create-group" data-od-id="create-submit">Create group</button>
+      </div>
+
+      <div class="card join-card" style="margin-top:14px;" data-od-id="join-form-card">
+        <p class="card-label">Join with a code</p>
+        <div class="field">
+          <label for="join-code">Squad code</label>
+          <input id="join-code" class="code" type="text" placeholder="e.g. SQUAD10" maxlength="12" autocomplete="off" spellcheck="false">
+          <p class="field__err" id="join-err" role="alert"></p>
+        </div>
+        <button class="btn btn--ghost btn--block" id="btn-join" data-od-id="join-submit">Join squad</button>
+      </div>
+    </section>
+</div><!-- /.stage -->
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="invite-sheet" role="dialog" aria-modal="true" aria-label="Invite to group" data-od-id="invite-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <h3 id="invite-title">Invite to group</h3>
+      <p id="invite-desc">Share this link — they land straight in the squad.</p>
+      <div class="link-row">
+        <code id="invite-link">https://stridesquad.app/join/SQUAD10</code>
+        <span class="chip" id="invite-code" aria-hidden="true" style="background:var(--primary-soft);color:var(--primary-ink);">SQUAD10</span>
+      </div>
+      <button class="btn btn--primary btn--block" id="btn-copy-link" data-od-id="invite-copy-link">Copy Link</button>
+      <div class="qr-row" data-od-id="invite-qr">
+        <svg id="qr-svg" viewBox="0 0 21 21" aria-hidden="true"></svg>
+        <p><b>Or scan to join</b>QR placeholder — generated from the invite link in the shipped app.</p>
+      </div>
+      <p style="font-size:12px;color:var(--faint);text-align:center;margin-top:10px;">Tap outside to dismiss</p>
+    </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
