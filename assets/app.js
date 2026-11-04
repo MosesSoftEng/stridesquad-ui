@@ -2,6 +2,64 @@
 (function () {
   'use strict';
 
+  function SPRITE_HTML() {
+    /* ══ Icon system · v8-g7 — crafted SVG sprite, one-time boot injection ══
+       24x24 grid · 2px stroke · round caps/joins · duotone: stroke currentColor,
+       explicit lime/gold fills on inner paths so .ico{fill:none} can't erase them. */
+    var _ICONS = '<svg id="ss-icons" style="display:none" aria-hidden="true">'
+      /* ── UI symbols ── */
+      + '<symbol id="ic-squad" viewBox="0 0 24 24"><circle cx="12" cy="9.2" r="4.9" fill="none" stroke="#A3E635"/><circle cx="12" cy="9.2" r="3" fill="rgba(163,230,53,.4)"/><path d="M7 20.5a5 5 0 0 1 10 0"/><circle cx="4.4" cy="7.2" r="1.9"/><path d="M2 13.9a3.1 3.1 0 0 1 5.4 1.4"/><circle cx="19.6" cy="7.2" r="1.9"/><path d="M22 13.9a3.1 3.1 0 0 0-5.4 1.4"/></symbol>'
+      + '<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13 2.2 4.8 13.4h5.1L8.9 21.8l8.4-11.4h-5.1L13 2.2Z" fill="rgba(163,230,53,.4)"/></symbol>'
+      + '<symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4.5a5 5 0 0 1-10 0V4Z" fill="rgba(163,230,53,.35)"/><path d="M8 21h8M12 17.5V21"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></symbol>'
+      + '<symbol id="ic-footprint" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(163,230,53,.28)"/><ellipse cx="9.3" cy="8.5" rx="2.1" ry="2.9" transform="rotate(-16 9.3 8.5)" fill="#A3E635" stroke="none"/><ellipse cx="13.9" cy="14.6" rx="2.1" ry="2.9" transform="rotate(16 13.9 14.6)" fill="#A3E635" stroke="none"/></symbol>'
+      + '<symbol id="ic-flame" viewBox="0 0 24 24"><path d="M12 2.6c.7 3.1-1.3 4.5-2.6 6.1A6.7 6.7 0 0 0 7 14.3a5 5 0 0 0 10 0c0-2-.8-3.6-1.9-4.9-.4 1.3-1.1 2-1.9 2.3.9-3 .4-6.5-1.2-9.1Z"/><path d="M12 14c1.5 1.7 2.1 2.7 2.1 3.8a2.6 2.6 0 0 1-5.2 0c0-1.1 1.1-2.2 3.1-3.8Z" fill="rgba(163,230,53,.55)" stroke="none"/></symbol>'
+      + '<symbol id="ic-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="11.8" rx="1.6" fill="rgba(163,230,53,.28)"/><path d="M3.5 12.6h17M12 8.5v11.8"/><path d="M12 8.5C11.2 5.9 9.7 4.7 8.2 5c-1.6.3-2 2.3-.7 3.2 1 .7 3.2.8 4.5.3Z" fill="rgba(163,230,53,.5)"/><path d="M12 8.5c.8-2.6 2.3-3.8 3.8-3.5 1.6.3 2 2.3.7 3.2-1 .7-3.2.8-4.5.3Z" fill="rgba(163,230,53,.5)"/></symbol>'
+      + '<symbol id="ic-event" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="15" rx="2.2" fill="rgba(163,230,53,.25)"/><path d="M3.5 10h17M8 3.5v4M16 3.5v4"/><circle cx="8.6" cy="14.2" r="1.2" fill="#A3E635" stroke="none"/><circle cx="12.6" cy="14.2" r="1.2" fill="rgba(15,23,42,.45)" stroke="none"/></symbol>'
+      + '<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8" fill="rgba(163,230,53,.22)"/><path d="M3.2 12h17.6M12 3.2c4 5 4 12.6 0 17.6-4-5-4-12.6 0-17.6Z"/></symbol>'
+      + '<symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3.2" y="5.5" width="17.6" height="14" rx="2.4" fill="rgba(163,230,53,.25)"/><circle cx="9" cy="10.2" r="1.5" fill="#A3E635" stroke="none"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></symbol>'
+      + '<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6.2 16V11a5.8 5.8 0 0 1 11.6 0v5l1.6 2.6H4.6L6.2 16Z" fill="rgba(163,230,53,.3)"/><path d="M10 21.2a2.2 2.2 0 0 0 4 0"/></symbol>'
+      + '<symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3.4 2.7 5.4 6 .9-4.3 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.7l6-.9L12 3.4Z" fill="rgba(163,230,53,.35)"/></symbol>'
+      + '<symbol id="ic-medal" viewBox="0 0 24 24"><path d="M8.8 3.6 11 8.8M15.2 3.6 13 8.8"/><circle cx="12" cy="14.8" r="5.8" fill="rgba(245,158,11,.4)"/><circle cx="12" cy="14.8" r="1.9" fill="rgba(163,230,53,.85)" stroke="none"/></symbol>'
+      + '<symbol id="ic-route" viewBox="0 0 24 24"><path d="M6.2 18.6c3.2-1 2-4.2-.4-5.4-3-1.6-2.2-5.8 1.6-6.6 3-.6 6.6.6 9.4-1.4"/><circle cx="4.4" cy="19.8" r="1.9" fill="rgba(163,230,53,.85)" stroke="none"/><circle cx="19.6" cy="4.4" r="1.9" fill="rgba(15,23,42,.35)" stroke="none"/></symbol>'
+      + '<symbol id="ic-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h14"/><path d="M13.5 6.2 19.3 12l-5.8 5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
+      + '<symbol id="ic-arrow-left" viewBox="0 0 24 24"><path d="M19.5 12h-14"/><path d="M10.5 6.2 4.7 12l5.8 5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
+      + '<symbol id="ic-arrow-down" viewBox="0 0 24 24"><path d="M12 4.5v14"/><path d="M6.2 13.5 12 19.3l5.8-5.8Z" fill="rgba(163,230,53,.5)"/></symbol>'
+      + '<symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/></symbol>'
+      + '<symbol id="ic-users-plus" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="rgba(163,230,53,.4)"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="16.6" cy="7.6" r="2.2"/><path d="M17.2 11.6v6M14.2 14.6h6"/></symbol>'
+      + '<symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M12 2.8 5 5.5v5.6c0 4.4 3 7.7 7 9.5 4-1.8 7-5.1 7-9.5V5.5l-7-2.7Z" fill="rgba(163,230,53,.28)"/><path d="m9 12.2 2.3 2.3 4.4-5"/></symbol>'
+      + '<symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></symbol>'
+      + '<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8" fill="rgba(163,230,53,.25)"/><path d="M12 6.8V12l3.6 2.2"/></symbol>'
+      + '<symbol id="ic-spark" viewBox="0 0 24 24"><path d="M11 3.2c1 4.7 2.6 6.3 7.3 7.3-4.7 1-6.3 2.6-7.3 7.3-1-4.7-2.6-6.3-7.3-7.3 4.7-1 6.3-2.6 7.3-7.3Z" fill="rgba(245,158,11,.45)"/><path d="M18.8 15.2c.4 1.8 1 2.4 2.8 2.8-1.8.4-2.4 1-2.8 2.8-.4-1.8-1-2.4-2.8-2.8 1.8-.4 2.4-1 2.8-2.8Z" fill="#F59E0B" stroke="none"/></symbol>'
+      + '<symbol id="ic-cheer" viewBox="0 0 24 24"><path d="M3.8 20.4 7.4 9.8l6.8 6.8-10.4 3.8Z" fill="rgba(163,230,53,.35)"/><path d="m6.4 15.6 4.4 2.8"/><circle cx="17.2" cy="6.4" r="1" fill="#A3E635" stroke="none"/><circle cx="20.8" cy="10.4" r=".9" fill="rgba(15,23,42,.75)" stroke="none"/><path d="M14.6 3.2v2.6M19.6 2.6l-1.4 2.2M21.6 6.6l-2.4.8"/></symbol>'
+      + '<symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4.8h14.6v8H5Z" fill="rgba(163,230,53,.3)"/><rect x="8.65" y="4.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="15.95" y="4.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="5" y="8.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/><rect x="12.3" y="8.8" width="3.65" height="4" fill="rgba(15,23,42,.75)" stroke="none"/></symbol>'
+      /* ── sticker art symbols — playful duotone, no text ── */
+      + '<symbol id="stk-kicks" viewBox="0 0 24 24"><path d="M4.6 16.4c.3-3.4 1.4-5.5 3.4-7l1.8-1.3c.6-.4 1.2-.3 1.8.1 1.4.9 3 1.4 4.7 1.6 1.7.2 2.8 1.3 3.1 3l.4 2.1c.1 1-.7 1.9-1.7 1.9H6.3c-1 0-1.8-.9-1.7-1.9l-.3.5Z" fill="rgba(245,158,11,.4)"/><path d="M4.6 18.8h14.9"/><path d="m8.8 12.8 3 2.6"/><path d="M5.9 16.9h6.3" stroke="#A3E635"/></symbol>'
+      + '<symbol id="stk-flameface" viewBox="0 0 24 24"><path d="M12 3c.7 3-1.2 4.4-2.4 6A6.4 6.4 0 0 0 7.8 14.4a4.6 4.6 0 0 0 9.2 0c0-1.9-.8-3.4-1.8-4.6-.4 1.2-1.1 1.8-1.8 2 .8-2.9.3-6-1.4-8.8Z"/><circle cx="10.2" cy="13.4" r=".85" fill="currentColor" stroke="none"/><circle cx="13.8" cy="13.4" r=".85" fill="currentColor" stroke="none"/><path d="M10.4 15.8c.5.7 1 1 1.6 1s1.1-.3 1.6-1"/><circle cx="8.2" cy="14.6" r=".9" fill="rgba(163,230,53,.8)" stroke="none"/><circle cx="15.8" cy="14.6" r=".9" fill="rgba(163,230,53,.8)" stroke="none"/></symbol>'
+      + '<symbol id="stk-bolt2" viewBox="0 0 24 24"><path d="M13.2 2.2 5.2 13h4.6L8.4 21.6 18.8 10.4h-4.9l-.7-8.2Z" fill="rgba(163,230,53,.45)"/><path d="M19.8 13.8l-3.2 4.5h1.9l-.9 3.1 3.3-4.4h-2l.9-3.2Z" fill="rgba(163,230,53,.85)" stroke="none"/></symbol>'
+      + '<symbol id="stk-starburst" viewBox="0 0 24 24"><path d="M12 6.4 13.7 10l4 .5-3 2.7.9 3.9L12 14.9l-3.6 2.2.9-3.9-3-2.7 4-.5L12 6.4Z" fill="rgba(163,230,53,.5)"/><path d="M12 2.2v2.4M12 19.4v2.4M2.2 12h2.4M19.4 12h2.4M5.2 5.2 6.9 6.9M17.1 17.1l1.7 1.7M18.8 5.2 17.1 6.9M6.9 17.1l-1.7 1.7"/></symbol>'
+      + '<symbol id="stk-medal2" viewBox="0 0 24 24"><path d="M8.5 3.2 10.6 8M15.5 3.2 13.4 8"/><circle cx="12" cy="14" r="6.2" fill="rgba(245,158,11,.4)"/><path d="m12 10.4 1.2 2.4 2.6.4-1.9 1.9.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.9 2.6-.4L12 10.4Z"/></symbol>'
+      + '<symbol id="stk-rocket" viewBox="0 0 24 24"><path d="M12 2.6c3.1 2.3 4.6 5.5 4.6 9v2.6l-2 2.2H9.4l-2-2.2v-2.6c0-3.5 1.5-6.7 4.6-9Z" fill="rgba(163,230,53,.3)"/><circle cx="12" cy="10.4" r="2"/><path d="M7.4 13.4 5 16.6l3 .8M16.6 13.4 19 16.6l-3 .8"/><path d="M10.6 19.9c.5 1 .9 1.5 1.4 2.1.5-.6.9-1.1 1.4-2.1" stroke="#A3E635"/></symbol>'
+      + '<symbol id="stk-crown" viewBox="0 0 24 24"><path d="M4.3 6.4 8 9.6 12 4l4 5.6 3.7-3.2-1.3 10H5.6L4.3 6.4Z" fill="rgba(245,158,11,.45)"/><path d="M6 18.9h12"/><circle cx="12" cy="12.4" r=".9" fill="currentColor" stroke="none"/></symbol>'
+      + '<symbol id="stk-lion" viewBox="0 0 24 24"><circle cx="12" cy="12.8" r="8.3" fill="none" stroke="#A3E635" stroke-dasharray="1.6 2.4"/><circle cx="12" cy="12.8" r="6" fill="rgba(245,158,11,.35)"/><circle cx="10" cy="11.6" r=".9" fill="currentColor" stroke="none"/><circle cx="14" cy="11.6" r=".9" fill="currentColor" stroke="none"/><path d="M10.9 13.8h2.2L12 15.1Z" fill="currentColor" stroke="none"/><path d="M12 15.1v1.2"/><path d="M9.8 16.6c.8 1.1 1.7 1.6 2.2 1.6s1.4-.5 2.2-1.6"/></symbol>'
+      + '<symbol id="stk-cap" viewBox="0 0 24 24"><path d="M5 15.2a7 7 0 0 1 14 0Z" fill="rgba(163,230,53,.4)"/><path d="M3.4 15.6h17.2c-.9 2.4-4.6 3.9-8.6 3.9s-7.7-1.5-8.6-3.9Z" fill="rgba(163,230,53,.18)"/><circle cx="12" cy="8.7" r=".8" fill="currentColor" stroke="none"/><path d="M12 9.6v5.4"/></symbol>'
+      + '<symbol id="stk-visor" viewBox="0 0 24 24"><path d="M4.2 13.4a7.8 7.8 0 0 1 15.6 0"/><path d="M2.8 13.6h18.4c-.9 3.2-4.8 5.2-9.2 5.2S3.7 16.8 2.8 13.6Z" fill="rgba(163,230,53,.35)"/><path d="M12 6.8v6.8"/></symbol>'
+      + '<symbol id="stk-helmet" viewBox="0 0 24 24"><path d="M3.6 14.6a8.4 8.4 0 0 1 16.8 0Z" fill="rgba(163,230,53,.25)"/><path d="M3.4 15.8h17.2"/><path d="M8.6 12.4 9.8 9.6M12 11.8V8.6M15.4 12.4l-1.2-2.8"/><path d="m6.4 16.4 1.2 3.4M17.6 16.4l-1.2 3.4"/><circle cx="12" cy="20.6" r="1.1" fill="rgba(163,230,53,.8)" stroke="none"/></symbol>'
+      + '<symbol id="stk-sunhat" viewBox="0 0 24 24"><path d="M8 13.6c0-3.7 1.8-6.4 4-6.4s4 2.7 4 6.4"/><path d="M8.2 11.2c2.4.9 5.2.9 7.6 0"/><path d="M3.2 15c1.7-1.3 4.9-2 8.8-2s7.1.7 8.8 2c-1.9 2.8-5.1 4.2-8.8 4.2s-6.9-1.4-8.8-4.2Z" fill="rgba(245,158,11,.35)"/></symbol>'
+      + '<symbol id="stk-palette" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6" fill="rgba(163,230,53,.2)"/><circle cx="15.6" cy="15.4" r="2.1"/><circle cx="8.6" cy="8.8" r="1.1" fill="#A3E635" stroke="none"/><circle cx="12.6" cy="6.8" r="1.1" fill="rgba(245,158,11,.9)" stroke="none"/><circle cx="16.4" cy="9.2" r="1.1" fill="rgba(15,23,42,.6)" stroke="none"/><circle cx="7.4" cy="13" r="1.1" fill="rgba(163,230,53,.5)" stroke="none"/></symbol>'
+      + '<symbol id="stk-dust" viewBox="0 0 24 24"><path d="M8.2 4.2c.5 2.3 1.3 3.1 3.6 3.6-2.3.5-3.1 1.3-3.6 3.6-.5-2.3-1.3-3.1-3.6-3.6 2.3-.5 3.1-1.3 3.6-3.6Z" fill="rgba(245,158,11,.5)"/><path d="M16.6 12.6c.4 1.7 1 2.3 2.7 2.7-1.7.4-2.3 1-2.7 2.7-.4-1.7-1-2.3-2.7-2.7 1.7-.4 2.3-1 2.7-2.7Z" fill="rgba(245,158,11,.8)" stroke="none"/><circle cx="14.8" cy="6.4" r=".9" fill="rgba(245,158,11,.85)" stroke="none"/><circle cx="5.4" cy="16.4" r=".9" fill="rgba(245,158,11,.85)" stroke="none"/><circle cx="10.4" cy="19.4" r=".8" fill="rgba(15,23,42,.55)" stroke="none"/></symbol>'
+      + '<symbol id="stk-coins" viewBox="0 0 24 24"><path d="M5.6 13.4v3.4c0 1.4 2.9 2.6 6.4 2.6s6.4-1.2 6.4-2.6v-3.4"/><path d="M5.6 10v3.4c0 1.4 2.9 2.6 6.4 2.6s6.4-1.2 6.4-2.6V10"/><ellipse cx="12" cy="6.6" rx="6.4" ry="2.6" fill="rgba(245,158,11,.4)"/></symbol>'
+      + '</svg>';
+      return _ICONS;
+    }
+  'use strict';
+
+  (function injectIcons() {
+    if (document.getElementById('ss-icons')) return;
+    var _w = document.createElement('div');
+    _w.innerHTML = SPRITE_HTML();
+    (document.body || document.documentElement).appendChild(_w.firstChild);
+  })();
+
   /* ══ migration · shared-DOM stub layer ═══════════════════════════════
      Pages ship only their own screens + overlays; the shared runtime still
      wires every handler. Missing elements resolve to detached stubs inside a
@@ -142,11 +200,24 @@
     var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML;
   }
 
+  /* icon plumbing · {{ic:name}}/{{stk:name}} tokens carry icons through escaped text */
+  function ic(n) { return '<svg class="ico" aria-hidden="true"><use href="#ic-' + n + '"></use></svg>'; }
+  function safeHTML(s) {
+    return escapeHtml(s).replace(/\{\{(ic|stk):([a-z0-9-]+)\}\}/g, function (m, t, n) {
+      return '<svg class="ico" aria-hidden="true"><use href="#' + t + '-' + n + '"></use></svg>';
+    });
+  }
+  function icSvgField(v) {
+    var m = /^\{\{(ic|stk):([a-z0-9-]+)\}\}$/.exec(String(v));
+    return m ? '<svg class="ico" aria-hidden="true"><use href="#' + m[1] + '-' + m[2] + '"></use></svg>' : escapeHtml(String(v));
+  }
+  function icPlain(s) { return String(s).replace(/\{\{(ic|stk):[a-z0-9-]+\}\}/g, 'Sole'); }
+
   /* ── toast ────────────────────────────────────────────────────────── */
   var toastEl = document.getElementById('toast');
   var toastTimer = null;
   function toast(msg) {
-    toastEl.textContent = msg;
+    toastEl.innerHTML = safeHTML(msg);
     toastEl.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
@@ -762,7 +833,7 @@
       if (m.ev) {
         var ev = eventById(m.ev);
         if (!ev) continue;                       // event cancelled — card gone
-        m.text = '📅 ' + ev.title;      // hub preview for the rich card
+        m.text = '{{ic:event}} ' + ev.title;   // hub preview for the rich card
       }
       return m;
     }
@@ -786,7 +857,7 @@
         row.innerHTML =
           '<span class="avatar' + (d.v ? ' avatar--' + d.v : '') + '" aria-hidden="true">' + escapeHtml(d.i) + '</span>' +
           '<span class="chan__mid"><span class="chan__name">' + escapeHtml(d.peer) + '</span>' +
-          '<span class="chan__prev">' + (last ? '<b>' + escapeHtml(last.who) + '</b> · ' + escapeHtml(last.text || 'Photo · demo') : '<i>No messages yet</i>') + '</span></span>' +
+          '<span class="chan__prev">' + (last ? '<b>' + escapeHtml(last.who) + '</b> · ' + safeHTML(last.text || 'Photo · demo') : '<i>No messages yet</i>') + '</span></span>' +
           '<span class="chan__end"><span class="chan__time">' + (last ? escapeHtml(last.t) : '—') + '</span>' +
           (d.unread > 0 ? '<span class="badge">' + d.unread + '</span>' : '') + '</span>';
         row.addEventListener('click', function () { openDm(d.peer, { i: d.i, v: d.v }); });
@@ -809,7 +880,7 @@
           escapeHtml(g ? g.members[0].i : 'YO') + '</span>';
       }
       var preview = last
-        ? '<b>' + escapeHtml(last.who) + '</b> · ' + escapeHtml(last.text || 'Photo · demo')
+        ? '<b>' + escapeHtml(last.who) + '</b> · ' + safeHTML(last.text || 'Photo · demo')
         : '<i>No messages yet</i>';
       row.innerHTML =
         glyph +
@@ -829,7 +900,7 @@
     cheerRow.setAttribute('data-od-id', 'chat-cheers-row');
     cheerRow.innerHTML =
       '<span class="avatar avatar--slate" aria-hidden="true">KA</span>' +
-      '<span class="chan__mid"><span class="chan__name">Kwame A. hit 10k today 🎉</span>' +
+      '<span class="chan__mid"><span class="chan__name">Kwame A. hit 10k today ' + ic('cheer') + '</span>' +
       '<span class="chan__prev">Cheer him and your buddies from the Buddies board</span></span>' +
       '<span class="chan__end"><span class="chan__time">now</span></span>';
     cheerRow.addEventListener('click', function () { showScreen('scr-buddies'); });
@@ -931,7 +1002,7 @@
         bubble.innerHTML = '<figure class="phcard" style="margin:0;">' + demoPhotoSvg(m.ph) +
           '<figcaption class="phcard__cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17 4.5-4.5 3.5 3 3-2 4 3.5"/></svg>Photo · demo</figcaption></figure>';
       } else if (m.gift) {
-        bubble.innerHTML = '<span class="gcard"><span class="gcard__stk" aria-hidden="true">🎁 ' + m.gift.e + '</span><span><b class="gcard__t">' + escapeHtml(m.gift.n) + '</b><span class="gcard__s">from You</span></span></span>';
+        bubble.innerHTML = '<span class="gcard"><span class="gcard__stk" aria-hidden="true">' + ic('gift') + ' ' + icSvgField(m.gift.e) + '</span><span><b class="gcard__t">' + escapeHtml(m.gift.n) + '</b><span class="gcard__s">from You</span></span></span>';
       } else {
         bubble.textContent = m.text;           // never trust innerHTML for message text
       }
@@ -1277,7 +1348,7 @@
         (p.privacy === 'private' ? ' · <b>invite only</b>' : '') + '</p>' +
         '<button type="button" class="btn btn--block ' + (p.requested ? 'btn--requested' : 'btn--primary') + '" data-req="' + p.id + '"' +
         (p.requested ? ' disabled' : '') + '>' +
-        (p.requested ? 'Requested ✓' : (p.privacy === 'private' ? 'Request access' : 'Request join')) + '</button>';
+        (p.requested ? 'Requested ' + ic('check') : (p.privacy === 'private' ? 'Request access' : 'Request join')) + '</button>';
       discoverListEl.appendChild(el);
     });
   }
@@ -1446,7 +1517,7 @@
   var DM = {
     'Nina P.': [
       { mid: 'n1', s: 'out', i: 'YO', v: 'slate', who: 'You',  t: 'Mon',    text: 'Did the river loop this morning?' },
-      { mid: 'n2', s: 'in',  i: 'NP', v: 'lime',  who: 'Nina', t: '09:05', text: 'great run today 🙌' },
+      { mid: 'n2', s: 'in',  i: 'NP', v: 'lime',  who: 'Nina', t: '09:05', text: 'great run today' },
       { mid: 'np1', s: 'in', i: 'NP', v: 'lime',  who: 'Nina', t: '09:31', ph: 4 }
     ]
   };
@@ -1576,9 +1647,9 @@
     var fill = document.getElementById(base + '-fill');
     if (!lbl || !fill) return;
     var parts = ['Step ' + step + ' of 5'];
-    if (S.signedUp) parts.push('Sign-up \u2713');
-    if (S.healthDone) parts.push('Health \u2713');
-    lbl.textContent = parts.join(' \u00b7 ');
+    if (S.signedUp) parts.push('Sign-up {{ic:check}}');
+    if (S.healthDone) parts.push('Health {{ic:check}}');
+    lbl.innerHTML = safeHTML(parts.join(' \u00b7 '));
     fill.style.width = (step / 5 * 100) + '%';
     var steps = lbl.parentNode.querySelector('.rail__steps');
     if (steps) {
@@ -1597,10 +1668,10 @@
     var sh = document.getElementById('streak-shield');
     sh.classList.toggle('met', met);
     if (met) {
-      document.getElementById('shield-b').textContent = 'Streak secured \u2713';
+      document.getElementById('shield-b').innerHTML = safeHTML('Streak secured {{ic:check}}');
       document.getElementById('shield-sub').textContent = 'Today\u2019s goal is met — your 12-day streak rolls over tonight';
     } else {
-      document.getElementById('shield-b').textContent = '🔥 12-day streak — ' + fmt(GOAL - STEPS) + ' steps to keep it';
+      document.getElementById('shield-b').innerHTML = safeHTML('{{ic:flame}} 12-day streak — ' + fmt(GOAL - STEPS) + ' steps to keep it');
       document.getElementById('shield-sub').textContent = 'Steps count until midnight — fall short and the streak is gone';
     }
   }
@@ -1611,9 +1682,9 @@
     var ti = document.getElementById('pulse-title');
     var tx = document.getElementById('pulse-text');
     ti.textContent = 'Squad challenge';
-    tx.textContent = short === 0
-      ? 'All ' + g.members.length + ' members cleared 9,000 today \u2713'
-      : short + ' of ' + g.members.length + ' members still short — your squad needs ' + fmt(need) + ' steps';
+    tx.innerHTML = safeHTML(short === 0
+      ? 'All ' + g.members.length + ' members cleared 9,000 today {{ic:check}}'
+      : short + ' of ' + g.members.length + ' members still short — your squad needs ' + fmt(need) + ' steps');
   }
   /* ── reciprocity · numbers first, account ask as a bottom card ───── */
   function renderSaveStreak() {
@@ -1892,7 +1963,7 @@
     S.city = document.getElementById('ep-city').value;
     renderProfileG4();
     updateNudge();
-    toast('Profile saved — 5 of 5 \u00b7 100% \u2713');
+    toast('Profile saved — 5 of 5 \u00b7 100% {{ic:check}}');
     showScreen('scr-profile');
   });
   function updateNudge() {
@@ -2117,7 +2188,7 @@
       { ic: 'person', t: 'Kenji S. viewed your weekly summary', s: 'Open his walker card', m: '07:58', u: false, go: function () { openUserProfile({ n: 'Kenji S.', i: 'KS', v: 'slate' }, 0); } }
     ] },
     { h: 'Gifts', rows: [
-      { ic: 'coin', cls: 'notif-ic--gift', t: 'Maya K. sent you +12 👟', s: 'Tap to open your Sole wallet', m: '07:31', u: true, go: function () { showScreen('scr-wallet'); } }
+      { ic: 'coin', cls: 'notif-ic--gift', t: 'Maya K. sent you +12 {{ic:footprint}}', s: 'Tap to open your Sole wallet', m: '07:31', u: true, go: function () { showScreen('scr-wallet'); } }
     ] },
     { h: 'Join requests', rows: [
       { ic: 'users', t: 'TrailBlazers asked about your intro', s: 'Answer with a short hello from Discover', m: 'Yesterday', u: false, go: function () { openGroupsView('discover'); } }
@@ -2148,7 +2219,7 @@
         row.setAttribute('data-od-id', 'notif-row-' + si + '-' + ri);
         row.innerHTML =
           '<span class="notif-ic' + (r.cls ? ' ' + r.cls : '') + '" aria-hidden="true">' + NI[r.ic] + '</span>' +
-          '<span class="notif-row__t"><b>' + escapeHtml(r.t) + '</b><span>' + escapeHtml(r.s) + '</span></span>' +
+          '<span class="notif-row__t"><b>' + safeHTML(r.t) + '</b><span>' + safeHTML(r.s) + '</span></span>' +
           '<span class="notif-row__end"><span class="notif-row__time">' + escapeHtml(r.m) + '</span>' +
           (r.u ? '<span class="unread-dot" aria-label="Unread"></span>' : '') + '</span>';
         row.addEventListener('click', function () {
@@ -2166,12 +2237,12 @@
     NOTIF.forEach(function (sec) { sec.rows.forEach(function (r) { r.u = false; }); });
     syncBellDots();
     renderNotif();
-    toast('All caught up \u2713');
+    toast('All caught up {{ic:check}}');
   });
   enterHooks['scr-notif'] = renderNotif;
 
   /* ── Sole wallet · v8-g5 — live Soles economy (one state object) ──
-     SOLE drives every 👟 surface: header pills, wallet, Today bait,
+     SOLE drives every Sole surface: header pills, wallet, Today bait,
      store, gift sends, buddy toasts, Plus badges and Settings row. */
   function setWalletTab(k) {
     document.querySelectorAll('[data-wtab]').forEach(function (b) { b.classList.toggle('active', b.dataset.wtab === k); });
@@ -2194,23 +2265,23 @@
   var PLAN_PRICE = { monthly: '$6.99', annual: '$39.99' };
   var PLAN_UNIT = { monthly: '/mo', annual: '/yr' };
   var PACKS = [
-    { e: '🪙', n: 'Starter Stack',  coins: 500,  price: '$0.99', best: false },
-    { e: '🪙', n: 'Squad Stash',    coins: 2900, price: '$4.99', best: true },
-    { e: '🪙', n: 'Marathon Hoard', coins: 6500, price: '$9.99', best: false }
+    { e: '{{stk:coins}}', n: 'Starter Stack',  coins: 500,  price: '$0.99', best: false },
+    { e: '{{stk:coins}}', n: 'Squad Stash',    coins: 2900, price: '$4.99', best: true },
+    { e: '{{stk:coins}}', n: 'Marathon Hoard', coins: 6500, price: '$9.99', best: false }
   ];
   var AVATARS = [
-    { e: '🧢', n: 'Trail Cap',       p: 40, tint: 'slate' },
-    { e: '🕶', n: 'Sunset Visor',    p: 45, tint: 'lime'  },
-    { e: '⛑', n: 'Ridge Helmet',    p: 55, tint: 'slate' },
-    { e: '👒', n: 'Safari Hat',      p: 60, tint: 'gold'  },
-    { e: '🎨', n: 'Dawn Palette',    p: 70, tint: 'lime'  },
-    { e: '✨',    n: 'Gold Dust Palette', p: 80, tint: 'gold' }
+    { e: '{{stk:cap}}', n: 'Trail Cap',       p: 40, tint: 'slate' },
+    { e: '{{stk:visor}}', n: 'Sunset Visor',    p: 45, tint: 'lime'  },
+    { e: '{{stk:helmet}}', n: 'Ridge Helmet',    p: 55, tint: 'slate' },
+    { e: '{{stk:sunhat}}', n: 'Safari Hat',      p: 60, tint: 'gold'  },
+    { e: '{{stk:palette}}', n: 'Dawn Palette',    p: 70, tint: 'lime'  },
+    { e: '{{ic:spark}}',    n: 'Gold Dust Palette', p: 80, tint: 'gold' }
   ];
   var FEED = [
-    { v: '+7 👟', t: 'Steps credit',     s: '1,000 steps = 1 👟 · 7,000 banked',    m: '06:58' },
-    { v: '+5 👟', t: 'Goal bonus',       s: 'First goal of the day',                m: '07:12' },
-    { v: '+1 👟', t: 'Cheer from Nina',  s: 'Nina P. cheered your morning loop',    m: '09:02' },
-    { v: '+2 👟', t: 'Event attended',   s: 'Saturday 7am Park Walk · laps logged', m: '08:35' }
+    { v: '+7 {{ic:footprint}}', t: 'Steps credit',     s: '1,000 steps = 1 {{ic:footprint}} · 7,000 banked',    m: '06:58' },
+    { v: '+5 {{ic:footprint}}', t: 'Goal bonus',       s: 'First goal of the day',                m: '07:12' },
+    { v: '+1 {{ic:footprint}}', t: 'Cheer from Nina',  s: 'Nina P. cheered your morning loop',    m: '09:02' },
+    { v: '+2 {{ic:footprint}}', t: 'Event attended',   s: 'Saturday 7am Park Walk · laps logged', m: '08:35' }
   ];
   var equipBack = null;
 
@@ -2223,14 +2294,14 @@
       p.setAttribute('aria-label', 'Sole wallet — ' + SOLE.bal + ' coins, up ' + SOLE.today + ' today');
     });
     var el;
-    if ((el = document.getElementById('wallet-bal'))) el.textContent = fmt(SOLE.bal) + ' 👟';
+    if ((el = document.getElementById('wallet-bal'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:footprint}}');
     if ((el = document.getElementById('wallet-today'))) el.textContent = '+' + SOLE.today + ' today';
     if ((el = document.getElementById('wallet-cap-fill'))) el.style.width = Math.round(SOLE.today / SOLE.cap * 100) + '%';
-    if ((el = document.getElementById('wallet-cap-note'))) el.textContent = SOLE.today + ' of ' + SOLE.cap + ' 👟 earned today';
-    if ((el = document.getElementById('bait-head'))) el.textContent = SOLE.today < SOLE.cap
-      ? (SOLE.cap - SOLE.today) + ' 👟 short of your daily cap'
-      : 'Daily cap reached — coins bank at midnight';
-    if ((el = document.getElementById('bait-sub'))) el.textContent = fmt(SOLE.bal) + ' 👟 · ' + SOLE.today + ' of ' + SOLE.cap + ' earned today · banked at midnight';
+    if ((el = document.getElementById('wallet-cap-note'))) el.innerHTML = safeHTML(SOLE.today + ' of ' + SOLE.cap + ' {{ic:footprint}} earned today');
+    if ((el = document.getElementById('bait-head'))) el.innerHTML = safeHTML(SOLE.today < SOLE.cap
+      ? (SOLE.cap - SOLE.today) + ' {{ic:footprint}} short of your daily cap'
+      : 'Daily cap reached — coins bank at midnight');
+    if ((el = document.getElementById('bait-sub'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:footprint}} · ' + SOLE.today + ' of ' + SOLE.cap + ' earned today · banked at midnight');
     var pf = document.getElementById('pf-plus-chip'); if (pf) pf.classList.toggle('u-hide', !SOLE.subscribed);
     var lp = document.getElementById('lby-plus'); if (lp) lp.classList.toggle('u-hide', !SOLE.subscribed);
     var sb = document.getElementById('acct-plus-sub');
@@ -2274,17 +2345,17 @@
       row.style.borderRadius = '14px';
       row.setAttribute('data-od-id', 'wallet-earn-' + (i + 1));
       row.innerHTML =
-        '<span class="echo" aria-hidden="true">' + escapeHtml(f.v) + '</span>' +
-        '<div class="notif-row__t"><b>' + escapeHtml(f.t) + '</b><span>' + escapeHtml(f.s) + '</span></div>' +
+        '<span class="echo" aria-hidden="true">' + safeHTML(f.v) + '</span>' +
+        '<div class="notif-row__t"><b>' + escapeHtml(f.t) + '</b><span>' + safeHTML(f.s) + '</span></div>' +
         '<span class="notif-row__end"><span class="notif-row__time">' + escapeHtml(f.m) + '</span></span>';
       list.appendChild(row);
     });
     var cap = document.createElement('p');
     cap.className = 'cap-row';
     cap.setAttribute('data-od-id', 'wallet-cap-notice');
-    cap.textContent = SOLE.today < SOLE.cap
-      ? '⌛ ' + (SOLE.cap - SOLE.today) + ' 👟 left under today’s cap of ' + SOLE.cap + ' — coins bank at midnight'
-      : '🏁 Daily cap reached — everything you earn today is banked';
+    cap.innerHTML = safeHTML(SOLE.today < SOLE.cap
+      ? '{{ic:clock}} ' + (SOLE.cap - SOLE.today) + ' {{ic:footprint}} left under today’s cap of ' + SOLE.cap + ' — coins bank at midnight'
+      : '{{ic:flag}} Daily cap reached — everything you earn today is banked');
     list.appendChild(cap);
   }
 
@@ -2304,18 +2375,18 @@
       b.className = 'gift-item' + (owned ? ' owned' : '');
       b.setAttribute('data-od-id', hostId + '-item-' + gi);
       b.innerHTML =
-        '<span class="gift-item__e" aria-hidden="true">' + g.e + '</span>' +
+        '<span class="gift-item__e" aria-hidden="true">' + icSvgField(g.e) + '</span>' +
         '<span class="gift-item__n">' + escapeHtml(g.n) + '</span>' +
         '<span class="gift-item__p' + (owned ? ' own' : (g.p === 0 ? ' free' : '')) + '">' +
-        (owned ? 'Owned ✓' : (g.p === 0 ? 'Free' : g.p + ' 👟')) + '</span>';
+        (owned ? 'Owned ' + ic('check') : (g.p === 0 ? 'Free' : g.p + ' ' + ic('footprint'))) + '</span>';
       b.addEventListener('click', function () {
-        if (owned) { toast(g.n + ' is already yours ✓'); return; }
-        if (SOLE.bal < g.p) { toast('Not enough 👟 — see packs'); jumpToPacks(); return; }
+        if (owned) { toast(g.n + ' is already yours {{ic:check}}'); return; }
+        if (SOLE.bal < g.p) { toast('Not enough {{ic:footprint}} — see packs'); jumpToPacks(); return; }
         soleSpend(g.p);
         SOLE.ownedStk[gi] = true;
         renderStickers();
         bumpPill();
-        soleSpark('✨ ' + g.n + ' unlocked · ' + fmt(SOLE.bal) + ' 👟 left');
+        soleSpark('{{ic:spark}} ' + g.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:footprint}} left');
       });
       grid.appendChild(b);
     });
@@ -2345,18 +2416,18 @@
       card.className = 'cos-card' + (eq ? ' equipped' : '');
       card.setAttribute('data-od-id', 'cos-item-' + ai);
       card.innerHTML =
-        '<div class="cos-card__top"><span class="cos-e" aria-hidden="true">' + a.e + '</span>' +
+        '<div class="cos-card__top"><span class="cos-e" aria-hidden="true">' + icSvgField(a.e) + '</span>' +
         '<span><b class="cos-n">' + escapeHtml(a.n) + '</b><span class="cos-p">' +
-        (owned ? (eq ? 'Equipped ✓' : 'Owned ✓') : a.p + ' 👟') + '</span></span></div>' +
+        (owned ? (eq ? 'Equipped ' + ic('check') : 'Owned ' + ic('check')) : a.p + ' ' + ic('footprint')) + '</span></span></div>' +
         '<button type="button" class="cos-act ' + (owned ? 'cos-act--eq' : 'cos-act--buy') + '" data-od-id="cos-act-' + ai + '">' +
-        (owned ? (eq ? 'Unequip' : 'Equip') : 'Buy — ' + a.p + ' 👟') + '</button>';
+        (owned ? (eq ? 'Unequip' : 'Equip') : 'Buy — ' + a.p + ' ' + ic('footprint')) + '</button>';
       card.querySelector('.cos-act').addEventListener('click', function () {
         if (!owned) {
-          if (SOLE.bal < a.p) { toast('Not enough 👟 — see packs'); jumpToPacks(); return; }
+          if (SOLE.bal < a.p) { toast('Not enough {{ic:footprint}} — see packs'); jumpToPacks(); return; }
           soleSpend(a.p);
           SOLE.ownedAv[ai] = true;
           bumpPill();
-          soleSpark('✨ ' + a.n + ' unlocked · ' + fmt(SOLE.bal) + ' 👟 left');
+          soleSpark('{{ic:spark}} ' + a.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:footprint}} left');
         } else {
           applyEquip(eq ? -1 : ai);
           SOLE.equipped = eq ? -1 : ai;
@@ -2380,9 +2451,9 @@
       b.className = 'pack-row' + (p.best ? ' pack-row--best' : '');
       b.setAttribute('data-od-id', 'coin-pack-' + pi);
       b.innerHTML =
-        '<span class="pack-e" aria-hidden="true">' + p.e + '</span>' +
+        '<span class="pack-e" aria-hidden="true">' + icSvgField(p.e) + '</span>' +
         '<span class="pack-t"><b>' + escapeHtml(p.n) + (p.best ? ' <span class="chip chip--rec best-badge" aria-hidden="true">Best value</span>' : '') + '</b>' +
-        '<span>+' + fmt(p.coins) + ' 👟</span></span>' +
+        '<span>+' + fmt(p.coins) + ' ' + ic('footprint') + '</span></span>' +
         '<span class="pack-price">' + p.price + '</span>';
       b.addEventListener('click', function () { openPackSheet(p); });
       host.appendChild(b);
@@ -2390,9 +2461,9 @@
   }
   function openPackSheet(p) {
     curPack = p;
-    document.getElementById('pack-glyph').textContent = p.e;
+    document.getElementById('pack-glyph').innerHTML = icSvgField(p.e);
     document.getElementById('pack-name').textContent = p.n;
-    document.getElementById('pack-coins').textContent = '+' + fmt(p.coins) + ' 👟 to your balance';
+    document.getElementById('pack-coins').innerHTML = safeHTML('+' + fmt(p.coins) + ' {{ic:footprint}} to your balance');
     document.getElementById('pack-price').textContent = p.price;
     document.getElementById('btn-pack-buy').textContent = 'Buy — ' + p.price;
     openSheet(document.getElementById('pack-sheet'));
@@ -2400,11 +2471,11 @@
   document.getElementById('btn-pack-buy').addEventListener('click', function () {
     if (!curPack) return;
     SOLE.bal += curPack.coins;
-    FEED.unshift({ v: '+' + fmt(curPack.coins) + ' 👟', t: 'Coin pack', s: curPack.n + ' · mock purchase, no real charge', m: hhmm() });
+    FEED.unshift({ v: '+' + fmt(curPack.coins) + ' {{ic:footprint}}', t: 'Coin pack', s: curPack.n + ' · mock purchase, no real charge', m: hhmm() });
     closeSheets();
     soleSync();
     bumpPill();
-    soleSpark('✨ +' + fmt(curPack.coins) + ' 👟 added · balance ' + fmt(SOLE.bal));
+    soleSpark('{{ic:spark}} +' + fmt(curPack.coins) + ' {{ic:footprint}} added · balance ' + fmt(SOLE.bal));
   });
   document.getElementById('btn-pack-close').addEventListener('click', closeSheets);
   document.getElementById('btn-pack-cancel').addEventListener('click', closeSheets);
@@ -2433,7 +2504,7 @@
     var unsub = document.getElementById('btn-plus-unsub');
     if (mode === 'confirm') {
       title.textContent = 'Confirm subscription';
-      desc.textContent = 'Mock subscription — no real charge. First month lands 500 👟. Manage any time in Settings › Account.';
+      desc.innerHTML = safeHTML('Mock subscription — no real charge. First month lands 500 {{ic:footprint}}. Manage any time in Settings › Account.');
       confirm.textContent = 'Subscribe — ' + PLAN_PRICE[SOLE.plan] + PLAN_UNIT[SOLE.plan];
       confirm.classList.remove('u-hide');
       unsub.classList.add('u-hide');
@@ -2454,9 +2525,9 @@
     closeSheets();
     if (SOLE.subscribed) return;
     SOLE.subscribed = true;
-    soleEarn(500, { v: '+500 👟', t: 'StrideSquad+ stipend', s: 'Your first monthly 500 👟 just landed', m: hhmm() });
+    soleEarn(500, { v: '+500 {{ic:footprint}}', t: 'StrideSquad+ stipend', s: 'Your first monthly 500 {{ic:footprint}} just landed', m: hhmm() });
     bumpPill();
-    soleSpark('✦ Welcome to StrideSquad+ — +500 👟 stipend added');
+    soleSpark('{{ic:spark}} Welcome to StrideSquad+ — +500 {{ic:footprint}} stipend added');
   });
   document.getElementById('btn-plus-unsub').addEventListener('click', function () {
     SOLE.subscribed = false;
@@ -2637,11 +2708,11 @@
   function evChatHtml(ev) {
     var g = groupById(ev.gid);
     var shortLoc = ev.loc ? String(ev.loc).split(',')[0].trim() : 'Location TBC';
-    return '<b class="evchat__title"><span class="evchat__cal" aria-hidden="true">📅</span>' + escapeHtml(ev.title) + '</b>' +
+    return '<b class="evchat__title"><span class="evchat__cal" aria-hidden="true">' + ic('event') + '</span>' + escapeHtml(ev.title) + '</b>' +
       '<span class="evchat__meta">' + escapeHtml(g ? g.name : 'StrideSquad') + ' · ' + escapeHtml(shortLoc) + ' · ' + escapeHtml(ev.day + ' ' + ev.time) + '</span>' +
       '<span class="evchat__foot">' + evAvStack(ev) + '<b class="evchat__going num">' + evCount(ev) + ' going</b></span>' +
       '<span class="evchat__btns">' +
-      '<button type="button" class="evc-btn' + (ev.rsvp === 'going' ? ' is-going' : '') + '" data-evchat-rsvp="' + ev.id + '" data-od-id="chat-ev-rsvp-' + ev.id + '">' + (ev.rsvp === 'going' ? 'Going ✓' : 'RSVP') + '</button>' +
+      '<button type="button" class="evc-btn' + (ev.rsvp === 'going' ? ' is-going' : '') + '" data-evchat-rsvp="' + ev.id + '" data-od-id="chat-ev-rsvp-' + ev.id + '">' + (ev.rsvp === 'going' ? 'Going ' + ic('check') : 'RSVP') + '</button>' +
       '<button type="button" class="evc-btn" data-evchat-open="' + escapeHtml(ev.gid) + '" data-od-id="chat-ev-view-' + ev.id + '">View group</button>' +
       '</span>';
   }
@@ -2680,7 +2751,7 @@
       toast(ev.rsvp === 'maybe' ? 'Marked as maybe' : 'Maybe removed');
       renderEvents(currentGroup);
     } else if (act === 'share') {
-      CHAT.global.msgs.push({ mid: 'ge' + (++msgSeq), s: 'out', i: 'YO', v: 'slate', who: 'You', t: hhmm(), ev: ev.id, text: '📅 ' + ev.title });
+      CHAT.global.msgs.push({ mid: 'ge' + (++msgSeq), s: 'out', i: 'YO', v: 'slate', who: 'You', t: hhmm(), ev: ev.id, text: '{{ic:event}} ' + ev.title });
       toast('Shared to Global chat');
       renderThread();
       openChannel('global');               // land on the thread where the card just posted
@@ -2982,11 +3053,11 @@
     var msgB = document.getElementById('btn-user-msg');
     var msgSent = !!S.msgReqOut[p.n];
     msgB.className = 'uact' + (msgSent ? ' is-done' : ' uact--primary');
-    msgB.textContent = msgSent ? 'Request sent \u2713' : 'Message';
+    msgB.innerHTML = safeHTML(msgSent ? 'Request sent {{ic:check}}' : 'Message');
     var budB = document.getElementById('btn-user-buddy');
     var already = isBuddy(p.n);
     budB.className = 'uact' + ((already || S.buddyReqOut[p.n]) ? ' is-done' : '');
-    budB.textContent = already ? '\u2713 Buddies' : (S.buddyReqOut[p.n] ? 'Request sent \u2713' : '+ Buddy');
+    budB.innerHTML = safeHTML(already ? '{{ic:check}} Buddies' : (S.buddyReqOut[p.n] ? 'Request sent {{ic:check}}' : '+ Buddy'));
   }
   document.getElementById('btn-user-back').addEventListener('click', function () { showScreen(userBackTo); });
   document.getElementById('btn-user-msg').addEventListener('click', function () {
@@ -3067,11 +3138,11 @@
     var feed = document.getElementById('bdy-feed');
     feed.innerHTML =
       '<div class="feed-card"><span class="avatar avatar--slate" aria-hidden="true">KA</span>' +
-      '<span class="feed-card__t"><b>Kwame hit 10k 🎉</b><span class="f">Just now \u00b7 say it with a cheer</span></span>' +
+      '<span class="feed-card__t"><b>Kwame hit 10k ' + ic('cheer') + '</b><span class="f">Just now \u00b7 say it with a cheer</span></span>' +
       '<button type="button" class="cheer-btn" data-cheer="Kwame A." data-od-id="buddy-feed-cheer-kwame">Cheer</button></div>' +
       '<button type="button" class="feed-card" data-feedgift="Nina P." data-od-id="buddy-feed-nina-gift">' +
       '<span class="avatar avatar--lime" aria-hidden="true">NP</span>' +
-      '<span class="feed-card__t"><b>Nina sent you a gift 🎁</b><span class="f">Open the thread to thank her</span></span></button>';
+      '<span class="feed-card__t"><b>Nina sent you a gift ' + ic('gift') + '</b><span class="f">Open the thread to thank her</span></span></button>';
     var req = document.getElementById('bdy-requests');
     req.innerHTML = '';
     if (!BUDDY_REQS.length) {
@@ -3122,9 +3193,9 @@
     if (c) {
       var nm = c.dataset.cheer;
       for (var i = 0; i < BUDDIES.length; i++) if (BUDDIES[i].n === nm) BUDDIES[i].s += 1;
-      soleEarn(1, { v: '+1 👟', t: 'Cheer sent', s: firstName(nm) + ' got your cheer', m: hhmm() });
+      soleEarn(1, { v: '+1 {{ic:footprint}}', t: 'Cheer sent', s: firstName(nm) + ' got your cheer', m: hhmm() });
       bumpPill();
-      toast('Cheered! +1 👟 each way · ' + fmt(SOLE.bal) + ' 👟 in your wallet');
+      toast('Cheered! +1 {{ic:footprint}} each way · ' + fmt(SOLE.bal) + ' {{ic:footprint}} in your wallet');
       renderBuddies();
       return;
     }
@@ -3135,14 +3206,14 @@
 
   /* ── gifts · bottom sheet with a sticker grid ────────────────────── */
   var GIFTS = [
-    { e: '👟', n: 'Fresh Kicks', p: 0 },
-    { e: '🔥', n: 'On Fire', p: 0 },
-    { e: '\u26A1', n: 'Energy Boost', p: 0 },
-    { e: '🌟', n: 'Star Walker', p: 0 },
-    { e: '🏅', n: 'Champion', p: 60 },
-    { e: '🚀', n: 'Moonshot', p: 90 },
-    { e: '👑', n: 'Crown', p: 150 },
-    { e: '🦁', n: 'Lionheart', p: 200 }
+    { e: '{{stk:kicks}}', n: 'Fresh Kicks', p: 0 },
+    { e: '{{stk:flameface}}', n: 'On Fire', p: 0 },
+    { e: '{{stk:bolt2}}', n: 'Energy Boost', p: 0 },
+    { e: '{{stk:starburst}}', n: 'Star Walker', p: 0 },
+    { e: '{{stk:medal2}}', n: 'Champion', p: 60 },
+    { e: '{{stk:rocket}}', n: 'Moonshot', p: 90 },
+    { e: '{{stk:crown}}', n: 'Crown', p: 150 },
+    { e: '{{stk:lion}}', n: 'Lionheart', p: 200 }
   ];
   var giftSel = null;
   function openGiftSheet(p) {
@@ -3157,9 +3228,9 @@
       b.setAttribute('aria-pressed', 'false');
       b.setAttribute('data-od-id', 'gift-item-' + gi);
       b.innerHTML =
-        '<span class="gift-item__e" aria-hidden="true">' + g.e + '</span>' +
+        '<span class="gift-item__e" aria-hidden="true">' + icSvgField(g.e) + '</span>' +
         '<span class="gift-item__n">' + escapeHtml(g.n) + '</span>' +
-        '<span class="gift-item__p' + (g.p === 0 ? ' free' : '') + '">' + (g.p === 0 ? 'Free' : g.p + ' 👟') + '</span>';
+        '<span class="gift-item__p' + (g.p === 0 ? ' free' : '') + '">' + (g.p === 0 ? 'Free' : g.p + ' ' + ic('footprint')) + '</span>';
       b.addEventListener('click', function () {
         giftSel = g;
         grid.querySelectorAll('.gift-item').forEach(function (x) { x.classList.remove('sel'); x.setAttribute('aria-pressed', 'false'); });
@@ -3178,7 +3249,7 @@
     var name = userCtx.n;
     var giftCost = giftSel.p;
     if (giftCost > 0 && !soleSpend(giftCost)) {
-      toast('Not enough 👟 — see packs');
+      toast('Not enough {{ic:footprint}} — see packs');
       jumpToPacks();
       return;
     }
@@ -3196,7 +3267,7 @@
     giftSel = null;
     if (giftCost > 0) {
       bumpPill();
-      toast('Gift sent to ' + firstName(name) + ' · −' + giftCost + ' 👟 · balance ' + fmt(SOLE.bal));
+      toast('Gift sent to ' + firstName(name) + ' · −' + giftCost + ' {{ic:footprint}} · balance ' + fmt(SOLE.bal));
     } else {
       toast('Gift sent to ' + firstName(name));
     }
@@ -3421,7 +3492,7 @@
   var avSel = { body: 0, face: 0, hat: 0 };
   function avBodyOwned(bi) { var lk = AV_BODIES[bi].lock; return lk < 0 || !!SOLE.ownedAv[lk]; }
   function avHatOwned(hi) { var av = AV_HATS[hi].av; return av < 0 || !!SOLE.ownedAv[av]; }
-  function avLockPrice(avIdx) { return (avIdx >= 0 && AVATARS[avIdx]) ? AVATARS[avIdx].p + ' 👟' : ''; }
+  function avLockPrice(avIdx) { return (avIdx >= 0 && AVATARS[avIdx]) ? AVATARS[avIdx].p + ' {{ic:footprint}}' : ''; }
 
   function avFaceMarkup(f, ink) {
     if (f === 1) return '<circle cx="40" cy="49" r="4.2" fill="' + ink + '"/><circle cx="60" cy="49" r="4.2" fill="' + ink + '"/><ellipse cx="50" cy="63" rx="6.5" ry="5.4" fill="' + ink + '"/><path d="M45.5 66q4.5 2.6 9 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
@@ -3497,8 +3568,8 @@
     AV_BODIES.forEach(function (b, bi) {
       var owned = avBodyOwned(bi);
       bodies.appendChild(avOptBtn('', bi,
-        '<span class="avgen-opt__sw" style="background:' + b.c + '"></span><span class="avgen-opt__p">' + (owned ? escapeHtml(b.n) : avLockPrice(b.lock)) + '</span>',
-        b.n + (owned ? ' body color' : ' — locked, ' + avLockPrice(b.lock)),
+        '<span class="avgen-opt__sw" style="background:' + b.c + '"></span><span class="avgen-opt__p">' + (owned ? escapeHtml(b.n) : safeHTML(avLockPrice(b.lock))) + '</span>',
+        b.n + (owned ? ' body color' : ' — locked, ' + icPlain(avLockPrice(b.lock))),
         avSel.body === bi, !owned, avLockPrice(b.lock),
         function () { avSel.body = bi; renderAvGen(); }));
     });
@@ -3519,8 +3590,8 @@
       var owned = avHatOwned(hi);
       var price = h.av >= 0 ? avLockPrice(h.av) : '';
       hats.appendChild(avOptBtn('', hi,
-        '<span class="avgen-opt__ic">' + avCharSvg({ body: avSel.body, face: avSel.face, hat: hi }, 26) + '</span><span class="avgen-opt__p">' + (owned ? escapeHtml(h.n) : price) + '</span>',
-        h.n + (owned ? ' hat' : ' — locked, ' + price),
+        '<span class="avgen-opt__ic">' + avCharSvg({ body: avSel.body, face: avSel.face, hat: hi }, 26) + '</span><span class="avgen-opt__p">' + (owned ? escapeHtml(h.n) : safeHTML(price)) + '</span>',
+        h.n + (owned ? ' hat' : ' — locked, ' + icPlain(price)),
         avSel.hat === hi, !owned, price,
         function () { avSel.hat = hi; renderAvGen(); }));
     });

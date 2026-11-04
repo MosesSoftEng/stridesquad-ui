@@ -1311,3 +1311,17 @@
   @keyframes tspk { 30% { transform:translate(-50%,-5px) scale(1.05); } 100% { transform:translate(-50%,0) scale(1); } }
   @media (prefers-reduced-motion: reduce) { .toast.spark { animation:none; } }
   .plan-opt span.save-chip, .prod-row span.save-chip { display:inline-block; margin-left:6px; }
+
+  /* ══ Icon system (v8-g7 · emoji → #ss-icons sprite) ════════════════════
+     .ico is the sprite shell: stroke tracks currentColor, duotone fills sit
+     on the symbol's inner paths, so root fill:none never erases them. */
+  .ico { flex:none; width:1em; height:1em; vertical-align:-0.125em; stroke:currentColor; fill:none;
+         stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .splash__chip .ico, .chip .ico { width:20px; height:20px; color:var(--highlight); }
+  .sole-pill .ico { width:16px; height:16px; }
+  #toast .ico { width:18px; height:18px; vertical-align:-0.3em; }
+  .hub-h .ico { width:22px; height:22px; }
+  .gift-item__e .ico, .prod-row__e .ico, .gcard__stk .ico { width:28px; height:28px; }
+  .bal-hero .ico { width:1em; height:1em; }
+  .ico--flip-x { transform:rotate(180deg); }
+  .ico--rot-d { transform:rotate(90deg); }

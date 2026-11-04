@@ -176,11 +176,11 @@
       <h1 class="splash__headline splash__in" data-od-id="splash-headline">Count steps.<br>Climb together.</h1>
       <p class="splash__support splash__in" data-od-id="splash-support">Join a 10-person squad, walk together in real time, and compete for the top spot every day.</p>
       <div class="splash__chips splash__in" data-od-id="splash-chips">
-        <span class="splash__chip">👥 Squad Challenges</span>
-        <span class="splash__chip">⚡ Live Activity</span>
-        <span class="splash__chip">🏆 Daily Leaderboards</span>
+        <span class="splash__chip"><svg class="ico" aria-hidden="true"><use href="#ic-squad"></use></svg> Squad Challenges</span>
+        <span class="splash__chip"><svg class="ico" aria-hidden="true"><use href="#ic-bolt"></use></svg> Live Activity</span>
+        <span class="splash__chip"><svg class="ico" aria-hidden="true"><use href="#ic-trophy"></use></svg> Daily Leaderboards</span>
       </div>
-      <button class="btn btn--primary btn--block splash__cta splash__in" id="splash-cta" type="button" data-goto="scr-signup" data-od-id="splash-cta">Get Started →</button>
+      <button class="btn btn--primary btn--block splash__cta splash__in" id="splash-cta" type="button" data-goto="scr-signup" data-od-id="splash-cta">Get Started <svg class="ico" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
       <button type="button" class="splash__login splash__in" id="splash-login" data-goto="scr-login" data-od-id="splash-login-link">Already walking? Log in</button>
       <script>
         /* Splash CTA · routes through the EXISTING boot gate only.
@@ -217,7 +217,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
             Solo mode
           </span>
-          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="today-sole-pill">👟<b class="num">128</b> ·<i>+12 today</i></button>
+          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="today-sole-pill"><svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg><b class="num">128</b> ·<i>+12 today</i></button>
         </div>
       </div>
 
@@ -246,7 +246,7 @@
           </div>
         </div>
         <p class="ring-caption num" id="ring-caption">7,842 of 9,000 · 87% — 1,158 to go</p>
-        <p class="ring-hint" id="ring-hint" aria-hidden="true">Tap for this week ↓</p>
+        <p class="ring-hint" id="ring-hint" aria-hidden="true">Tap for this week <svg class="ico" aria-hidden="true"><use href="#ic-arrow-down"></use></svg></p>
       </div>
 
       <div id="today-week-strip" hidden data-od-id="today-week-strip">
@@ -266,7 +266,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg>
         </span>
         <div>
-          <b id="shield-b">🔥 12-day streak — 1,158 steps to keep it</b>
+          <b id="shield-b"><svg class="ico" aria-hidden="true"><use href="#ic-flame"></use></svg> 12-day streak — 1,158 steps to keep it</b>
           <span id="shield-sub">Steps count until midnight — fall short and the streak is gone</span>
         </div>
         <svg class="shield__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
@@ -277,12 +277,12 @@
         <div class="rank-strip">
           <button class="rank-card" data-rank-gid="sunrise" data-od-id="rank-card-sunrise" aria-label="Sunrise Steppers — up 2 places, now number 4. Open squad.">
             <span class="rank-card__name">Sunrise Steppers</span>
-            <span class="rank-card__move delta-up"><i>▲2 →</i><b>#4</b></span>
+            <span class="rank-card__move delta-up"><i>▲2 <svg class="ico" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></i><b>#4</b></span>
             <span class="rank-card__sub">10 of 10 · 100%</span>
           </button>
           <button class="rank-card" data-rank-gid="office" data-od-id="rank-card-office" aria-label="Office Steps Challenge — down 1 place, now number 3. Open squad.">
             <span class="rank-card__name">Office Challenge</span>
-            <span class="rank-card__move delta-down"><i>▼1 →</i><b>#3</b></span>
+            <span class="rank-card__move delta-down"><i>▼1 <svg class="ico" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></i><b>#3</b></span>
             <span class="rank-card__sub">8 of 10 · 80%</span>
           </button>
           <button class="rank-card" data-rank-gid="duo" data-od-id="rank-card-duo" aria-label="Just Us Two — holding number 1. Open squad.">
@@ -338,8 +338,8 @@
       <p class="hub-h">Sole</p>
       <button class="gcta" data-goto="scr-wallet" data-od-id="today-sole-bait">
         <span class="gcta__t">
-          <span class="gcta__glyph" aria-hidden="true" style="font-size:20px;">👟</span>
-          <span class="gcta__col"><b id="bait-head">3 👟 short of your daily cap</b><span class="s" id="bait-sub">128 👟 · 12 of 15 earned today · banked at midnight</span></span>
+          <span class="gcta__glyph" aria-hidden="true" style="font-size:20px;"><svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg></span>
+          <span class="gcta__col"><b id="bait-head">3 <svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg> short of your daily cap</b><span class="s" id="bait-sub">128 <svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg> · 12 of 15 earned today · banked at midnight</span></span>
         </span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
       </button>
@@ -350,7 +350,7 @@
             <b style="font-size:15px;" id="pulse-title">Squad challenge</b>
             <p style="font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4;" id="pulse-text">2 of 10 members still short — your squad needs 4,300 steps</p>
           </div>
-          <button class="btn btn--text" data-goto="scr-groups" data-od-id="today-pulse-open-groups">Open →</button>
+          <button class="btn btn--text" data-goto="scr-groups" data-od-id="today-pulse-open-groups">Open <svg class="ico" aria-hidden="true"><use href="#ic-arrow-right"></use></svg></button>
         </div>
       </div>
 
