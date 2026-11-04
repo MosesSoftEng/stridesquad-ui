@@ -338,6 +338,7 @@
   }
 
   var currentGroup = GROUPS[0];
+  var curGroupTab = null;   /* FIX(qa) · tab requested via openGroup, carried into cross-page routeTo */
 
   function openGroup(id, tab) {
     var g = groupById(id);
@@ -385,6 +386,7 @@
     renderStats(g);
     renderEvents(g);
     setGdTab(tab || 'ranking');
+    curGroupTab = tab || null;
     showScreen('scr-group');
   }
 
@@ -3622,7 +3624,7 @@
     if (id === 'scr-chat-thread') p('ch', curChannel);
     if (id === 'scr-dm-thread')   p('dm', dmPeer ? dmPeer.name : '');
     if (id === 'scr-user')        p('u', userCtx ? userCtx.n : '');
-    if (id === 'scr-group')       p('g', currentGroup ? currentGroup.id : '');
+    if (id === 'scr-group')       { p('g', currentGroup ? currentGroup.id : ''); if (curGroupTab) p('tab', curGroupTab); }
     if (id === 'scr-groups') {
       if (gView && gView !== 'mine') p('view', gView);
       if (discoverCity !== null && discoverCity !== undefined) p('city', discoverCity);
