@@ -1396,7 +1396,7 @@
     transition: background .15s ease, color .15s ease; }
   .appbar__act:hover { color: var(--primary-ink); background: var(--primary-soft); border: 0; }
   .appbar__act svg, .appbar__act .ico { width: 20px; height: 20px; }
-  .appbar__acts { flex: none; display: inline-flex; align-items: center; gap: 2px; }
+  .appbar__acts { flex: none; display: inline-flex; align-items: center; gap: 0; }
   .appbar__solo { flex: none; background: var(--primary-soft); color: var(--primary-ink);
     min-height: 30px; padding: 4px 10px; font-size: 12px; }
   .appbar__coin { margin: 0; min-height: 40px; padding: 0 12px; }

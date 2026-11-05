@@ -692,8 +692,11 @@
     lbChipsEl.classList.toggle('u-hide', lbScope !== 'mygroup');
 
     var q = lbQuery.trim().toLowerCase();
+    // v10 Gate T3 · mini strings stay <=16ch (range + compact scope) so they
+    // never ellipsis-clip the appbar at 393px. Group name, region and query
+    // live in the filter sheet / rows, not the mini.
     lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' +
-      (lbScope === 'global' ? 'Global' : subName) + (q ? ' · "' + lbQuery + '"' : '');
+      (lbScope === 'global' ? 'Global' : 'Mine');
     if (q) {
       var matched = 0;
       rows.forEach(function (r, i) {
