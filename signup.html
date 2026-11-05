@@ -42,16 +42,14 @@
         </div>
 <div class="stage">
 <section id="scr-signup" class="screen" data-screen data-od-id="signup" aria-label="Sign up">
-            <header class="appbar" data-od-id="appbar">
-        <span class="appbar__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Create account</b>
-          <span class="appbar__mini" id="appbar-mini">Free · no card</span>
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">Create account</h2>
+            <p class="screen-sub">First things first — so your streak has a home</p>
+          </div>
+          <button class="icon-btn" id="btn-signup-skip-x" aria-label="Browse the demo — no account needed" data-od-id="signup-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </div>
-        <button class="icon-btn appbar__act" id="btn-signup-skip-x" aria-label="Browse the demo — no account needed" data-od-id="signup-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button> <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="auth">
-
         <div class="field"><label for="su-name">Name</label><input id="su-name" type="text" placeholder="Your name" autocomplete="off" autocomplete="name" maxlength="24"></div>
         <div class="field"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com" autocomplete="off" autocomplete="email"></div>
         <div class="field"><label for="su-pass">Password</label><div class="pw-row"><input id="su-pass" type="password" autocomplete="off" placeholder="8+ characters"></div><button class="pw-eye" type="button" id="eye-su-pass" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>

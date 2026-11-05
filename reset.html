@@ -42,16 +42,14 @@
         </div>
 <div class="stage">
 <section id="scr-reset" class="screen" data-screen data-od-id="reset-password" aria-label="Reset password">
-            <header class="appbar" data-od-id="appbar">
-        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-login" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">New password</b>
-          <span class="appbar__mini" id="appbar-mini">Sign in after</span>
+      <div class="auth">
+        <div class="screen-head">
+          <div>
+            <h2 class="screen-title" style="font-size:25px;">New password</h2>
+            <p class="screen-sub">Make it one you'll still remember at 6am</p>
+          </div>
+          <button class="icon-btn" data-goto="scr-login" aria-label="Back to log in" data-od-id="reset-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
         </div>
-        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="auth">
-
         <div class="field"><label for="rs-pass">New password</label><div class="pw-row"><input id="rs-pass" type="password" autocomplete="off" placeholder="8+ characters"></div><button class="pw-eye" type="button" id="eye-rs-pass" aria-label="Show password" aria-pressed="false"><svg class="pw-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.2A9.9 9.9 0 0 1 12 5c5 0 9 4.5 9.5 7-.13.63-1.2 2.6-3.1 4.25M6.1 6.6C3.9 8.15 2.6 10.6 2.5 12c.5 2.5 4.5 7 9.5 7 1.6 0 3.1-.43 4.35-1.14"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg><svg class="pw-on u-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12C3 9.5 7 5 12 5s9 4.5 9.5 7c-.5 2.5-4.5 7-9.5 7s-9-4.5-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
           <div class="strength" id="str-rs-pass" aria-hidden="true"><i></i><i></i><i></i><i></i></div><p class="strength-label" id="strlab-rs-pass"></p>
         </div>

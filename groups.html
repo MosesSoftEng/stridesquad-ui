@@ -42,17 +42,23 @@
         </div>
 <div class="stage">
 <section id="scr-groups" class="screen" data-screen data-od-id="my-groups" aria-label="My Groups">
-
-
-            <header class="appbar" data-od-id="appbar">
-        <span class="appbar__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Groups</b>
-          <span class="appbar__mini" id="mg-sub">3 squads</span>
+      <div class="util-row" data-od-id="groups-util-row">
+        <button class="icon-btn bell" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="groups-bell">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13.5 6 9.5Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bell__dot" data-bell-dot aria-hidden="true"></span>
+        </button>
+        <div class="util-row__end">
+          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="groups-sole-pill"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b> ·<i>+12 today</i></button>
         </div>
-        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="seg" role="group" aria-label="Groups view" data-od-id="groups-seg">
+      </div>
+      <div class="screen-head">
+        <div>
+          <h2 class="screen-title">Groups</h2>
+          <p class="screen-sub" id="mg-sub">3 groups · week of Nov 2</p>
+        </div>
+      </div>
+
+      <div class="seg" role="group" aria-label="Groups view" data-od-id="groups-seg">
         <button class="active" data-gview="mine">My groups</button>
         <button data-gview="discover">Discover</button>
       </div>

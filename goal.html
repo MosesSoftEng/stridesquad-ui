@@ -42,16 +42,17 @@
         </div>
 <div class="stage">
 <section id="scr-goal" class="screen" data-screen data-od-id="goal-setup" aria-label="Set your daily goal">
-
-            <header class="appbar" data-od-id="appbar">
-        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-choose" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Daily goal</b>
-          <span class="appbar__mini" id="appbar-mini">Smart default 9,000</span>
+      <div class="screen-head">
+        <div>
+          <h2 class="screen-title">Set your goal</h2>
+          <p class="screen-sub">A daily target just for you</p>
         </div>
-        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="rail" role="status" aria-label="Setup progress" data-od-id="rail-rail-goal">
+        <button class="icon-btn" data-goto="scr-choose" aria-label="Back" data-od-id="goal-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="rail" role="status" aria-label="Setup progress" data-od-id="rail-rail-goal">
         <p class="rail__label" id="rail-goal-label">Step 4 of 5</p>
         <span class="rail__track"><span class="rail__fill" id="rail-goal-fill" style="width:80%"></span></span>
         <span class="rail__steps" aria-hidden="true"><span class="done">Account</span><span>Health</span><span>Path</span><span>Goal</span><span>Start</span></span>

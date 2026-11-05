@@ -42,16 +42,19 @@
         </div>
 <div class="stage">
 <section id="scr-achievements" class="screen" data-screen data-od-id="achievements" aria-label="Achievements">
-
-            <header class="appbar" data-od-id="appbar">
-        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-today" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Achievements</b>
-          <span class="appbar__mini" id="appbar-mini">12-day streak</span>
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="achievements-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;">
+            <h2 class="screen-title" style="font-size:23px;">Achievements</h2>
+            <p class="screen-sub">Badges, locked ladder, streak milestones</p>
+          </div>
         </div>
-        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="card" data-od-id="ach-earned-card">
+      </div>
+
+      <div class="card" data-od-id="ach-earned-card">
         <p class="card-label">Earned · this season</p>
         <div class="medal-grid" style="grid-template-columns:repeat(2,1fr);">
           <div class="medal" data-od-id="ach-medal-streak"><svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2c.6 3-1.2 4.6-2.6 6C9 9.6 7.5 11.4 7.5 14a6.5 6.5 0 0 0 13 .3c-.3-2.9-2.2-4.6-3.4-6.3-.4 1-1.1 1.8-2 2.2.8-2.8.2-6.2-1.6-8.2Z"/></svg><b>12 in a row</b><span>Two weeks of daily streaks</span></div>

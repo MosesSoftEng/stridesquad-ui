@@ -42,18 +42,24 @@
         </div>
 <div class="stage">
 <section id="scr-stats" class="screen" data-screen data-od-id="stats" aria-label="Stats">
-
-            <header class="appbar" data-od-id="appbar">
-        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-today" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Stats</b>
-          <span class="appbar__mini" id="appbar-mini">7 days</span>
-        </div>
-        <button class="icon-btn appbar__act" type="button" id="stats-customize" aria-label="Customize cards" data-od-id="stats-customize">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="stats-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;flex:1;">
+            <h2 class="screen-title" style="font-size:23px;">Stats</h2>
+            <p class="screen-sub">Steps, streaks, trends</p>
+          </div>
+          <div class="stats-head__go">
+            <button class="icon-btn" type="button" id="stats-customize" aria-label="Customize cards" data-od-id="stats-customize">
               <svg class="ico"><use href="#ic-gear"></use></svg>
-            </button> <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<div class="range-row" role="group" aria-label="Date range" data-od-id="range-chips">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="range-row" role="group" aria-label="Date range" data-od-id="range-chips">
         <button type="button" class="range-chip" data-range="today" aria-pressed="false">Today</button>
         <button type="button" class="range-chip" data-range="7d" aria-pressed="false">7d</button>
         <button type="button" class="range-chip" data-range="30d" aria-pressed="false">30d</button>

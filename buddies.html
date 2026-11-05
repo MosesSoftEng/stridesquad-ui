@@ -42,18 +42,18 @@
         </div>
 <div class="stage">
 <section id="scr-buddies" class="screen" data-screen data-od-id="buddies" aria-label="Buddies">
-
-            <header class="appbar" data-od-id="appbar">
-        <button class="icon-btn appbar__back" id="btn-buddies-back" aria-label="Back" data-od-id="buddies-back">
-            <svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg>
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" id="btn-buddies-back" aria-label="Back" data-od-id="buddies-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
           </button>
-        <div class="appbar__text">
-          <b class="appbar__title" id="appbar-title">Buddies</b>
-          <span class="appbar__mini" id="appbar-mini">Your cheer crew</span>
+          <div style="min-width:0;">
+            <h2 class="screen-title" style="font-size:23px;">Buddies</h2>
+            <p class="screen-sub">Cheer, gift and keep each other honest</p>
+          </div>
         </div>
-        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
-      </header>
-<p class="card-label">Buddy feed</p>
+      </div>
+      <p class="card-label">Buddy feed</p>
       <div class="feed-strip" id="bdy-feed" data-od-id="buddies-feed"></div>
       <p class="card-label" style="margin-top:4px;">Incoming requests</p>
       <div class="card" id="bdy-requests" data-od-id="buddies-requests"></div>
