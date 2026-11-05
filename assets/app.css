@@ -1303,17 +1303,83 @@
   .ico--flip-x { transform:rotate(180deg); }
   .ico--rot-d { transform:rotate(90deg); }
 
-  /* ══ v8-g8 · paired-icon alignment ═════════════════════════════════
+  /* ══ v8-g8 · paired-icon alignment · v9: ic-coin inherits this centering ══
      Short number+coin pairs render as one inline-flex row: icon centered
      on the text, never orphan-wrapped, ≥0.9em (floor 12px). Flowing
-     sentences keep inline icons anchored via .ico (inline-block, -0.125em). */
+     sentences keep inline icons anchored via .ico (inline-block, -0.125em).
+     .ico-pair is the helper hook for any new number+coin pairing. */
   .bal-hero .num { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
   .bal-hero .ico { width: 24px; height: 24px; vertical-align: 0; }
   .rule-row > span, .echo, .gcta__col b,
   .prod-row__t span,
-  .pack-price, .gift-item__p, .avgen-opt__p {
+  .pack-price, .gift-item__p, .avgen-opt__p,
+  .sole-pill .ico-pair, .ico-pair {
     display: inline-flex; align-items: center; gap: .3em; white-space: nowrap;
   }
+  .ico-pair { justify-content: center; }
+  .ico-pair .ico { width: 1em; height: 1em; min-width: 12px; min-height: 12px; vertical-align: 0; }
   .rule-row > span { margin-left: auto; flex: none; }
   .echo .ico, .gift-item__p .ico, .avgen-opt__p .ico { width: 12px; height: 12px; }
   .ring-hint .ico { width: 12px; height: 12px; }
+
+
+  /* ═════ v9 · stats screen ═════ */
+  /* flex:none keeps intrinsic height inside the column-flex .screen — overflow-x:auto
+     zeroes the flex item's automatic min-size, which previously squashed the row to 6px. */
+  .range-row { flex: none; min-height: 44px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 4px; }
+  .range-row::-webkit-scrollbar { display: none; }
+  .range-chip {
+    flex: none; min-height: 36px; padding: 0 16px; border-radius: 999px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    font-size: 13px; font-weight: 800; color: var(--muted); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .range-chip:hover { border-color: var(--primary); color: var(--ink); }
+  .range-chip.active { background: var(--primary-soft); border-color: var(--primary); color: var(--primary-ink); }
+  .stats-band { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .stats-band .stat-cell { padding: 12px 6px; border-radius: 16px; }
+  .stats-band b { font-size: 16px; }
+  .stats-band span { font-size: 11px; }
+  .stats-card { margin-top: 14px; }
+  .stats-bars { position: relative; display: flex; align-items: flex-end; gap: 5px; height: 132px; padding-top: 14px; }
+  .sb-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; min-width: 0; }
+  .sb-bar { width: 100%; max-width: 22px; border-radius: 5px 5px 3px 3px; background: color-mix(in srgb, var(--primary) 30%, var(--surface)); }
+  .sb-bar.hit { background: var(--primary-deep); }
+  .sb-col.is-last .sb-bar { background: var(--primary); }
+  .sb-lbl { font-size: 9.5px; color: var(--faint); font-weight: 700; font-family: var(--mono); min-height: 11px; }
+  .goal-line { position: absolute; left: 0; right: 0; height: 0; border-top: 1.5px dashed color-mix(in srgb, var(--warn) 70%, var(--border)); }
+  .goal-line i {
+    position: absolute; right: 0; top: -9px; font-style: normal; font-size: 9.5px; font-weight: 800;
+    font-family: var(--mono); color: var(--warn); background: var(--surface); padding: 0 5px; border-radius: 999px;
+  }
+  .heat-row { display: flex; align-items: flex-end; gap: 4px; height: 88px; }
+  .ht-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; min-width: 0; }
+  .ht-bar { width: 100%; max-width: 14px; border-radius: 4px 4px 2px 2px; background: color-mix(in srgb, var(--primary) 42%, var(--surface)); }
+  .ht-lbl { font-size: 8.5px; color: var(--faint); font-weight: 700; font-family: var(--mono); white-space: nowrap; }
+  .seg-bar { display: flex; gap: 3px; }
+  .seg-cell { flex: 1; height: 16px; border-radius: 4px; min-width: 3px; background: var(--border); }
+  .seg-cell.on { background: var(--primary-deep); }
+  .seg-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--faint); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .goal-ring-wrap { position: relative; width: 116px; margin: 2px auto 0; }
+  .goal-ring-wrap svg { width: 100%; display: block; }
+  .gr-track { fill: none; stroke: var(--border); stroke-width: 9; }
+  .gr-prog { fill: none; stroke: var(--primary-deep); stroke-width: 9; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; }
+  .gr-num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 24px; font-weight: 800; color: var(--ink); }
+  .cmp-row { display: flex; align-items: center; gap: 10px; min-height: 40px; }
+  .cmp-lbl { flex: none; width: 52px; font-size: 12.5px; font-weight: 800; color: var(--muted); }
+  .cmp-track { flex: 1; height: 12px; border-radius: 999px; background: color-mix(in srgb, var(--bg) 55%, var(--surface)); overflow: hidden; }
+  .cmp-bar { display: block; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--primary) 45%, var(--surface)); }
+  .cmp-bar.mine { background: var(--primary-deep); }
+  .cmp-v { flex: none; width: 62px; text-align: right; font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+  .best-day { display: flex; align-items: baseline; gap: 10px; }
+  .best-day b { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .best-day span { color: var(--faint); font-size: 13px; font-weight: 700; }
+  .stats-head__go { display: flex; gap: 6px; align-items: center; }
+  .stats-head__go .icon-btn .ico { width: 20px; height: 20px; }
+
+  /* ═════ v9 · concise-copy global guards ═════
+     Long-but-necessary words wrap at natural breaks instead of breaking layout;
+     pills, prices and .num/.ico-pair rows keep their existing nowrap. */
+  p, .sub, .caption, .screen-sub, .fs-note, .fineprint,
+  .onb__lead, .disc-lead, .faq__a, .lock-row__t span, .card p { text-wrap: pretty; }

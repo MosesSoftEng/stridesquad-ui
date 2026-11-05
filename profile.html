@@ -48,7 +48,7 @@
           <span class="bell__dot" data-bell-dot aria-hidden="true"></span>
         </button>
         <div class="util-row__end">
-          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="profile-sole-pill"><svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg><b class="num">128</b> ·<i>+12 today</i></button>
+          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="profile-sole-pill"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b> ·<i>+12 today</i></button>
         </div>
       </div>
       <div class="screen-head">
@@ -78,7 +78,7 @@
 
       <div class="pf-lock u-hide" id="pf-lock-note" role="status" data-od-id="profile-lock-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        <span>You're hidden from Nearby &amp; boards — <button type="button" data-goto="scr-edit-profile" data-od-id="profile-lock-fix">turn it back on in Edit profile</button></span>
+        <span>Hidden from Nearby &amp; boards — <button type="button" data-goto="scr-edit-profile" data-od-id="profile-lock-fix">re-enable in Edit profile</button></span>
       </div>
 
       <div id="pf-ach-block" data-od-id="profile-achievements">
@@ -121,6 +121,14 @@
         <span class="gcta__t">
           <svg class="ico" aria-hidden="true"><use href="#ic-users-plus"></use></svg>
           <span><b>Buddies</b><span class="s">Cheers, gifts and requests · <span id="pf-buddy-count">3</span> buddies</span></span>
+        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+
+      <button class="gcta" id="btn-profile-stats" data-goto="scr-stats" data-od-id="profile-stats-link">
+        <span class="gcta__t">
+          <svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12h4l2-6 3.5 12 2-6h5.5"/></svg>
+          <span><b>Stats</b><span class="s">Steps, streaks, trends · all ranges</span></span>
         </span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
       </button>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>StrideSquad — Interactive Prototype v8</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-page="stats" data-screen="scr-stats">
+
+<figure class="device" data-od-id="device">
+  <div class="fit">
+    <div class="device-frame" data-od-id="device-frame">
+      <span class="dev-btn dev-btn--mute" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--volup" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--voldown" aria-hidden="true"></span>
+      <span class="dev-btn dev-btn--power" aria-hidden="true"></span>
+
+      <div class="phone" data-od-id="phone">
+<div class="ios-sb" data-od-id="status-bar" aria-hidden="true">
+          <span class="ios-sb__time">9:41</span>
+          <span class="ios-sb__island"></span>
+          <span class="ios-sb__icons">
+            <!-- signal -->
+            <svg width="18" height="11" viewBox="0 0 20 12" fill="currentColor" stroke="none" aria-hidden="true">
+              <rect x="0" y="9" width="3" height="3" rx="1"/><rect x="4.7" y="6" width="3" height="6" rx="1"/>
+              <rect x="9.4" y="3" width="3" height="9" rx="1"/><rect x="14.1" y="0" width="3" height="12" rx="1"/>
+            </svg>
+            <!-- wifi -->
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1.2 4.4a10 10 0 0 1 13.6 0M3.8 7a6.3 6.3 0 0 1 8.4 0"/>
+              <circle cx="8" cy="9.8" r="1.3" fill="currentColor" stroke="none"/>
+            </svg>
+            <!-- battery -->
+            <svg width="24" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="0.6" y="0.8" width="21" height="10.4" rx="3" stroke-width="1.2"/>
+              <rect x="2.2" y="2.4" width="15" height="7.2" rx="1.8" fill="currentColor" stroke="none"/>
+              <path d="M23.2 4.2v3.6" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+<div class="stage">
+<section id="scr-stats" class="screen" data-screen data-od-id="stats" aria-label="Stats">
+      <div class="screen-head">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <button class="icon-btn" data-goto="scr-today" aria-label="Back to Today" data-od-id="stats-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <div style="min-width:0;flex:1;">
+            <h2 class="screen-title" style="font-size:23px;">Stats</h2>
+            <p class="screen-sub">Steps, streaks, trends</p>
+          </div>
+          <div class="stats-head__go">
+            <button class="icon-btn" type="button" id="stats-customize" aria-label="Customize cards" data-od-id="stats-customize">
+              <svg class="ico"><use href="#ic-gear"></use></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="range-row" role="group" aria-label="Date range" data-od-id="range-chips">
+        <button type="button" class="range-chip" data-range="today" aria-pressed="false">Today</button>
+        <button type="button" class="range-chip" data-range="7d" aria-pressed="false">7d</button>
+        <button type="button" class="range-chip" data-range="30d" aria-pressed="false">30d</button>
+        <button type="button" class="range-chip" data-range="custom" aria-pressed="false">Custom</button>
+      </div>
+
+      <div class="stat-row stats-band" data-od-id="stats-band">
+        <div class="stat-cell" data-od-id="band-steps"><b class="num" id="stats-steps">—</b><span>Steps</span></div>
+        <div class="stat-cell" data-od-id="band-distance"><b class="num" id="stats-km">—</b><span>Distance km</span></div>
+        <div class="stat-cell" data-od-id="band-active"><b class="num" id="stats-active">—</b><span>Active min</span></div>
+        <div class="stat-cell" data-od-id="band-energy"><b class="num" id="stats-kcal">—</b><span>Energy kcal</span></div>
+      </div>
+
+      <div class="card stats-card" id="card-bars" data-od-id="card-bars">
+        <p class="card-label">Daily bars</p>
+        <div id="bars-chart" aria-label="Steps per day, goal line at 9,000"></div>
+      </div>
+
+      <div class="card stats-card" id="card-heat" data-od-id="card-heat">
+        <p class="card-label">Hourly heat</p>
+        <div id="heat-chart" aria-label="Steps by hour"></div>
+      </div>
+
+      <div class="card stats-card" id="card-streak" data-od-id="card-streak">
+        <p class="card-label">Streak timeline</p>
+        <div id="streak-seg" aria-label="Goal days hit per day"></div>
+        <p class="seg-meta"><span id="streak-line">Now 12d · best 34d</span><span>Green = goal hit</span></p>
+      </div>
+
+      <div class="card stats-card" id="card-goal" data-od-id="card-goal">
+        <p class="card-label">Goal hit</p>
+        <div class="goal-ring-wrap"><div id="goal-ring"></div></div>
+        <p class="seg-meta" style="justify-content:center;"><span>Days at 9,000+</span></p>
+      </div>
+
+      <div class="card stats-card" id="card-squad" data-od-id="card-squad">
+        <p class="card-label">Squad</p>
+        <div id="squad-cmp" aria-label="You versus squad average"></div>
+      </div>
+
+      <div class="card stats-card" id="card-best" data-od-id="card-best">
+        <p class="card-label">Best day</p>
+        <div class="best-day">
+          <b class="num" id="best-num">—</b>
+          <span class="num" id="best-date">—</span>
+        </div>
+      </div>
+    </section>
+</div><!-- /.stage -->
+
+<div class="scrim" id="scrim"></div>
+
+<div class="sheet" id="custom-sheet" role="dialog" aria-modal="true" aria-label="Custom range" data-od-id="custom-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" aria-label="Close range picker" data-od-id="custom-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3>Custom range</h3>
+      <div class="range-row" style="margin-top:12px;" role="group" aria-label="Quick ranges">
+        <button type="button" class="range-chip" data-crange="14d">14d</button>
+        <button type="button" class="range-chip" data-crange="60d">60d</button>
+        <button type="button" class="range-chip" data-crange="90d">90d</button>
+        <button type="button" class="range-chip" data-crange="year">This year</button>
+      </div>
+      <button class="btn btn--cancel btn--block" type="button" id="btn-custom-cancel">Cancel</button>
+    </div>
+
+<div class="sheet" id="cards-sheet" role="dialog" aria-modal="true" aria-label="Customize cards" data-od-id="cards-sheet">
+      <div class="sheet__grab" aria-hidden="true"></div>
+      <button class="sheet__x" type="button" aria-label="Close card picker" data-od-id="cards-sheet-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></button>
+      <h3>Cards shown</h3>
+      <p>Pick which stats to display</p>
+      <div class="fs-grid" style="display:grid;gap:8px;margin-top:12px;">
+        <label class="fs-opt"><input type="checkbox" data-card="bars" checked>Bars</label>
+        <label class="fs-opt"><input type="checkbox" data-card="heat" checked>Heat</label>
+        <label class="fs-opt"><input type="checkbox" data-card="streak" checked>Streak</label>
+        <label class="fs-opt"><input type="checkbox" data-card="goal" checked>Goal hit</label>
+        <label class="fs-opt"><input type="checkbox" data-card="squad" checked>Squad</label>
+        <label class="fs-opt"><input type="checkbox" data-card="best" checked>Best day</label>
+      </div>
+      <button class="btn btn--primary btn--block" type="button" id="btn-cards-done">Done</button>
+    </div>
+
+<nav class="tabbar" aria-label="Main navigation" data-od-id="tabbar">
+      <button class="tab" data-tab="scr-today" data-od-id="tab-today">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g transform="rotate(-12 8.2 10.5)"><ellipse cx="8.2" cy="10.9" rx="2.7" ry="3.6"/><circle cx="6.1" cy="5.5" r="1.05"/><circle cx="8.6" cy="4.6" r="1.1"/><circle cx="11.1" cy="5.6" r="0.85"/><ellipse cx="8.4" cy="16.6" rx="1.9" ry="2.1"/></g><g transform="rotate(12 15.8 14.5)"><ellipse cx="15.8" cy="14.9" rx="2.7" ry="3.6"/><circle cx="13.4" cy="9.9" r="0.85"/><circle cx="15.7" cy="8.9" r="1.1"/><circle cx="18.1" cy="9.8" r="1.05"/><ellipse cx="15.9" cy="20.5" rx="1.9" ry="1.9"/></g></svg>Today
+      </button>
+      <button class="tab" data-tab="scr-groups" data-od-id="tab-groups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9.2" r="2.6"/><path d="M15.5 14.4a5 5 0 0 1 5 4.6"/></svg>Groups
+      </button>
+      <button class="tab" data-tab="scr-leaderboard" data-od-id="tab-leaderboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17.5V21M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></svg>Board
+      </button>
+      <button class="tab" data-tab="scr-chat" data-od-id="tab-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.9 8.9 0 0 1-4-.9L3 20.5l1.4-5.5a8.5 8.5 0 1 1 16.6-3.5Z"/></svg>Chat
+      </button>
+      <button class="tab" data-tab="scr-profile" data-od-id="tab-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>Profile
+      </button>
+    </nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div><!-- /.phone -->
+    </div><!-- /.device-frame -->
+  </div><!-- /.fit -->
+  <figcaption class="device-caption" data-od-id="device-caption"><b>StrideSquad</b> — tap around, it works</figcaption>
+</figure>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -13,6 +13,8 @@
       + '<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13 2.2 4.8 13.4h5.1L8.9 21.8l8.4-11.4h-5.1L13 2.2Z"/></symbol>'
       + '<symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4.5a5 5 0 0 1-10 0V4Z"/><path d="M8 21h8M12 17.5V21"/><path d="M7 5.5H4.2v1.6a3.2 3.2 0 0 0 3 3.2M17 5.5h2.8v1.6a3.2 3.2 0 0 1-3 3.2"/></symbol>'
       + '<symbol id="ic-footprint" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="9.3" cy="8.5" rx="2.1" ry="2.9" transform="rotate(-16 9.3 8.5)"/><ellipse cx="13.9" cy="14.6" rx="2.1" ry="2.9" transform="rotate(16 13.9 14.6)"/></symbol>'
+      + '<symbol id="ic-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="11.1" cy="10.4" rx="1.6" ry="2.2" transform="rotate(-16 11.1 10.4)"/><ellipse cx="13.6" cy="14.3" rx="1.6" ry="2.2" transform="rotate(16 13.6 14.3)"/><path d="M5.9 9.6a6.5 6.5 0 0 1 3.4-3.5"/></symbol>'
+      + '<symbol id="ic-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.56-2-3.46-2.35.95a7 7 0 0 0-2.42-1.4L13.7 3h-3.4l-.4 2.53a7 7 0 0 0-2.41 1.4l-2.36-.95-2 3.46 2 1.56A7.1 7.1 0 0 0 5 12c0 .48.05.95.14 1.4l-2 1.57 2 3.46 2.35-.95a7 7 0 0 0 2.42 1.4l.39 2.52h3.4l.4-2.52a7 7 0 0 0 2.41-1.4l2.36.95 2-3.46-2-1.57c.09-.45.13-.92.13-1.4Z"/></symbol>'
       + '<symbol id="ic-flame" viewBox="0 0 24 24"><path d="M12 2.6c.7 3.1-1.3 4.5-2.6 6.1A6.7 6.7 0 0 0 7 14.3a5 5 0 0 0 10 0c0-2-.8-3.6-1.9-4.9-.4 1.3-1.1 2-1.9 2.3.9-3 .4-6.5-1.2-9.1Z"/><path d="M12 14c1.5 1.7 2.1 2.7 2.1 3.8a2.6 2.6 0 0 1-5.2 0c0-1.1 1.1-2.2 3.1-3.8Z"/></symbol>'
       + '<symbol id="ic-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="11.8" rx="1.6"/><path d="M3.5 12.6h17M12 8.5v11.8"/><path d="M12 8.5C11.2 5.9 9.7 4.7 8.2 5c-1.6.3-2 2.3-.7 3.2 1 .7 3.2.8 4.5.3Z"/><path d="M12 8.5c.8-2.6 2.3-3.8 3.8-3.5 1.6.3 2 2.3.7 3.2-1 .7-3.2.8-4.5.3Z"/></symbol>'
       + '<symbol id="ic-event" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="15" rx="2.2"/><path d="M3.5 10h17M8 3.5v4M16 3.5v4"/><circle cx="8.6" cy="14.2" r="1.2"/><circle cx="12.6" cy="14.2" r="1.2"/></symbol>'
@@ -141,7 +143,8 @@
 "scr-blocklist": "blocklist.html",
 "scr-settings-help": "settings-help.html",
 "scr-settings-about": "settings-about.html",
-"scr-account-deleted": "account-deleted.html"
+"scr-account-deleted": "account-deleted.html",
+"scr-stats": "stats.html"
 };
 
   /* ── Screen registry ───────────────────────────────────────────────
@@ -167,6 +170,7 @@
     'scr-achievements': 'scr-today', 'scr-notif': 'scr-today',
     'scr-wallet': 'scr-today', 'scr-nearby': 'scr-today',
     'scr-settings': 'scr-profile', 'scr-settings-account': 'scr-profile',
+    'scr-stats': 'scr-today',
     'scr-edit-profile': 'scr-profile', 'scr-linked-accounts': 'scr-profile',
     'scr-avatar': 'scr-profile', 'scr-change-password': 'scr-profile', 'scr-settings-notifications': 'scr-profile',
     'scr-settings-privacy': 'scr-profile', 'scr-privacy-policy': 'scr-profile',
@@ -1681,10 +1685,10 @@
     sh.classList.toggle('met', met);
     if (met) {
       document.getElementById('shield-b').innerHTML = safeHTML('Streak secured {{ic:check}}');
-      document.getElementById('shield-sub').textContent = 'Today\u2019s goal is met — your 12-day streak rolls over tonight';
+      document.getElementById('shield-sub').textContent = 'Goal met — 12-day streak rolls over tonight';
     } else {
       document.getElementById('shield-b').innerHTML = safeHTML('{{ic:flame}} 12-day streak — ' + fmt(GOAL - STEPS) + ' steps to keep it');
-      document.getElementById('shield-sub').textContent = 'Steps count until midnight — fall short and the streak is gone';
+      document.getElementById('shield-sub').textContent = 'Fall short by midnight — streak gone';
     }
   }
   function renderPulse() {
@@ -1696,7 +1700,7 @@
     ti.textContent = 'Squad challenge';
     tx.innerHTML = safeHTML(short === 0
       ? 'All ' + g.members.length + ' members cleared 9,000 today {{ic:check}}'
-      : short + ' of ' + g.members.length + ' members still short — your squad needs ' + fmt(need) + ' steps');
+      : short + ' of ' + g.members.length + ' short — squad needs ' + fmt(need) + ' steps');
   }
   /* ── reciprocity · numbers first, account ask as a bottom card ───── */
   function renderSaveStreak() {
@@ -2171,20 +2175,29 @@
      notifications inbox · Sole wallet tabs · nearby board. Same screen
      registry, same delegated navigation — nothing new to learn. */
 
-  // Hero ring tap expands a simple 'This week' strip (stats + sparkline).
+  // Hero ring · v9 stats routing: ring body tap → stats?range=today;
+  // #ring-hint keeps the week-strip expand; strip tap routes stats?range=7d
+  // (routing takes priority over expand for the strip itself).
   var ringCard = document.getElementById('ring-card');
   var weekStrip = document.getElementById('today-week-strip');
   var ringHint = document.getElementById('ring-hint');
-  function toggleWeekStrip() {
+  function toStats(range) { saveNow(); location.href = 'stats.html?range=' + encodeURIComponent(range); }
+  function toggleWeekStrip(e) {
+    if (e) e.stopPropagation();
     var open = weekStrip.hidden;
     weekStrip.hidden = !open;
     ringCard.setAttribute('aria-expanded', String(open));
     ringHint.textContent = open ? 'This week \u2191 \u2014 tap to collapse' : 'Tap for this week \u2193';
   }
-  ringCard.addEventListener('click', toggleWeekStrip);
+  ringCard.addEventListener('click', function () { toStats('today'); });
   ringCard.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleWeekStrip(); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toStats('today'); }
   });
+  ringHint.addEventListener('click', toggleWeekStrip);
+  ringHint.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleWeekStrip(e); }
+  });
+  weekStrip.addEventListener('click', function () { toStats('7d'); });
 
   // Squad rank strip mini-cards → that squad's detail screen
   document.querySelectorAll('[data-rank-gid]').forEach(function (b) {
@@ -2207,7 +2220,7 @@
   };
   var NOTIF = [
     { h: 'Squad activity', rows: [
-      { ic: 'trophy', t: 'Maya K. cleared 9,000 \u2014 new #1 in Sunrise Steppers', s: 'Today \u00b7 Sunrise Steppers board', m: '07:12', u: true, go: function () { openChannel('sunrise'); } },
+      { ic: 'trophy', t: 'Maya K. hit 9,000 \u2014 new #1 in Sunrise Steppers', s: 'Today \u00b7 Sunrise Steppers board', m: '07:12', u: true, go: function () { openChannel('sunrise'); } },
       { ic: 'up', t: 'Aisha passed you on the global board', s: '20 min ago \u00b7 Global Chat', m: '08:24', u: true, go: function () { openChannel('global'); } }
     ] },
     { h: 'Cheers & friends', rows: [
@@ -2215,7 +2228,7 @@
       { ic: 'person', t: 'Kenji S. viewed your weekly summary', s: 'Open his walker card', m: '07:58', u: false, go: function () { openUserProfile({ n: 'Kenji S.', i: 'KS', v: 'slate' }, 0); } }
     ] },
     { h: 'Gifts', rows: [
-      { ic: 'coin', cls: 'notif-ic--gift', t: 'Maya K. sent you +12 {{ic:footprint}}', s: 'Tap to open your Sole wallet', m: '07:31', u: true, go: function () { showScreen('scr-wallet'); } }
+      { ic: 'coin', cls: 'notif-ic--gift', t: 'Maya K. sent you +12 {{ic:coin}}', s: 'Tap to open your Sole wallet', m: '07:31', u: true, go: function () { showScreen('scr-wallet'); } }
     ] },
     { h: 'Join requests', rows: [
       { ic: 'users', t: 'TrailBlazers asked about your intro', s: 'Answer with a short hello from Discover', m: 'Yesterday', u: false, go: function () { openGroupsView('discover'); } }
@@ -2305,10 +2318,10 @@
     { e: '{{ic:spark}}',    n: 'Gold Dust Palette', p: 80, tint: 'gold' }
   ];
   var FEED = [
-    { v: '+7 {{ic:footprint}}', t: 'Steps credit',     s: '1,000 steps = 1 {{ic:footprint}} · 7,000 banked',    m: '06:58' },
-    { v: '+5 {{ic:footprint}}', t: 'Goal bonus',       s: 'First goal of the day',                m: '07:12' },
-    { v: '+1 {{ic:footprint}}', t: 'Cheer from Nina',  s: 'Nina P. cheered your morning loop',    m: '09:02' },
-    { v: '+2 {{ic:footprint}}', t: 'Event attended',   s: 'Saturday 7am Park Walk · laps logged', m: '08:35' }
+    { v: '+7 {{ic:coin}}', t: 'Steps credit',     s: '1,000 steps = 1 {{ic:coin}} · 7,000 banked',    m: '06:58' },
+    { v: '+5 {{ic:coin}}', t: 'Goal bonus',       s: 'First goal of the day',                m: '07:12' },
+    { v: '+1 {{ic:coin}}', t: 'Cheer from Nina',  s: 'Nina P. cheered your morning loop',    m: '09:02' },
+    { v: '+2 {{ic:coin}}', t: 'Event attended',   s: 'Saturday 7am Park Walk · laps logged', m: '08:35' }
   ];
   var equipBack = null;
 
@@ -2321,14 +2334,14 @@
       p.setAttribute('aria-label', 'Sole wallet — ' + SOLE.bal + ' coins, up ' + SOLE.today + ' today');
     });
     var el;
-    if ((el = document.getElementById('wallet-bal'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:footprint}}');
+    if ((el = document.getElementById('wallet-bal'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:coin}}');
     if ((el = document.getElementById('wallet-today'))) el.textContent = '+' + SOLE.today + ' today';
     if ((el = document.getElementById('wallet-cap-fill'))) el.style.width = Math.round(SOLE.today / SOLE.cap * 100) + '%';
-    if ((el = document.getElementById('wallet-cap-note'))) el.innerHTML = safeHTML(SOLE.today + ' of ' + SOLE.cap + ' {{ic:footprint}} earned today');
+    if ((el = document.getElementById('wallet-cap-note'))) el.innerHTML = safeHTML(SOLE.today + ' of ' + SOLE.cap + ' {{ic:coin}} earned today');
     if ((el = document.getElementById('bait-head'))) el.innerHTML = safeHTML(SOLE.today < SOLE.cap
-      ? (SOLE.cap - SOLE.today) + ' {{ic:footprint}} short of your daily cap'
+      ? (SOLE.cap - SOLE.today) + ' {{ic:coin}} short of your daily cap'
       : 'Daily cap reached — coins bank at midnight');
-    if ((el = document.getElementById('bait-sub'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:footprint}} · ' + SOLE.today + ' of ' + SOLE.cap + ' earned today · banked at midnight');
+    if ((el = document.getElementById('bait-sub'))) el.innerHTML = safeHTML(fmt(SOLE.bal) + ' {{ic:coin}} · ' + SOLE.today + ' of ' + SOLE.cap + ' today · banks at midnight');
     var pf = document.getElementById('pf-plus-chip'); if (pf) pf.classList.toggle('u-hide', !SOLE.subscribed);
     var lp = document.getElementById('lby-plus'); if (lp) lp.classList.toggle('u-hide', !SOLE.subscribed);
     var sb = document.getElementById('acct-plus-sub');
@@ -2381,8 +2394,8 @@
     cap.className = 'cap-row';
     cap.setAttribute('data-od-id', 'wallet-cap-notice');
     cap.innerHTML = safeHTML(SOLE.today < SOLE.cap
-      ? '{{ic:clock}} ' + (SOLE.cap - SOLE.today) + ' {{ic:footprint}} left under today’s cap of ' + SOLE.cap + ' — coins bank at midnight'
-      : '{{ic:flag}} Daily cap reached — everything you earn today is banked');
+      ? '{{ic:clock}} ' + (SOLE.cap - SOLE.today) + ' {{ic:coin}} left today · banks at midnight'
+      : '{{ic:flag}} Daily cap hit — today is banked');
     list.appendChild(cap);
   }
 
@@ -2405,15 +2418,15 @@
         '<span class="gift-item__e" aria-hidden="true">' + icSvgField(g.e) + '</span>' +
         '<span class="gift-item__n">' + escapeHtml(g.n) + '</span>' +
         '<span class="gift-item__p' + (owned ? ' own' : (g.p === 0 ? ' free' : '')) + '">' +
-        (owned ? 'Owned ' + ic('check') : (g.p === 0 ? 'Free' : g.p + ' ' + ic('footprint'))) + '</span>';
+        (owned ? 'Owned ' + ic('check') : (g.p === 0 ? 'Free' : g.p + ' ' + ic('coin'))) + '</span>';
       b.addEventListener('click', function () {
         if (owned) { toast(g.n + ' is already yours {{ic:check}}'); return; }
-        if (SOLE.bal < g.p) { toast('Not enough {{ic:footprint}} — see packs'); jumpToPacks(); return; }
+        if (SOLE.bal < g.p) { toast('Not enough {{ic:coin}} — see packs'); jumpToPacks(); return; }
         soleSpend(g.p);
         SOLE.ownedStk[gi] = true;
         renderStickers();
         bumpPill();
-        soleSpark('{{ic:spark}} ' + g.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:footprint}} left');
+        soleSpark('{{ic:spark}} ' + g.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:coin}} left');
       });
       grid.appendChild(b);
     });
@@ -2445,16 +2458,16 @@
       card.innerHTML =
         '<div class="cos-card__top"><span class="cos-e" aria-hidden="true">' + icSvgField(a.e) + '</span>' +
         '<span><b class="cos-n">' + escapeHtml(a.n) + '</b><span class="cos-p">' +
-        (owned ? (eq ? 'Equipped ' + ic('check') : 'Owned ' + ic('check')) : a.p + ' ' + ic('footprint')) + '</span></span></div>' +
+        (owned ? (eq ? 'Equipped ' + ic('check') : 'Owned ' + ic('check')) : a.p + ' ' + ic('coin')) + '</span></span></div>' +
         '<button type="button" class="cos-act ' + (owned ? 'cos-act--eq' : 'cos-act--buy') + '" data-od-id="cos-act-' + ai + '">' +
-        (owned ? (eq ? 'Unequip' : 'Equip') : 'Buy — ' + a.p + ' ' + ic('footprint')) + '</button>';
+        (owned ? (eq ? 'Unequip' : 'Equip') : 'Buy — ' + a.p + ' ' + ic('coin')) + '</button>';
       card.querySelector('.cos-act').addEventListener('click', function () {
         if (!owned) {
-          if (SOLE.bal < a.p) { toast('Not enough {{ic:footprint}} — see packs'); jumpToPacks(); return; }
+          if (SOLE.bal < a.p) { toast('Not enough {{ic:coin}} — see packs'); jumpToPacks(); return; }
           soleSpend(a.p);
           SOLE.ownedAv[ai] = true;
           bumpPill();
-          soleSpark('{{ic:spark}} ' + a.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:footprint}} left');
+          soleSpark('{{ic:spark}} ' + a.n + ' unlocked · ' + fmt(SOLE.bal) + ' {{ic:coin}} left');
         } else {
           applyEquip(eq ? -1 : ai);
           SOLE.equipped = eq ? -1 : ai;
@@ -2480,7 +2493,7 @@
       b.innerHTML =
         '<span class="pack-e" aria-hidden="true">' + icSvgField(p.e) + '</span>' +
         '<span class="pack-t"><b>' + escapeHtml(p.n) + (p.best ? ' <span class="chip chip--rec best-badge" aria-hidden="true">Best value</span>' : '') + '</b>' +
-        '<span>+' + fmt(p.coins) + ' ' + ic('footprint') + '</span></span>' +
+        '<span>+' + fmt(p.coins) + ' ' + ic('coin') + '</span></span>' +
         '<span class="pack-price">' + p.price + '</span>';
       b.addEventListener('click', function () { openPackSheet(p); });
       host.appendChild(b);
@@ -2490,7 +2503,7 @@
     curPack = p;
     document.getElementById('pack-glyph').innerHTML = icSvgField(p.e);
     document.getElementById('pack-name').textContent = p.n;
-    document.getElementById('pack-coins').innerHTML = safeHTML('+' + fmt(p.coins) + ' {{ic:footprint}} to your balance');
+    document.getElementById('pack-coins').innerHTML = safeHTML('+' + fmt(p.coins) + ' {{ic:coin}} to your balance');
     document.getElementById('pack-price').textContent = p.price;
     document.getElementById('btn-pack-buy').textContent = 'Buy — ' + p.price;
     openSheet(document.getElementById('pack-sheet'));
@@ -2498,11 +2511,11 @@
   document.getElementById('btn-pack-buy').addEventListener('click', function () {
     if (!curPack) return;
     SOLE.bal += curPack.coins;
-    FEED.unshift({ v: '+' + fmt(curPack.coins) + ' {{ic:footprint}}', t: 'Coin pack', s: curPack.n + ' · mock purchase, no real charge', m: hhmm() });
+    FEED.unshift({ v: '+' + fmt(curPack.coins) + ' {{ic:coin}}', t: 'Coin pack', s: curPack.n + ' · mock purchase, no real charge', m: hhmm() });
     closeSheets();
     soleSync();
     bumpPill();
-    soleSpark('{{ic:spark}} +' + fmt(curPack.coins) + ' {{ic:footprint}} added · balance ' + fmt(SOLE.bal));
+    soleSpark('{{ic:spark}} +' + fmt(curPack.coins) + ' {{ic:coin}} added · balance ' + fmt(SOLE.bal));
   });
   document.getElementById('btn-pack-close').addEventListener('click', closeSheets);
   document.getElementById('btn-pack-cancel').addEventListener('click', closeSheets);
@@ -2531,7 +2544,7 @@
     var unsub = document.getElementById('btn-plus-unsub');
     if (mode === 'confirm') {
       title.textContent = 'Confirm subscription';
-      desc.innerHTML = safeHTML('Mock subscription — no real charge. First month lands 500 {{ic:footprint}}. Manage any time in Settings › Account.');
+      desc.innerHTML = safeHTML('No real charge — first month lands 500 {{ic:coin}}.');
       confirm.textContent = 'Subscribe — ' + PLAN_PRICE[SOLE.plan] + PLAN_UNIT[SOLE.plan];
       confirm.classList.remove('u-hide');
       unsub.classList.add('u-hide');
@@ -2552,15 +2565,15 @@
     closeSheets();
     if (SOLE.subscribed) return;
     SOLE.subscribed = true;
-    soleEarn(500, { v: '+500 {{ic:footprint}}', t: 'StrideSquad+ stipend', s: 'Your first monthly 500 {{ic:footprint}} just landed', m: hhmm() });
+    soleEarn(500, { v: '+500 {{ic:coin}}', t: 'StrideSquad+ stipend', s: 'Your first monthly 500 {{ic:coin}} just landed', m: hhmm() });
     bumpPill();
-    soleSpark('{{ic:spark}} Welcome to StrideSquad+ — +500 {{ic:footprint}} stipend added');
+    soleSpark('{{ic:spark}} Welcome to StrideSquad+ — +500 {{ic:coin}} stipend added');
   });
   document.getElementById('btn-plus-unsub').addEventListener('click', function () {
     SOLE.subscribed = false;
     closeSheets();
     soleSync();
-    toast('StrideSquad+ cancelled — perks kept until period end');
+    toast('Cancelled — perks stay until period end');
   });
   document.getElementById('btn-plus-close').addEventListener('click', closeSheets);
   document.getElementById('btn-plus-cancel').addEventListener('click', closeSheets);
@@ -2844,8 +2857,8 @@
     evSheetEditing = ev || null;
     document.getElementById('ev-sheet-title').textContent = ev ? 'Edit event' : 'New event';
     document.getElementById('ev-sheet-desc').textContent = ev
-      ? 'Update the details — the squad sees the card change instantly.'
-      : 'Post a walk, routine or challenge — the squad can RSVP right from chat.';
+      ? 'Update details — the squad sees it instantly.'
+      : 'Post a walk, routine or challenge — RSVP in chat.';
     document.getElementById('btn-event-create').textContent = ev ? 'Save changes' : 'Create event';
     document.getElementById('ev-title-input').value = ev ? ev.title : '';
     document.getElementById('ev-loc-input').value = ev && ev.loc ? ev.loc : '';
@@ -3220,9 +3233,9 @@
     if (c) {
       var nm = c.dataset.cheer;
       for (var i = 0; i < BUDDIES.length; i++) if (BUDDIES[i].n === nm) BUDDIES[i].s += 1;
-      soleEarn(1, { v: '+1 {{ic:footprint}}', t: 'Cheer sent', s: firstName(nm) + ' got your cheer', m: hhmm() });
+      soleEarn(1, { v: '+1 {{ic:coin}}', t: 'Cheer sent', s: firstName(nm) + ' got your cheer', m: hhmm() });
       bumpPill();
-      toast('Cheered! +1 {{ic:footprint}} each way · ' + fmt(SOLE.bal) + ' {{ic:footprint}} in your wallet');
+      toast('Cheered! +1 {{ic:coin}} each way · ' + fmt(SOLE.bal) + ' {{ic:coin}} in your wallet');
       renderBuddies();
       return;
     }
@@ -3257,7 +3270,7 @@
       b.innerHTML =
         '<span class="gift-item__e" aria-hidden="true">' + icSvgField(g.e) + '</span>' +
         '<span class="gift-item__n">' + escapeHtml(g.n) + '</span>' +
-        '<span class="gift-item__p' + (g.p === 0 ? ' free' : '') + '">' + (g.p === 0 ? 'Free' : g.p + ' ' + ic('footprint')) + '</span>';
+        '<span class="gift-item__p' + (g.p === 0 ? ' free' : '') + '">' + (g.p === 0 ? 'Free' : g.p + ' ' + ic('coin')) + '</span>';
       b.addEventListener('click', function () {
         giftSel = g;
         grid.querySelectorAll('.gift-item').forEach(function (x) { x.classList.remove('sel'); x.setAttribute('aria-pressed', 'false'); });
@@ -3276,7 +3289,7 @@
     var name = userCtx.n;
     var giftCost = giftSel.p;
     if (giftCost > 0 && !soleSpend(giftCost)) {
-      toast('Not enough {{ic:footprint}} — see packs');
+      toast('Not enough {{ic:coin}} — see packs');
       jumpToPacks();
       return;
     }
@@ -3294,7 +3307,7 @@
     giftSel = null;
     if (giftCost > 0) {
       bumpPill();
-      toast('Gift sent to ' + firstName(name) + ' · −' + giftCost + ' {{ic:footprint}} · balance ' + fmt(SOLE.bal));
+      toast('Gift sent to ' + firstName(name) + ' · −' + giftCost + ' {{ic:coin}} · balance ' + fmt(SOLE.bal));
     } else {
       toast('Gift sent to ' + firstName(name));
     }
@@ -3519,7 +3532,7 @@
   var avSel = { body: 0, face: 0, hat: 0 };
   function avBodyOwned(bi) { var lk = AV_BODIES[bi].lock; return lk < 0 || !!SOLE.ownedAv[lk]; }
   function avHatOwned(hi) { var av = AV_HATS[hi].av; return av < 0 || !!SOLE.ownedAv[av]; }
-  function avLockPrice(avIdx) { return (avIdx >= 0 && AVATARS[avIdx]) ? AVATARS[avIdx].p + ' {{ic:footprint}}' : ''; }
+  function avLockPrice(avIdx) { return (avIdx >= 0 && AVATARS[avIdx]) ? AVATARS[avIdx].p + ' {{ic:coin}}' : ''; }
 
   function avFaceMarkup(f, ink) {
     if (f === 1) return '<circle cx="40" cy="49" r="4.2" fill="' + ink + '"/><circle cx="60" cy="49" r="4.2" fill="' + ink + '"/><ellipse cx="50" cy="63" rx="6.5" ry="5.4" fill="' + ink + '"/><path d="M45.5 66q4.5 2.6 9 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
@@ -3831,6 +3844,189 @@
   window.addEventListener('resize', fitDevice);
   if (mqMobile.addEventListener) mqMobile.addEventListener('change', fitDevice);
   fitDevice();
+
+  /* ═══ v9 · stats screen (stats.html) ══════════════════════════════
+     Deterministic mock series per range · six toggleable cards ·
+     persistence in S.statsCards inside the existing SS_KEY snapshot. */
+  if (!S.statsCards) S.statsCards = { bars: true, heat: true, streak: true, goal: true, squad: true, best: true };
+
+  (function statsModule () {
+    var RANGE_DAYS = { 'today': 7, '7d': 7, '30d': 30, '14d': 14, '60d': 60, '90d': 90 };
+    var statsRange = '7d';   /* token: today | 7d | 30d | 14d | 60d | 90d | year */
+    function sr (i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+    function daysIn (t) {
+      if (t === 'year') { var d = new Date(); return Math.max(1, Math.round((d - new Date(d.getFullYear(), 0, 1)) / 864e5) + 1); }
+      return RANGE_DAYS[t] || 7;
+    }
+    /* For Today the band reflects a single day; trend series still shows the week. */
+    var STEP_EPOCH = 9000, GOAL_STAT = 9000;
+    function daySteps (absIdx) { return Math.round(6200 + sr(absIdx) * 5600); }
+    function series (n, trendN) {
+      var m = trendN || n, out = [];
+      for (var k = 0; k < m; k++) out.push(daySteps(STEP_EPOCH + k));
+      return out;
+    }
+    function fmtN (n) { return Math.round(n).toLocaleString('en-US'); }
+    function dayLabel (nAgo) {
+      var d = new Date(); d.setDate(d.getDate() - nAgo);
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    function renderStats () {
+      if (!SCREENS['scr-stats']) return;
+      var days = statsRange === 'year' ? daysIn('year') : (RANGE_DAYS[statsRange] || 7);
+      var bandDays = statsRange === 'today' ? 1 : days;   /* Today band = single day; charts keep the week */
+      var s = series(days);
+      var band = s.slice(s.length - bandDays);
+      var total = band.reduce(function (a, b) { return a + b; }, 0);
+
+      /* ── summary band (re-scales per range) ── */
+      var el;
+      if ((el = document.getElementById('stats-steps'))) el.textContent = fmtN(total);
+      if ((el = document.getElementById('stats-km'))) el.textContent = (total * 0.00072).toFixed(1);
+      if ((el = document.getElementById('stats-active'))) el.textContent = fmtN(total / 115);
+      if ((el = document.getElementById('stats-kcal'))) el.textContent = fmtN(total * 0.041);
+
+      /* ── 1 · daily bars, ≤14 bins, goal line ── */
+      var host = document.getElementById('bars-chart');
+      if (host) {
+        var bins = Math.min(s.length, 14), size = Math.ceil(s.length / bins), vals = [];
+        for (var b = 0; b < bins; b++) {
+          var chunk = s.slice(b * size, (b + 1) * size);
+          vals.push(Math.round(chunk.reduce(function (a, x) { return a + x; }, 0) / chunk.length));
+        }
+        var maxV = Math.max(GOAL_STAT * 1.12, Math.max.apply(null, vals));
+        var gPct = Math.round(GOAL_STAT / maxV * 100);
+        var html = '<span class="goal-line" style="bottom:' + gPct + '%" aria-hidden="true"><i>Goal</i></span>';
+        for (var v = 0; v < bins; v++) {
+          var h = Math.max(6, Math.round(vals[v] / maxV * 100));
+          var hit = vals[v] >= GOAL_STAT;
+          var lbl = bins <= 8 ? ['S', 'M', 'T', 'W', 'T', 'F', 'S'][7 - bins + v] || '' : (v === 0 || v === bins - 1 ? '•' : '');
+          html += '<span class="sb-col' + (v === bins - 1 ? ' is-last' : '') + '"><span class="sb-bar' + (hit ? ' hit' : '') + '" style="height:' + h + '%" title="' + fmtN(vals[v]) + ' steps"></span><span class="sb-lbl">' + lbl + '</span></span>';
+        }
+        host.className = 'stats-bars';
+        host.innerHTML = html;
+      }
+
+      /* ── 2 · hourly heat, 12 bins 6a–6p ── */
+      var heat = document.getElementById('heat-chart');
+      if (heat) {
+        var weights = [0.28, 0.42, 0.7, 0.55, 0.34, 0.4, 0.3, 0.36, 0.52, 0.86, 0.98, 0.6];
+        var hMax = 1, hv = [];
+        for (var i2 = 0; i2 < 12; i2++) { var val = Math.round(weights[i2] * (0.7 + sr(i2 * 7 + days) * 0.6) * 100) / 100; hv.push(val); if (val > hMax) hMax = val; }
+        var hHtml = '';
+        for (var i3 = 0; i3 < 12; i3++) {
+          hHtml += '<span class="ht-col"><span class="ht-bar" style="height:' + Math.round(hv[i3] / hMax * 100) + '%"></span><span class="ht-lbl">' + (6 + i3 === 12 ? '12' : (6 + i3 > 12 ? 6 + i3 - 12 : 6 + i3)) + (6 + i3 >= 12 ? 'p' : 'a') + '</span></span>';
+        }
+        heat.className = 'heat-row';
+        heat.innerHTML = hHtml;
+      }
+
+      /* ── 3 · streak timeline, segmented hit/miss ── */
+      var seg = document.getElementById('streak-seg');
+      if (seg) {
+        var segN = Math.min(s.length, 30), sHtml = '';
+        for (var k2 = s.length - segN; k2 < s.length; k2++) {
+          var ok = s[k2] >= GOAL_STAT;
+          sHtml += '<span class="seg-cell' + (ok ? ' on' : '') + '" title="' + dayLabel(s.length - 1 - k2) + '"></span>';
+        }
+        seg.className = 'seg-bar';
+        seg.innerHTML = sHtml;
+        var sl = document.getElementById('streak-line');
+        if (sl) sl.textContent = 'Now 12d · best 34d';
+      }
+
+      /* ── 4 · goal hit ring ── */
+      var ring = document.getElementById('goal-ring');
+      if (ring) {
+        var hitPct = Math.round(s.filter(function (x) { return x >= GOAL_STAT; }).length / s.length * 100);
+        var C = 264, dash = Math.round(C * hitPct / 100);
+        ring.innerHTML =
+          '<svg viewBox="0 0 100 100" role="img" aria-label="' + hitPct + '% of days hit goal">' +
+          '<circle class="gr-track" cx="50" cy="50" r="42"/>' +
+          '<circle class="gr-prog" cx="50" cy="50" r="42" stroke-dasharray="' + dash + ' ' + (C - dash) + '"/>' +
+          '</svg><b class="gr-num num">' + hitPct + '%</b>';
+      }
+
+      /* ── 5 · squad comparison ── */
+      var cmp = document.getElementById('squad-cmp');
+      if (cmp) {
+        var you = Math.round(total / bandDays), avg = Math.round(you * (0.88 + sr(days) * 0.22));
+        var m2 = Math.max(you, avg) * 1.18;
+        cmp.innerHTML =
+          '<div class="cmp-row"><span class="cmp-lbl">You</span><span class="cmp-track"><span class="cmp-bar mine" style="width:' + Math.round(you / m2 * 100) + '%"></span></span><span class="cmp-v num">' + fmtN(you) + '</span></div>' +
+          '<div class="cmp-row"><span class="cmp-lbl">Squad</span><span class="cmp-track"><span class="cmp-bar" style="width:' + Math.round(avg / m2 * 100) + '%"></span></span><span class="cmp-v num">' + fmtN(avg) + '</span></div>';
+      }
+
+      /* ── 6 · best day ── */
+      var bestN = document.getElementById('best-num'), bestD = document.getElementById('best-date');
+      if (bestN && bestD) {
+        var mx = Math.max.apply(null, s), pos = s.indexOf(mx);
+        bestN.innerHTML = safeHTML(fmtN(mx) + ' <svg class="ico" aria-hidden="true"><use href="#ic-footprint"></use></svg>');
+        bestD.textContent = dayLabel(s.length - 1 - pos);
+      }
+
+      /* ── chips + hidden-card state ── */
+      document.querySelectorAll('.range-chip').forEach(function (c) {
+        var t = c.dataset.range;
+        var isActive = t === statsRange ||
+          (t === 'custom' && ['14d', '60d', '90d', 'year'].indexOf(statsRange) > -1);
+        c.classList.toggle('active', isActive);
+        c.setAttribute('aria-pressed', String(isActive));
+      });
+      applyCards();
+    }
+    function applyCards () {
+      Object.keys(S.statsCards).forEach(function (k) {
+        var c = document.getElementById('card-' + k);
+        if (c && SCREENS['scr-stats']) c.hidden = !S.statsCards[k];
+      });
+      document.querySelectorAll('#cards-sheet .fs-opt input').forEach(function (inp) {
+        inp.checked = !!S.statsCards[inp.dataset.card];
+        inp.closest('.fs-opt').classList.toggle('is-on', inp.checked);
+      });
+    }
+    function setRange (t) {
+      statsRange = t;
+      try { history.replaceState(null, '', '?range=' + encodeURIComponent(t === '14d' || t === '60d' || t === '90d' || t === 'year' ? 'custom:' + t : t)); } catch (e) {}
+      closeSheets();
+      renderStats();
+    }
+
+    if (SCREENS['scr-stats']) {
+      document.querySelectorAll('.range-chip').forEach(function (c) {
+        c.addEventListener('click', function () {
+          if (!c.dataset.range) return;
+          if (c.dataset.range === 'custom') { openSheet(document.getElementById('custom-sheet')); return; }
+          setRange(c.dataset.range);
+        });
+      });
+      document.querySelectorAll('#custom-sheet [data-crange]').forEach(function (b) {
+        b.addEventListener('click', function () { setRange(b.dataset.crange); });
+      });
+      document.querySelectorAll('#custom-sheet .sheet__x, #cards-sheet .sheet__x').forEach(function (x) {
+        x.addEventListener('click', closeSheets);
+      });
+      document.getElementById('stats-customize').addEventListener('click', function () {
+        applyCards();
+        openSheet(document.getElementById('cards-sheet'));
+      });
+      document.querySelectorAll('#cards-sheet .fs-opt input').forEach(function (inp) {
+        inp.addEventListener('change', function () {
+          S.statsCards[inp.dataset.card] = inp.checked;
+          saveNow();
+          applyCards();
+        });
+      });
+      document.getElementById('btn-cards-done').addEventListener('click', closeSheets);
+      document.getElementById('btn-custom-cancel').addEventListener('click', closeSheets);
+
+      /* deep link: ?range=today|7d|30d|custom:14d|60d|90d|year */
+      var _q = (new URLSearchParams(location.search).get('range') || '').replace('custom:', '');
+      if (['today', '7d', '30d', '14d', '60d', '90d', 'year'].indexOf(_q) > -1) statsRange = _q;
+      enterHooks['scr-stats'] = renderStats;
+      renderStats();
+    }
+  })();
 
   /* boot: every data-driven screen renders eagerly — never blank */
   renderGroups();
