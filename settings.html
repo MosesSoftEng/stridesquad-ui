@@ -42,8 +42,16 @@
         </div>
 <div class="stage">
 <section id="scr-settings" class="screen" data-screen data-od-id="settings-hub" aria-label="Settings">
-<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Settings</h2><p class="screen-sub">Everything you might need to change</p></div><button class="icon-btn" data-goto="scr-profile" aria-label="Back" data-od-id="settings-hub-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
-      <div class="card" data-od-id="settings-sections">
+
+            <header class="appbar" data-od-id="appbar">
+        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-profile" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Settings</b>
+          <span class="appbar__mini" id="appbar-mini">Account & app</span>
+        </div>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="card" data-od-id="settings-sections">
 <button class="srow" type="button" data-goto="scr-settings-account" data-od-id="settings-sec-account"><svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><span class="srow__t"><b>Account</b><span>Profile, linked logins, export, delete</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
 <button class="srow" type="button" data-goto="scr-settings-notifications" data-od-id="settings-sec-notif"><svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13.5 6 9.5Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg><span class="srow__t"><b>Notifications</b><span>Streak reminders, group activity, quiet hours</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
 <button class="srow" type="button" data-goto="scr-settings-privacy" data-od-id="settings-sec-privacy"><svg class="ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.8-3.2 7.7-7.5 9.5-4.3-1.8-7.5-4.7-7.5-9.5V6Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg><span class="srow__t"><b>Privacy</b><span>Policy, terms, blocklist</span></span><span class="srow__end" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>

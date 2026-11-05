@@ -222,15 +222,18 @@
     font-weight: 700; font-size: 13px;
   }
   .chip svg { width: 16px; height: 16px; }
-  .ring-card { display: flex; flex-direction: column; align-items: center; padding: 26px 18px 20px; }
-  .ring-wrap { position: relative; width: min(236px, 64vw); aspect-ratio: 1; }
+  .ring-card { position: relative; display: flex; flex-direction: column; align-items: center; padding: 14px; }
+  .ring-wrap { position: relative; width: min(178px, 48vw); aspect-ratio: 1; container-type: inline-size; }
   .ring-wrap svg.ring { width: 100%; height: 100%; }
-  .ring__track { fill: none; stroke: var(--border); stroke-width: 16; }
-  .ring__prog { fill: none; stroke: url(#ringGrad); stroke-width: 16; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 100px 100px; }
-  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
-  .step-count { font-size: 54px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .step-goal { color: var(--muted); font-size: 14px; font-weight: 600; }
-  .ring-caption { margin-top: 14px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }
+  .ring__track { fill: none; stroke: var(--border); stroke-width: 11; stroke-linecap: round; }
+  .ring__prog { fill: none; stroke: url(#ringGrad); stroke-width: 11; stroke-linecap: round; }
+  .ring__over { fill: none; stroke: var(--highlight); stroke-width: 11; stroke-linecap: round; }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+  .step-count { font-size: clamp(20px, 16.5cqw, 30px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .step-goal { color: var(--muted); font-size: 11.5px; font-weight: 600; }
+  .ring-delta { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; margin-top: 1px; padding: 3px 9px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--ink); font-size: 10px; font-weight: 800; letter-spacing: .01em; box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 8%, transparent); }
+  .ring-delta.hit { background: var(--highlight); border-color: var(--highlight); color: var(--ink); }
+  .ring-foot { width: 100%; display: flex; justify-content: flex-start; margin-top: 10px; }
   .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
   .stat-cell { background: var(--surface); border-radius: 18px; padding: 14px 10px; text-align: center; box-shadow: var(--shadow-card); }
   .stat-cell b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -772,14 +775,7 @@
   .doc .panel p { color: var(--ink); }
   .doc .panel b { color: var(--primary-ink); }
 
-  /* today v7 — loss framing + reciprocity */
-  .shield { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-card); background: var(--warn-bg); border: 1.5px solid var(--warn-line); box-shadow: var(--shadow-card); margin-bottom: 14px; }
-  .shield > .ico { width: 20px; height: 20px; color: var(--warn); }
-  .shield b { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
-  .shield span { display: block; font-size: 12.5px; color: var(--warn); font-weight: 700; margin-top: 1px; }
-  .shield.met { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 32%, var(--border)); }
-  .shield.met > .ico { color: var(--primary-ink); }
-  .shield.met span { color: var(--primary-ink); }
+  /* today v10 — streak shield banner removed; streak now a .streak-chip on the card */
   .savecard { border: 1.5px solid var(--warn-line); }
   .savecard .btn { margin-top: 12px; }
   .nudge { display: flex; align-items: center; gap: 10px; background: var(--warn-bg); border: 1.5px solid var(--warn-line); border-radius: var(--radius-ctl); padding: 9px 8px 9px 14px; margin: -4px 0 16px; }
@@ -828,9 +824,7 @@
   .faq__q:hover { color: var(--primary-ink); }
   .faq__a { font-size: 13.5px; color: var(--muted); line-height: 1.55; padding: 0 2px 14px; }
 
-  /* ═════ v8-g1 · util header row (bell + Sole pill) ═════ */
-  .util-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
-  .util-row__end { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  /* ═════ v8-g1 · util header row (bell + Sole pill) — replaced by .appbar (v10) ═════ */
   .bell { position: relative; flex: none; }
   .bell__dot {
     position: absolute; top: 7px; right: 8px; width: 10px; height: 10px; border-radius: 50%;
@@ -849,15 +843,9 @@
   .sole-pill i { font-style: normal; color: var(--primary-ink); font-size: 11.5px; font-weight: 800; margin-left: 4px; }
 
   /* ═════ v8-g1 · mission-control Today ═════ */
-  .shield--tap { width: 100%; text-align: left; cursor: pointer; transition: transform .06s ease, border-color .15s ease; }
-  .shield--tap:active { transform: scale(.99); }
-  .shield--tap:hover { border-color: var(--warn); }
-  .shield__go { margin-left: auto; flex: none; width: 20px; height: 20px; color: var(--warn); }
-  .shield.met .shield__go { color: var(--primary-ink); }
   .ring-card--tap { cursor: pointer; width: 100%; text-align: center; transition: box-shadow .15s ease, transform .06s ease; }
   .ring-card--tap:hover { box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 8%, transparent), 0 12px 34px color-mix(in srgb, var(--ink) 12%, transparent); }
   .ring-card--tap:active { transform: scale(.995); }
-  .ring-hint { margin-top: 10px; font-family: var(--mono); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--faint); }
   .rank-strip { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .rank-strip::-webkit-scrollbar { display: none; }
   .rank-card {
@@ -1320,7 +1308,6 @@
   .ico-pair .ico { width: 1em; height: 1em; min-width: 12px; min-height: 12px; vertical-align: 0; }
   .rule-row > span { margin-left: auto; flex: none; }
   .echo .ico, .gift-item__p .ico, .avgen-opt__p .ico { width: 12px; height: 12px; }
-  .ring-hint .ico { width: 12px; height: 12px; }
 
 
   /* ═════ v9 · stats screen ═════ */
@@ -1383,3 +1370,58 @@
      pills, prices and .num/.ico-pair rows keep their existing nowrap. */
   p, .sub, .caption, .screen-sub, .fs-note, .fineprint,
   .onb__lead, .disc-lead, .faq__a, .lock-row__t span, .card p { text-wrap: pretty; }
+
+  /* ═════ v10 · global appbar (today-card-appbar-spec) ═════
+     One sticky header on every screen: [mark|back] [title+mini] [actions|bell|coin].
+     Negative margin cancels .screen's 20/18 padding so the bar is full-bleed
+     inside the phone stage; mobile safe-area stays handled by .phone's own
+     padding-top(env) — no double inset. */
+  .appbar { position: sticky; top: 0; z-index: 30; flex: none;
+    display: flex; align-items: center; gap: 10px;
+    margin: -20px -18px 12px; padding: 6px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 82%, transparent); }
+  .appbar__mark { flex: none; width: 28px; height: 28px; border-radius: 8px;
+    background: var(--primary-deep); display: grid; place-items: center; }
+  .appbar__mark svg { width: 17px; height: 17px; color: var(--highlight); }
+  .appbar__back { background: transparent; border: 0; color: var(--muted); }
+  .appbar__back:hover { color: var(--primary-ink); background: var(--primary-soft); border: 0; }
+  .appbar__text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .appbar__title { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -.01em;
+    line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .appbar__mini { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.25;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .appbar__act { width: 28px; height: 44px; border-radius: 10px; background: transparent;
+    border: 0; color: var(--muted); display: grid; place-items: center;
+    transition: background .15s ease, color .15s ease; }
+  .appbar__act:hover { color: var(--primary-ink); background: var(--primary-soft); border: 0; }
+  .appbar__act svg, .appbar__act .ico { width: 20px; height: 20px; }
+  .appbar__acts { flex: none; display: inline-flex; align-items: center; gap: 2px; }
+  .appbar__solo { flex: none; background: var(--primary-soft); color: var(--primary-ink);
+    min-height: 30px; padding: 4px 10px; font-size: 12px; }
+  .appbar__coin { margin: 0; min-height: 40px; padding: 0 12px; }
+  .appbar__coin i { display: none; }
+  .appbar .bell { position: relative; }
+  .appbar .icon-btn { flex: none; }
+  .appbar button:focus-visible, .ring-stats:focus-visible, .streak-chip:focus-visible {
+    outline: 2px solid var(--primary); outline-offset: 2px; }
+  /* right-aligned body actions that used to live in the old head row */
+  .appbar-extra { display: flex; justify-content: flex-end; gap: 8px; margin: -6px 0 10px; }
+  .appbar-extra .btn--text { min-height: 40px; font-size: 13px; }
+
+  /* ═════ v10 · Today spiral card parts ═════ */
+  .streak-chip { display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    white-space: nowrap; min-height: 32px; padding: 5px 12px; border-radius: 999px;
+    background: var(--primary-soft); color: var(--primary-ink);
+    font-size: 12px; font-weight: 800; cursor: pointer;
+    transition: background .15s ease, transform .06s ease; }
+  .streak-chip:hover { background: color-mix(in srgb, var(--primary) 18%, var(--surface)); }
+  .streak-chip:active { transform: scale(.98); }
+  .streak-chip .ico { width: 15px; height: 15px; }
+  .ring-stats { position: absolute; top: 10px; right: 10px; z-index: 2;
+    width: 32px; height: 32px; min-width: 32px; border-radius: 10px;
+    background: transparent; border: 0; color: var(--muted);
+    display: grid; place-items: center; cursor: pointer;
+    transition: background .15s ease, color .15s ease; }
+  .ring-stats:hover { background: var(--primary-soft); color: var(--primary-ink); }
+  .ring-stats .ico { width: 20px; height: 20px; }

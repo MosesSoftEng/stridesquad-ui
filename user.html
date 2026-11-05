@@ -42,21 +42,20 @@
         </div>
 <div class="stage">
 <section id="scr-user" class="screen" data-screen data-od-id="user-profile" aria-label="Walker profile">
-      <div class="screen-head">
-        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-          <button class="icon-btn" id="btn-user-back" aria-label="Back" data-od-id="user-back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+
+            <header class="appbar" data-od-id="appbar">
+        <button class="icon-btn appbar__back" id="btn-user-back" aria-label="Back" data-od-id="user-back">
+            <svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg>
           </button>
-          <div style="min-width:0;">
-            <h2 class="screen-title" style="font-size:20px;">Walker profile</h2>
-            <p class="screen-sub" id="user-head-sub">StrideSquad walker</p>
-          </div>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Walker profile</b>
+          <span class="appbar__mini" id="user-head-sub">Walker card</span>
         </div>
-        <button class="icon-btn" id="btn-user-menu" type="button" aria-label="Report or block this walker" aria-haspopup="dialog" data-od-id="user-menu">
+        <button class="icon-btn appbar__act" id="btn-user-menu" type="button" aria-label="Report or block this walker" aria-haspopup="dialog" data-od-id="user-menu">
           <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
-        </button>
-      </div>
-      <div class="u-hero">
+        </button> <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="u-hero">
         <div class="uav" id="user-av" aria-hidden="true">
           <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
             <path d="M50 26c0-8 5.5-11.5 12-12.5-1 8-5 12-12 12.5Z" fill="currentColor" opacity=".5"/>

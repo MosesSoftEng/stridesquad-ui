@@ -42,8 +42,16 @@
         </div>
 <div class="stage">
 <section id="scr-privacy-policy" class="screen" data-screen data-od-id="privacy-policy" aria-label="Privacy policy">
-<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">Privacy policy</h2><p class="screen-sub">Plain words. Last updated 3 Nov 2026.</p></div><button class="icon-btn" data-goto="scr-settings-privacy" aria-label="Back" data-od-id="privacy-policy-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
-      <div class="card doc" data-od-id="policy-body">
+
+            <header class="appbar" data-od-id="appbar">
+        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-settings-privacy" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Privacy policy</b>
+          <span class="appbar__mini" id="appbar-mini">2 min read</span>
+        </div>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="card doc" data-od-id="policy-body">
         <h3>Who we are</h3>
         <p>StrideSquad is a small step-counting app for walking squads. This policy covers the StrideSquad app and its companion services.</p>
         <h3>What we collect</h3>

@@ -42,8 +42,16 @@
         </div>
 <div class="stage">
 <section id="scr-settings-about" class="screen" data-screen data-od-id="settings-about" aria-label="About">
-<div class="screen-head"><div><h2 class="screen-title" style="font-size:23px;">About</h2><p class="screen-sub">What you&rsquo;re tapping on</p></div><button class="icon-btn" data-goto="scr-settings" aria-label="Back" data-od-id="settings-about-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button></div>
-      <div class="card" data-od-id="about-card">
+
+            <header class="appbar" data-od-id="appbar">
+        <button class="icon-btn appbar__back" id="appbar-back" type="button" data-goto="scr-settings" aria-label="Back" data-od-id="appbar-back"><svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg></button>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">About</b>
+          <span class="appbar__mini" id="appbar-mini">v8 prototype</span>
+        </div>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="card" data-od-id="about-card">
         <div class="set-row" style="min-height:52px;">
           <div class="set-row__t"><b>StrideSquad</b><span>Version 7.0.0 · build 8167</span></div>
           <span class="status-chip status-chip--done">v7</span>

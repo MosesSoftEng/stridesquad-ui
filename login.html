@@ -42,14 +42,16 @@
         </div>
 <div class="stage">
 <section id="scr-login" class="screen" data-screen data-od-id="login" aria-label="Log in">
-      <div class="auth">
-        <div class="screen-head">
-          <div>
-            <h2 class="screen-title" style="font-size:25px;">Log in</h2>
-            <p class="screen-sub">Welcome back — the squad's been walking</p>
-          </div>
-          <button class="icon-btn" id="btn-login-close" aria-label="Close" data-od-id="login-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+            <header class="appbar" data-od-id="appbar">
+        <span class="appbar__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Log in</b>
+          <span class="appbar__mini" id="appbar-mini">Welcome back</span>
         </div>
+        <button class="icon-btn appbar__act" id="btn-login-close" aria-label="Close" data-od-id="login-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button> <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="auth">
+
         <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" placeholder="you@example.com" autocomplete="off" autocomplete="email"></div>
         <div class="field">
           <div style="display:flex;align-items:baseline;justify-content:space-between;">

@@ -42,7 +42,15 @@
         </div>
 <div class="stage">
 <section id="scr-account-deleted" class="screen" data-screen data-od-id="account-deleted" aria-label="Account deleted">
-      <div class="deleted">
+            <header class="appbar" data-od-id="appbar">
+        <span class="appbar__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Account deleted</b>
+          <span class="appbar__mini" id="appbar-mini">Demo — nothing saved</span>
+        </div>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="deleted">
         <div class="deleted__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9.5 7V5h5v2M6.5 7l1 12.5h9L18 7M10 11v5m4-5v5"/></svg></div>
         <h2>Account deleted</h2>
         <p>Your steps, squads and chats are scheduled for erasure and will be <b style="color:var(--ink);">fully deleted within 30 days</b>. Sign in again before then and the erasure is cancelled.</p>

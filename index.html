@@ -207,49 +207,46 @@
       </script>
     </section>
 <section id="scr-today" class="screen" data-screen data-od-id="today" aria-label="Today">
-      <div class="util-row" data-od-id="today-util-row">
-        <button class="icon-btn bell" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="today-bell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13.5 6 9.5Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg>
-          <span class="bell__dot" data-bell-dot aria-hidden="true"></span>
-        </button>
-        <div class="util-row__end">
-          <span class="chip u-hide" id="solo-chip" style="background:var(--primary-soft);color:var(--primary-ink);" data-od-id="today-solo-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
-            Solo mode
-          </span>
-          <button class="sole-pill" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="today-sole-pill"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b> ·<i>+12 today</i></button>
+      <header class="appbar" data-od-id="appbar">
+        <span class="appbar__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="9" cy="8.2" rx="3.1" ry="4.4" transform="rotate(-14 9 8.2)"/><ellipse cx="15.6" cy="14" rx="3.1" ry="4.4" transform="rotate(14 15.6 14)"/></svg></span>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Today</b>
+          <span class="appbar__mini" id="appbar-mini">Tue · Spiral to goal</span>
         </div>
-      </div>
+        <span class="chip appbar__solo u-hide" id="solo-chip" data-od-id="today-solo-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+          Solo mode
+        </span>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button>
+        <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
 
-      <div class="screen-head">
-        <div>
-          <h2 class="screen-title">Today</h2>
-          <p class="screen-sub" id="today-sub">Tuesday · Sunrise Steppers squad</p>
-        </div>
-      </div>
-
-      <div class="card ring-card ring-card--tap" id="ring-card" role="button" tabindex="0" aria-expanded="false" aria-controls="today-week-strip" data-od-id="today-goal-card">
+      <div class="card ring-card ring-card--tap" id="ring-card" role="button" tabindex="0" aria-label="Open today stats" data-od-id="today-goal-card">
+        <button class="ring-stats" id="ring-stats" type="button" data-goto="scr-stats" aria-label="Open stats" data-od-id="today-stats-icon"><svg class="ico" aria-hidden="true"><use href="#ic-chart"></use></svg></button>
         <div class="ring-wrap">
-          <svg class="ring" id="ring-svg" viewBox="0 0 200 200" role="img" aria-label="Goal ring: 7,842 of 9,000 steps">
+          <svg class="ring" id="ring-svg" viewBox="0 0 200 200" role="img" aria-label="Spiral: 7,842 of 9,000 steps">
             <defs>
               <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" style="stop-color:var(--primary)"/>
                 <stop offset="1" style="stop-color:var(--highlight)"/>
               </linearGradient>
             </defs>
-            <circle class="ring__track" cx="100" cy="100" r="88"/>
-            <circle class="ring__prog" id="ring-prog" cx="100" cy="100" r="88"/>
+            <path class="ring__track" pathLength="100" d="M186.0 100.0 L185.2 109.0 L183.6 117.8 L181.0 126.3 L177.5 134.5 L173.3 142.3 L168.2 149.6 L162.4 156.2 L156.0 162.2 L149.1 167.5 L141.6 172.0 L133.7 175.7 L125.5 178.6 L117.1 180.5 L108.6 181.6 L100.0 181.8 L91.5 181.0 L83.1 179.4 L75.0 176.9 L67.2 173.6 L59.8 169.6 L52.9 164.8 L46.6 159.3 L40.9 153.2 L35.9 146.6 L31.7 139.5 L28.2 132.0 L25.5 124.2 L23.6 116.2 L22.6 108.1 L22.5 100.0 L23.2 91.9 L24.7 84.0 L27.1 76.3 L30.2 68.9 L34.1 62.0 L38.7 55.4 L43.9 49.5 L49.7 44.1 L55.9 39.4 L62.7 35.3 L69.7 32.0 L77.1 29.5 L84.7 27.8 L92.3 26.9 L100.0 26.8 L107.6 27.4 L115.1 28.9 L122.4 31.1 L129.3 34.1 L135.9 37.8 L142.1 42.1 L147.7 47.0 L152.8 52.5 L157.2 58.4 L161.0 64.8 L164.1 71.5 L166.4 78.4 L168.0 85.5 L168.9 92.8 L169.0 100.0 L168.3 107.2 L166.9 114.2 L164.8 121.1 L162.0 127.6 L158.5 133.8 L154.4 139.6 L149.8 144.8 L144.7 149.6 L139.1 153.8 L133.1 157.3 L126.8 160.2 L120.3 162.4 L113.6 163.9 L106.8 164.7 L100.0 164.8 L93.3 164.1 L86.7 162.8 L80.3 160.8 L74.1 158.1 L68.3 154.8 L62.9 151.0 L58.0 146.6 L53.6 141.8 L49.7 136.6 L46.4 131.0 L43.7 125.1 L41.7 119.0 L40.3 112.7 L39.5 106.4 L39.5 100.0 L40.1 93.7 L41.4 87.5 L43.3 81.6 L45.8 75.9 L48.8 70.5 L52.4 65.4 L56.5 60.8 L61.0 56.7 L65.9 53.1 L71.2 50.1 L76.7 47.6 L82.4 45.7 L88.2 44.4 L94.1 43.8 L100.0 43.8 L105.9 44.3 L111.6 45.5 L117.1 47.3 L122.4 49.6 L127.4 52.5 L132.1 55.9 L136.3 59.7 L140.1 63.9 L143.4 68.4 L146.3 73.3 L148.5 78.4 L150.3 83.7 L151.4 89.1 L152.0 94.5 L152.0 100.0"/>
+            <path class="ring__prog" id="ring-prog" pathLength="100" style="stroke-dasharray:50 150;stroke-dashoffset:50" d="M186.0 100.0 L185.2 109.0 L183.6 117.8 L181.0 126.3 L177.5 134.5 L173.3 142.3 L168.2 149.6 L162.4 156.2 L156.0 162.2 L149.1 167.5 L141.6 172.0 L133.7 175.7 L125.5 178.6 L117.1 180.5 L108.6 181.6 L100.0 181.8 L91.5 181.0 L83.1 179.4 L75.0 176.9 L67.2 173.6 L59.8 169.6 L52.9 164.8 L46.6 159.3 L40.9 153.2 L35.9 146.6 L31.7 139.5 L28.2 132.0 L25.5 124.2 L23.6 116.2 L22.6 108.1 L22.5 100.0 L23.2 91.9 L24.7 84.0 L27.1 76.3 L30.2 68.9 L34.1 62.0 L38.7 55.4 L43.9 49.5 L49.7 44.1 L55.9 39.4 L62.7 35.3 L69.7 32.0 L77.1 29.5 L84.7 27.8 L92.3 26.9 L100.0 26.8 L107.6 27.4 L115.1 28.9 L122.4 31.1 L129.3 34.1 L135.9 37.8 L142.1 42.1 L147.7 47.0 L152.8 52.5 L157.2 58.4 L161.0 64.8 L164.1 71.5 L166.4 78.4 L168.0 85.5 L168.9 92.8 L169.0 100.0 L168.3 107.2 L166.9 114.2 L164.8 121.1 L162.0 127.6 L158.5 133.8 L154.4 139.6 L149.8 144.8 L144.7 149.6 L139.1 153.8 L133.1 157.3 L126.8 160.2 L120.3 162.4 L113.6 163.9 L106.8 164.7 L100.0 164.8 L93.3 164.1 L86.7 162.8 L80.3 160.8 L74.1 158.1 L68.3 154.8 L62.9 151.0 L58.0 146.6 L53.6 141.8 L49.7 136.6 L46.4 131.0 L43.7 125.1 L41.7 119.0 L40.3 112.7 L39.5 106.4 L39.5 100.0 L40.1 93.7 L41.4 87.5 L43.3 81.6 L45.8 75.9 L48.8 70.5 L52.4 65.4 L56.5 60.8 L61.0 56.7 L65.9 53.1 L71.2 50.1 L76.7 47.6 L82.4 45.7 L88.2 44.4 L94.1 43.8 L100.0 43.8 L105.9 44.3 L111.6 45.5 L117.1 47.3 L122.4 49.6 L127.4 52.5 L132.1 55.9 L136.3 59.7 L140.1 63.9 L143.4 68.4 L146.3 73.3 L148.5 78.4 L150.3 83.7 L151.4 89.1 L152.0 94.5 L152.0 100.0"/>
+            <path class="ring__over ring-over" id="ring-over" pathLength="100" style="visibility:hidden;stroke-dasharray:0 200;stroke-dashoffset:-50" d="M186.0 100.0 L185.2 109.0 L183.6 117.8 L181.0 126.3 L177.5 134.5 L173.3 142.3 L168.2 149.6 L162.4 156.2 L156.0 162.2 L149.1 167.5 L141.6 172.0 L133.7 175.7 L125.5 178.6 L117.1 180.5 L108.6 181.6 L100.0 181.8 L91.5 181.0 L83.1 179.4 L75.0 176.9 L67.2 173.6 L59.8 169.6 L52.9 164.8 L46.6 159.3 L40.9 153.2 L35.9 146.6 L31.7 139.5 L28.2 132.0 L25.5 124.2 L23.6 116.2 L22.6 108.1 L22.5 100.0 L23.2 91.9 L24.7 84.0 L27.1 76.3 L30.2 68.9 L34.1 62.0 L38.7 55.4 L43.9 49.5 L49.7 44.1 L55.9 39.4 L62.7 35.3 L69.7 32.0 L77.1 29.5 L84.7 27.8 L92.3 26.9 L100.0 26.8 L107.6 27.4 L115.1 28.9 L122.4 31.1 L129.3 34.1 L135.9 37.8 L142.1 42.1 L147.7 47.0 L152.8 52.5 L157.2 58.4 L161.0 64.8 L164.1 71.5 L166.4 78.4 L168.0 85.5 L168.9 92.8 L169.0 100.0 L168.3 107.2 L166.9 114.2 L164.8 121.1 L162.0 127.6 L158.5 133.8 L154.4 139.6 L149.8 144.8 L144.7 149.6 L139.1 153.8 L133.1 157.3 L126.8 160.2 L120.3 162.4 L113.6 163.9 L106.8 164.7 L100.0 164.8 L93.3 164.1 L86.7 162.8 L80.3 160.8 L74.1 158.1 L68.3 154.8 L62.9 151.0 L58.0 146.6 L53.6 141.8 L49.7 136.6 L46.4 131.0 L43.7 125.1 L41.7 119.0 L40.3 112.7 L39.5 106.4 L39.5 100.0 L40.1 93.7 L41.4 87.5 L43.3 81.6 L45.8 75.9 L48.8 70.5 L52.4 65.4 L56.5 60.8 L61.0 56.7 L65.9 53.1 L71.2 50.1 L76.7 47.6 L82.4 45.7 L88.2 44.4 L94.1 43.8 L100.0 43.8 L105.9 44.3 L111.6 45.5 L117.1 47.3 L122.4 49.6 L127.4 52.5 L132.1 55.9 L136.3 59.7 L140.1 63.9 L143.4 68.4 L146.3 73.3 L148.5 78.4 L150.3 83.7 L151.4 89.1 L152.0 94.5 L152.0 100.0"/>
           </svg>
           <div class="ring-center">
             <p class="step-count num" id="step-count">0</p>
-            <p class="step-goal" id="goal-text">of 9,000 steps</p>
+            <p class="step-goal" id="goal-text">of 9,000</p>
+            <p class="ring-delta num" id="ring-caption">1,158 to goal</p>
           </div>
         </div>
-        <p class="ring-caption num" id="ring-caption">7,842 of 9,000 · 87% — 1,158 to go</p>
-        <p class="ring-hint" id="ring-hint" aria-hidden="true">Tap for this week <svg class="ico" aria-hidden="true"><use href="#ic-arrow-down"></use></svg></p>
+        <div class="ring-foot">
+          <button class="streak-chip" id="streak-chip" type="button" data-goto="scr-achievements" data-od-id="today-streak-chip"><svg class="ico" aria-hidden="true"><use href="#ic-flame"></use></svg>12-day streak</button>
+        </div>
       </div>
 
-      <div id="today-week-strip" hidden data-od-id="today-week-strip">
+      <div id="today-week-strip" data-od-id="today-week-strip">
         <div class="stat-row" data-od-id="today-stats">
           <div class="stat-cell"><b>5.9</b><span>km walked</span></div>
           <div class="stat-cell"><b>314</b><span>kcal est.</span></div>
@@ -260,15 +257,6 @@
           <div class="spark" aria-hidden="true" id="week-spark"></div>
         </div>
       </div>
-
-      <button class="shield shield--tap" id="streak-shield" data-goto="scr-achievements" style="margin-top:14px;" data-od-id="today-streak-shield">
-        <svg class="ico" id="shield-ic" aria-hidden="true"><use href="#ic-flame"></use></svg>
-        <div>
-          <b id="shield-b"><svg class="ico" aria-hidden="true"><use href="#ic-flame"></use></svg> 12-day streak — 1,158 steps to keep it</b>
-          <span id="shield-sub">Fall short by midnight — streak gone</span>
-        </div>
-        <svg class="shield__go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
 
       <div style="margin-top:16px;" data-od-id="today-squad-rank">
         <p class="card-label">Squad ranks · today</p>

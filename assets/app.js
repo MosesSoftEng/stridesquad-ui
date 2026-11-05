@@ -32,6 +32,7 @@
       + '<symbol id="ic-shield-check" viewBox="0 0 24 24"><path d="M12 2.8 5 5.5v5.6c0 4.4 3 7.7 7 9.5 4-1.8 7-5.1 7-9.5V5.5l-7-2.7Z"/><path d="m9 12.2 2.3 2.3 4.4-5"/></symbol>'
       + '<symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></symbol>'
       + '<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.8V12l3.6 2.2"/></symbol>'
+      + '<symbol id="ic-chart" viewBox="0 0 24 24"><path d="M4.5 19.5h15"/><path d="M7.8 16.5V11M12 16.5V6.5M16.2 16.5v-3.6"/></symbol>'
       + '<symbol id="ic-spark" viewBox="0 0 24 24"><path d="M11 3.2c1 4.7 2.6 6.3 7.3 7.3-4.7 1-6.3 2.6-7.3 7.3-1-4.7-2.6-6.3-7.3-7.3 4.7-1 6.3-2.6 7.3-7.3Z"/><path d="M18.8 15.2c.4 1.8 1 2.4 2.8 2.8-1.8.4-2.4 1-2.8 2.8-.4-1.8-1-2.4-2.8-2.8 1.8-.4 2.4-1 2.8-2.8Z"/></symbol>'
       + '<symbol id="ic-cheer" viewBox="0 0 24 24"><path d="M3.8 20.4 7.4 9.8l6.8 6.8-10.4 3.8Z"/><path d="m6.4 15.6 4.4 2.8"/><circle cx="17.2" cy="6.4" r="1"/><circle cx="20.8" cy="10.4" r=".9"/><path d="M14.6 3.2v2.6M19.6 2.6l-1.4 2.2M21.6 6.6l-2.4.8"/></symbol>'
       + '<symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4.8h14.6v8H5Z"/></symbol>'
@@ -247,36 +248,45 @@
     showScreen('scr-today');
   });
 
-  /* ── 2 · Today: count-up + self-drawing goal ring ─────────────────── */
+  /* ── 2 · Today: count-up + self-drawing goal SPIRAL (v10) ─────────── */
   var GOAL = 9000, STEPS = 7842;
   var stepEl  = document.getElementById('step-count');
   var progEl  = document.getElementById('ring-prog');
+  var overEl  = document.getElementById('ring-over');
   var capEl   = document.getElementById('ring-caption');
-  var CIRC    = 2 * Math.PI * 88;
   var animToken = 0;
 
-  function setRing(frac) { progEl.style.strokeDashoffset = CIRC * (1 - frac); }
+  /* Spiral = 2 turns · pathLength 100 · loop-1 occupies [0,50), loop-2 [50,100).
+     prog reveals [0, min(F,50)): dash '50 150', offset 50-L1 → dash window [0,L1).
+     over reveals the excess [50, 50+L2): dash 'L2 (200-L2)', offset -50. */
+  function setRing(frac) {
+    var F = Math.max(0, Math.min(2, frac)) / 2 * 100;
+    var L1 = Math.min(F, 50);
+    progEl.style.strokeDasharray = '50 150';
+    progEl.style.strokeDashoffset = String(50 - L1);
+    var L2 = Math.max(0, F - 50);
+    if (L2 <= 0.2) { overEl.style.visibility = 'hidden'; overEl.style.strokeDasharray = '0 200'; }
+    else { overEl.style.visibility = 'visible'; overEl.style.strokeDasharray = L2 + ' ' + (200 - L2); }
+    overEl.style.strokeDashoffset = '-50';
+  }
 
   function animateToday() {
-    progEl.style.strokeDasharray = CIRC;
     var token = ++animToken;
+    var target = STEPS / GOAL;
     if (reduceMotion) {
-      progEl.style.transition = 'none';
-      setRing(Math.min(1, STEPS / GOAL));
+      setRing(target);
       stepEl.textContent = STEPS.toLocaleString('en-US');
       return;
     }
-    progEl.style.transition = 'none';
-    progEl.style.strokeDashoffset = CIRC;   // start empty
-    void progEl.getBoundingClientRect();    // force reflow so the draw replays
-    progEl.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.22,.8,.28,1)';
-    progEl.style.strokeDashoffset = CIRC * (1 - Math.min(1, STEPS / GOAL));
+    setRing(0);
     stepEl.textContent = '0';
+    void progEl.getBoundingClientRect();     // replay the draw from empty
     var t0 = performance.now(), dur = 1400;
     function tick(t) {
       if (token !== animToken) return;      // a newer entry took over
       var p = Math.min(1, (t - t0) / dur);
       var e = 1 - Math.pow(1 - p, 3);       // ease-out cubic
+      setRing(target * e);
       stepEl.textContent = Math.round(STEPS * e).toLocaleString('en-US');
       if (p < 1) requestAnimationFrame(tick);
     }
@@ -424,8 +434,8 @@
     var top = roster(g, 'd');
     document.getElementById('gd-name').textContent = g.name;
     document.getElementById('gd-sub').textContent =
-      'Weekly challenge · ' + g.members.length + ' of ' + g.cap + ' members' +
-      (g.privacy === 'private' ? ' · Private — invite only' : (g.privacy === 'open' ? ' · Open — join by request' : ''));
+      g.members.length + ' of ' + g.cap + ' members' +
+      (g.privacy === 'private' ? ' \u00b7 Private' : (g.privacy === 'open' ? ' \u00b7 Open' : ''));
 
     // podium: top 3 by today's steps (#1 centred, blanks keep the grid)
     var podEl = document.getElementById('gd-podium');
@@ -682,8 +692,8 @@
     lbChipsEl.classList.toggle('u-hide', lbScope !== 'mygroup');
 
     var q = lbQuery.trim().toLowerCase();
-    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' + subName +
-      (q ? ' · matching "' + lbQuery + '"' : (lbScope === 'global' ? ' · tap a walker' : ''));
+    lbSubEl.textContent = (lbRange === 'daily' ? 'Daily' : 'Weekly') + ' · ' +
+      (lbScope === 'global' ? 'Global' : subName) + (q ? ' · "' + lbQuery + '"' : '');
     if (q) {
       var matched = 0;
       rows.forEach(function (r, i) {
@@ -1243,13 +1253,15 @@
   var soloMode = false, soloGoal = 9000, gView = 'mine';
 
   function refreshTodayGoal() {
-    document.getElementById('goal-text').textContent = 'of ' + GOAL.toLocaleString('en-US') + ' steps';
+    document.getElementById('goal-text').textContent = 'of ' + GOAL.toLocaleString('en-US');
     document.getElementById('ring-svg').setAttribute('aria-label',
-      'Goal ring: ' + STEPS.toLocaleString('en-US') + ' of ' + GOAL.toLocaleString('en-US') + ' steps');
+      'Spiral: ' + STEPS.toLocaleString('en-US') + ' of ' + GOAL.toLocaleString('en-US') + ' steps');
     var pct = Math.round(STEPS / GOAL * 100);
-    capEl.textContent = pct >= 100
-      ? fmt(STEPS) + ' of ' + fmt(GOAL) + ' \u00b7 100% \u2014 ' + fmt(STEPS - GOAL) + ' to spare'
-      : fmt(STEPS) + ' of ' + fmt(GOAL) + ' \u00b7 ' + pct + '% \u2014 ' + fmt(GOAL - STEPS) + ' to go';
+    /* v10 · the ring delta chip carries the story: to-goal / goal-hit / overage */
+    capEl.textContent = STEPS > GOAL
+      ? 'Goal hit \u2713 \u00b7 +' + fmt(STEPS - GOAL) + ' over'
+      : (STEPS === GOAL ? 'Goal hit \u2713' : fmt(GOAL - STEPS) + ' to goal');
+    capEl.classList.toggle('hit', STEPS >= GOAL);
     // v8-g1 · achievement teaser + ladder Night Owl row share the same "x of y · %" phrasing
     var tFill = document.getElementById('teaser-fill');
     if (tFill) tFill.style.width = Math.min(100, pct) + '%';
@@ -1259,7 +1271,9 @@
     if (nPct) nPct.textContent = fmt(STEPS) + ' of ' + fmt(GOAL) + ' \u00b7 ' + Math.min(100, pct) + '%';
     var teaserSub = document.querySelector('[data-od-id="today-achievement-teaser"] .gcta__col > span.s');
     if (teaserSub) teaserSub.textContent = fmt(STEPS) + ' of ' + fmt(GOAL) + ' \u00b7 ' + pct + '% tonight';
-    document.getElementById('today-sub').textContent = soloMode ? 'Tuesday · Solo mode' : 'Tuesday · Sunrise Steppers squad';
+    if (SCREENS['scr-today']) {
+      document.getElementById('appbar-mini').textContent = soloMode ? 'Tue \u00b7 Solo mode' : 'Tue \u00b7 Spiral to goal';
+    }
     document.getElementById('solo-chip').classList.toggle('u-hide', !soloMode);
     document.getElementById('pulse-card').classList.toggle('u-hide', soloMode);
     var avg = Math.round(sparkData.reduce(function (s, d) { return s + d.s; }, 0) / 7);
@@ -1678,18 +1692,11 @@
   enterHooks['scr-choose'] = function () { setRail('rail-choose', 3); };
   enterHooks['scr-goal']   = function () { setRail('rail-goal', 4); };
 
-  /* ── loss framing · streak shield + squad challenge (Today) ──────── */
+  /* ── loss framing · streak chip (Today) — v10: banner → calm chip ──── */
   function updateShield() {
     var met = STEPS >= GOAL;
-    var sh = document.getElementById('streak-shield');
-    sh.classList.toggle('met', met);
-    if (met) {
-      document.getElementById('shield-b').innerHTML = safeHTML('Streak secured {{ic:check}}');
-      document.getElementById('shield-sub').textContent = 'Goal met — 12-day streak rolls over tonight';
-    } else {
-      document.getElementById('shield-b').innerHTML = safeHTML('{{ic:flame}} 12-day streak — ' + fmt(GOAL - STEPS) + ' steps to keep it');
-      document.getElementById('shield-sub').textContent = 'Fall short by midnight — streak gone';
-    }
+    document.getElementById('streak-chip').innerHTML =
+      safeHTML(met ? 'Streak secured {{ic:check}}' : '{{ic:flame}} 12-day streak');
   }
   function renderPulse() {
     if (soloMode) return;
@@ -2175,27 +2182,23 @@
      notifications inbox · Sole wallet tabs · nearby board. Same screen
      registry, same delegated navigation — nothing new to learn. */
 
-  // Hero ring · v9 stats routing: ring body tap → stats?range=today;
-  // #ring-hint keeps the week-strip expand; strip tap routes stats?range=7d
-  // (routing takes priority over expand for the strip itself).
+  // Hero spiral · v10: ring body tap → stats?range=today; #ring-stats ghost icon
+  // routes the same; week-strip is static and its tap routes stats?range=7d.
   var ringCard = document.getElementById('ring-card');
   var weekStrip = document.getElementById('today-week-strip');
-  var ringHint = document.getElementById('ring-hint');
+  var ringStats = document.getElementById('ring-stats');
+  var streakChip = document.getElementById('streak-chip');
   function toStats(range) { saveNow(); location.href = 'stats.html?range=' + encodeURIComponent(range); }
-  function toggleWeekStrip(e) {
-    if (e) e.stopPropagation();
-    var open = weekStrip.hidden;
-    weekStrip.hidden = !open;
-    ringCard.setAttribute('aria-expanded', String(open));
-    ringHint.textContent = open ? 'This week \u2191 \u2014 tap to collapse' : 'Tap for this week \u2193';
-  }
   ringCard.addEventListener('click', function () { toStats('today'); });
   ringCard.addEventListener('keydown', function (e) {
+    if (e.target !== ringCard) return;
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toStats('today'); }
   });
-  ringHint.addEventListener('click', toggleWeekStrip);
-  ringHint.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleWeekStrip(e); }
+  ringStats.addEventListener('click', function (e) { e.stopPropagation(); toStats('today'); });
+  // chip lives inside the tappable card — own the click, keep the delegated route alive
+  streakChip.addEventListener('click', function (e) {
+    e.stopPropagation();
+    showScreen('scr-achievements');
   });
   weekStrip.addEventListener('click', function () { toStats('7d'); });
 
@@ -3052,6 +3055,7 @@
     showScreen('scr-user');
   }
   function paintUserProfile(p) {
+    if (SCREENS['scr-user']) document.getElementById('appbar-title').textContent = p.n;   /* v10 · appbar shows the walker name */
     document.getElementById('user-head-sub').textContent = p.rank ? 'Global weekly rank #' + p.rank : 'StrideSquad walker';
     var av = document.getElementById('user-av');
     av.className = 'uav' + (p.v ? ' uav--' + p.v : '');
@@ -3973,6 +3977,14 @@
         c.classList.toggle('active', isActive);
         c.setAttribute('aria-pressed', String(isActive));
       });
+      /* v10 · appbar mini mirrors the active range */
+      if (SCREENS['scr-stats']) {
+        var _mini = document.getElementById('appbar-mini');
+        if (_mini) _mini.textContent = ({
+          today: 'Today', '7d': '7 days', '30d': '30 days',
+          '14d': '14 days', '60d': '60 days', '90d': '90 days', year: '365 days'
+        })[statsRange] || '7 days';
+      }
       applyCards();
     }
     function applyCards () {

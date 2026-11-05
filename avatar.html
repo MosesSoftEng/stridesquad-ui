@@ -42,18 +42,18 @@
         </div>
 <div class="stage">
 <section id="scr-avatar" class="screen" data-screen data-od-id="avatar-generator" aria-label="Avatar generator">
-      <div class="screen-head">
-        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-          <button class="icon-btn" id="btn-avatar-back" aria-label="Back" data-od-id="avatar-back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+
+            <header class="appbar" data-od-id="appbar">
+        <button class="icon-btn appbar__back" id="btn-avatar-back" aria-label="Back" data-od-id="avatar-back">
+            <svg class="ico" aria-hidden="true"><use href="#ic-arrow-left"></use></svg>
           </button>
-          <div style="min-width:0;">
-            <h2 class="screen-title" style="font-size:23px;">Your avatar</h2>
-            <p class="screen-sub">Build a playful you — it shows everywhere</p>
-          </div>
+        <div class="appbar__text">
+          <b class="appbar__title" id="appbar-title">Avatar</b>
+          <span class="appbar__mini" id="appbar-mini">Pick a style</span>
         </div>
-      </div>
-      <div class="avgen-stage" id="avgen-stage" data-od-id="avatar-preview" aria-label="Avatar preview"></div>
+        <button class="icon-btn bell appbar__bell" id="appbar-bell" type="button" data-goto="scr-notif" aria-label="Notifications — 4 unread" data-od-id="appbar-bell"><svg class="ico" aria-hidden="true"><use href="#ic-bell"></use></svg><span class="bell__dot" data-bell-dot aria-hidden="true"></span></button> <button class="sole-pill appbar__coin" id="appbar-coin" type="button" data-goto="scr-wallet" aria-label="Sole wallet — 128 coins, up 12 today" data-od-id="appbar-coin"><svg class="ico" aria-hidden="true"><use href="#ic-coin"></use></svg><b class="num">128</b><i>+12 today</i></button>
+      </header>
+<div class="avgen-stage" id="avgen-stage" data-od-id="avatar-preview" aria-label="Avatar preview"></div>
       <div class="avgen-toolbar">
         <button class="btn btn--primary" type="button" id="btn-av-shuffle" data-od-id="avatar-shuffle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;display:inline-block;vertical-align:-3px;margin-right:7px;"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.4" fill="currentColor" stroke="none"/></svg>Shuffle
