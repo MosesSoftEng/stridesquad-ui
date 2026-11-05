@@ -294,6 +294,22 @@
   }
   enterHooks['scr-today'] = animateToday;
 
+  /* FIX (boot spiral) · boot already fires animateToday via showScreen(def), but the
+     count-up + ring draw run on requestAnimationFrame: when Today boots in a hidden /
+     background tab (link opened in a new tab, agent/occluded window), rAF stays frozen
+     and the ring sits at the reset state (0 · dashoffset 50) forever until a tab switch
+     re-fires the hook. One-shot re-trigger on first reveal when scr-today is the
+     visible screen. Idempotent by construction: never armed for foreground boots (those
+     already animate), disarms after one shot, and reuses the same token-guarded
+     animateToday so a concurrent entry can never double-run. Duration/easing untouched. */
+  var ringRevealPending = document.visibilityState === 'hidden';
+  document.addEventListener('visibilitychange', function () {
+    if (!ringRevealPending || document.visibilityState !== 'visible') return;
+    ringRevealPending = false;                       /* one shot, even if Today isn't up */
+    var vis = document.querySelector('.screen.is-visible');
+    if (vis && vis.id === 'scr-today') animateToday();
+  });
+
   // weekly sparkline (mock, filled bars)
   var sparkData = [
     { d: 'M', s: 8120 }, { d: 'T', s: 9540 }, { d: 'W', s: 7010 },
